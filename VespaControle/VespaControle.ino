@@ -145,6 +145,16 @@ void handleLed() {
   sendJsonStatus();
 }
 
+// GET /api/servos?s1=..&s2=..&s3=..&s4=..  -> move varios servos de uma vez
+// (usado pelo "mouse" da pagina; parametros ausentes sao ignorados)
+void handleServos() {
+  for (uint8_t i = 0; i < SERVO_COUNT; i++) {
+    String name = String("s") + (i + 1);
+    if (server.hasArg(name)) setServo(i, server.arg(name).toInt());
+  }
+  sendJsonStatus();
+}
+
 // GET /api/servos/centro -> todos os servos em 90 graus
 void handleServosCenter() {
   for (uint8_t i = 0; i < SERVO_COUNT; i++) setServo(i, 90);
@@ -192,6 +202,7 @@ void setupServer() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/api/status", HTTP_GET, sendJsonStatus);
   server.on("/api/servo", HTTP_GET, handleServo);
+  server.on("/api/servos", HTTP_GET, handleServos);
   server.on("/api/servos/centro", HTTP_GET, handleServosCenter);
   server.on("/api/led", HTTP_GET, handleLed);
   server.onNotFound(handleNotFound);

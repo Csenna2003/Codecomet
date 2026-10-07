@@ -9,10 +9,32 @@ Dispositivos controlados:
 
 | Dispositivo | Quantidade | O que o painel faz |
 |---|---|---|
-| Servomotores | 4 | Controle de ângulo (0–180°) com sliders e botão "centralizar" |
+| Servomotores | 4 | "Mouse" (área de arrasto) que controla o robô, desenho do robô com o ângulo de cada servo, e ajuste individual |
 | LEDs | 3 | Liga/desliga individual e "todos" |
 | Sensor de temperatura DS18B20 | 1 | Mostra a temperatura em °C (atualiza a cada 0,5 s) |
 | Sensor ultrassônico HC‑SR04 | 1 | Mostra a distância em cm, com barra visual |
+
+### Mouse dos servos
+
+Os servos ficam 2 de cada lado do robô:
+
+```
+          FRENTE
+   S1 [esq. frente]   [dir. frente] S3
+   S2 [esq. trás  ]   [dir. trás  ] S4
+```
+
+Arraste a bolinha na área de controle com o mouse (ou com o dedo, no celular):
+
+- **para cima/baixo**: os dois lados vão para frente/trás juntos;
+- **para os lados**: um lado vai para frente e o outro para trás (o robô gira);
+- os dois servos do mesmo lado sempre recebem o mesmo ângulo;
+- ao soltar, tudo volta para 90° (dá para desligar em "Voltar ao centro ao soltar");
+- "Inverter lado direito" compensa os servos do lado direito montados espelhados;
+- "Alcance" limita o quanto os servos se movem a partir de 90°;
+- no PC também funciona com as setas do teclado ou W/A/S/D.
+
+Com servos de rotação contínua (rodas), 90° = parado, e o mouse funciona como joystick de direção.
 
 O rodapé também mostra a tensão da bateria da Vespa e quantos dispositivos estão
 conectados na rede.
@@ -67,6 +89,7 @@ A página usa estas rotas, que também podem ser chamadas por outros programas:
 |---|---|
 | `GET /api/status` | Estado completo em JSON (servos, leds, temperatura, distância, bateria) |
 | `GET /api/servo?id=0..3&angulo=0..180` | Move um servo |
+| `GET /api/servos?s1=..&s2=..&s3=..&s4=..` | Move vários servos de uma vez (usado pelo mouse) |
 | `GET /api/servos/centro` | Todos os servos em 90° |
 | `GET /api/led?id=0..2&estado=0\|1` | Liga/desliga um LED (`id=todos` para todos) |
 
