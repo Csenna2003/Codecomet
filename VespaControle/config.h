@@ -9,8 +9,16 @@
 // ---------------------------------------------------------------------------
 #define WIFI_SSID      "Vespa-Controle"   // nome da rede que aparece no celular/PC
 #define WIFI_PASSWORD  "vespa1234"        // minimo 8 caracteres (ou "" para rede aberta)
-#define WIFI_CHANNEL   6
+// Canal do Wi-Fi: se a rede cair muito, troque para 1 ou 11 (canais menos
+// congestionados variam de lugar para lugar)
+#define WIFI_CHANNEL   1
 #define WIFI_MAX_CLIENTS 4
+
+// Potencia de transmissao. Potencia maxima gera picos de corrente que, junto
+// com os servos, derrubam a tensao e reiniciam a placa (brownout).
+// 15 dBm cobre bem uma sala. Opcoes: WIFI_POWER_19_5dBm, WIFI_POWER_17dBm,
+// WIFI_POWER_15dBm, WIFI_POWER_13dBm, WIFI_POWER_11dBm ...
+#define WIFI_TX_POWER  WIFI_POWER_15dBm
 
 // Endereco IP da placa na rede criada (acesse http://192.168.4.1)
 #define AP_IP          192, 168, 4, 1
@@ -29,6 +37,7 @@
 #define SERVO_PULSE_MIN    500    // [us] ajuste se o seu servo nao chegar a 0/180
 #define SERVO_PULSE_MAX    2500   // [us]
 #define SERVO_START_ANGLE  90     // posicao inicial ao ligar
+#define SERVO_START_DELAY  250    // [ms] intervalo entre ligar cada servo (evita pico de corrente)
 
 // ---------------------------------------------------------------------------
 // Pinos livres da Vespa usados pelos demais dispositivos.

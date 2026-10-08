@@ -122,7 +122,7 @@ const char PAGINA_HTML[] PROGMEM = R"rawliteral(
   </section>
 </main>
 
-<footer>Bateria: <span id="bat">--</span> V &middot; Dispositivos conectados: <span id="cli">--</span></footer>
+<footer>Bateria: <span id="bat">--</span> V &middot; Dispositivos conectados: <span id="cli">--</span> &middot; &Uacute;ltimo rein&iacute;cio: <span id="rst">--</span></footer>
 
 <script>
 const N_SERVOS = 4, N_LEDS = 3;
@@ -238,16 +238,25 @@ function toggleLed(i) {
 }
 function ledTodos(e) { api(`/api/led?id=todos&estado=${e}`); }
 
+// Uma requisicao por vez para o status (nao acumula fila na placa) e
+// tempo limite de 2 s para nao travar quando a rede oscila.
+let statusPendente = false;
 async function api(url) {
+  const ehStatus = url === '/api/status';
+  if (ehStatus && statusPendente) return;
+  if (ehStatus) statusPendente = true;
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 2000);
   try {
-    const r = await fetch(url, {cache: 'no-store'});
+    const r = await fetch(url, {cache: 'no-store', signal: ctl.signal});
     atualizar(await r.json());
   } catch (e) { conexao(false); }
+  finally { clearTimeout(t); if (ehStatus) statusPendente = false; }
 }
 
 function conexao(ok) {
   document.getElementById('con').className = ok ? 'ok' : '';
-  document.getElementById('st').textContent = ok ? 'conectado' : 'sem conexao com a placa';
+  document.getElementById('st').textContent = ok ? 'conectado' : 'reconectando...';
 }
 
 function atualizar(d) {
@@ -258,6 +267,7 @@ function atualizar(d) {
   document.getElementById('distBar').style.width = d.distancia === null ? '0' : Math.min(100, d.distancia / 4) + '%';
   document.getElementById('bat').textContent = (d.bateria_mV / 1000).toFixed(2);
   document.getElementById('cli').textContent = d.clientes;
+  document.getElementById('rst').textContent = d.reset || '--';
   d.leds.forEach((on, i) => document.getElementById('l' + i).classList.toggle('on', on));
   d.servos.forEach((a, i) => document.getElementById('r' + i).textContent = a + '\u00b0');
   d.servos.forEach((a, i) => {

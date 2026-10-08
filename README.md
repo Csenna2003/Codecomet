@@ -48,6 +48,23 @@ conectados na rede.
 
 Nome da rede, senha e IP podem ser alterados em `VespaControle/config.h`.
 
+### Se a rede ficar instável ou demorar para aparecer
+
+O firmware já liga o Wi‑Fi antes de tudo, liga os servos um de cada vez, usa
+potência de transmissão moderada, desativa a economia de energia do Wi‑Fi e
+responde aos testes de internet dos celulares (para eles não largarem a rede da
+Vespa). Se ainda houver problema:
+
+1. **Veja "Último reinício" no rodapé da página.** Se aparecer
+   *queda de tensão (brownout)*, a alimentação não está aguentando os servos:
+   use bateria/fonte mais forte (ex.: 2S Li‑ion 7,4 V) e evite alimentar só pelo USB.
+2. **No celular**, ao conectar, se aparecer "Esta rede não tem acesso à internet",
+   escolha **Manter conectado**. Se o celular continuar trocando de rede,
+   desligue os dados móveis enquanto controla o robô.
+3. **Troque o canal** (`WIFI_CHANNEL` em `config.h`) para 6 ou 11 se houver
+   muitas redes Wi‑Fi no local.
+4. Se precisar de mais alcance, aumente `WIFI_TX_POWER` (a fonte precisa aguentar).
+
 ## Ligações
 
 Pinos reservados pela Vespa (não use): 13, 14, 27, 4 (motores DC), 15 (LED da placa),

@@ -20,6 +20,7 @@
 #include <WebServer.h>
 #include <DNSServer.h>
 #include <ESPmDNS.h>
+#include <esp_wifi.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include "RoboCore_Vespa.h"
@@ -48,6 +49,8 @@ float temperatureC = NAN;
 float distanceCm = -1;  // -1 = fora de alcance / sem leitura
 
 VespaBattery battery;
+
+const char *resetReason = "";
 
 unsigned long lastUltraRead = 0;
 unsigned long lastTempRead = 0;
@@ -112,6 +115,9 @@ void sendJsonStatus() {
   json += WiFi.softAPgetStationNum();
   json += ",\"uptime_s\":";
   json += millis() / 1000;
+  json += ",\"reset\":\"";
+  json += resetReason;
+  json += '"';
   json += '}';
 
   server.sendHeader("Cache-Control", "no-store");
@@ -165,7 +171,24 @@ void handleRoot() {
   server.send_P(200, "text/html; charset=utf-8", PAGINA_HTML);
 }
 
-// Qualquer outro endereco (captive portal) volta para a pagina principal
+// Testes de conectividade dos celulares. Respondendo "ha internet", o celular
+// nao abre a janelinha de login (que desconecta ao ser fechada no iPhone) e
+// nao abandona a rede da Vespa trocando para os dados moveis.
+void handleConnectivityCheck() {
+  String uri = server.uri();
+  if (uri == "/generate_204" || uri == "/gen_204") {          // Android / Chrome
+    server.send(204);
+  } else if (uri == "/connecttest.txt") {                    // Windows
+    server.send(200, "text/plain", "Microsoft Connect Test");
+  } else if (uri == "/ncsi.txt") {                           // Windows (antigo)
+    server.send(200, "text/plain", "Microsoft NCSI");
+  } else {                                                   // Apple (iOS/macOS)
+    server.send(200, "text/html",
+                "<HTML><HEAD><TITLE>Success</TITLE></HEAD><BODY>Success</BODY></HTML>");
+  }
+}
+
+// Qualquer outro endereco volta para a pagina principal
 void handleNotFound() {
   if (server.uri().startsWith("/api/")) {
     server.send(404, "application/json", "{\"erro\":\"rota nao encontrada\"}");
@@ -178,10 +201,32 @@ void handleNotFound() {
 // ---------------------------------------------------------------------------
 // Setup / Loop
 // ---------------------------------------------------------------------------
+const char *describeResetReason(esp_reset_reason_t r) {
+  switch (r) {
+    case ESP_RST_POWERON:  return "ligado";
+    case ESP_RST_BROWNOUT: return "queda de tensao (brownout)";
+    case ESP_RST_PANIC:    return "erro de software";
+    case ESP_RST_INT_WDT:
+    case ESP_RST_TASK_WDT:
+    case ESP_RST_WDT:      return "watchdog";
+    case ESP_RST_SW:       return "reinicio por software";
+    case ESP_RST_EXT:      return "botao reset";
+    default:               return "outro";
+  }
+}
+
 void setupWiFi() {
+  WiFi.persistent(false);       // nao grava config na flash a cada boot
   WiFi.mode(WIFI_AP);
-  WiFi.softAPConfig(IPAddress(AP_IP), IPAddress(AP_GATEWAY), IPAddress(AP_SUBNET));
+  WiFi.setSleep(false);         // sem economia de energia: resposta rapida e estavel
+
   WiFi.softAP(WIFI_SSID, WIFI_PASSWORD, WIFI_CHANNEL, false, WIFI_MAX_CLIENTS);
+  delay(100);                   // aguarda o AP subir antes de configurar o IP
+  WiFi.softAPConfig(IPAddress(AP_IP), IPAddress(AP_GATEWAY), IPAddress(AP_SUBNET));
+  WiFi.setTxPower(WIFI_TX_POWER);
+
+  // Aparelhos parados (celular com tela apagada) nao derrubam a conexao tao cedo
+  esp_wifi_set_inactive_time(WIFI_IF_AP, 60);
 
   // Responde todas as consultas DNS com o IP da Vespa
   dnsServer.start(53, "*", WiFi.softAPIP());
@@ -196,6 +241,7 @@ void setupWiFi() {
   Serial.print("Senha:      "); Serial.println(WIFI_PASSWORD);
   Serial.print("Acesse:     http://"); Serial.println(WiFi.softAPIP());
   Serial.print("      ou:   http://"); Serial.print(MDNS_NAME); Serial.println(".local");
+  Serial.print("Ultimo reset: "); Serial.println(resetReason);
 }
 
 void setupServer() {
@@ -205,17 +251,20 @@ void setupServer() {
   server.on("/api/servos", HTTP_GET, handleServos);
   server.on("/api/servos/centro", HTTP_GET, handleServosCenter);
   server.on("/api/led", HTTP_GET, handleLed);
+  const char *checks[] = {"/generate_204", "/gen_204", "/hotspot-detect.html",
+                          "/library/test/success.html", "/connecttest.txt", "/ncsi.txt"};
+  for (const char *uri : checks) server.on(uri, HTTP_GET, handleConnectivityCheck);
   server.onNotFound(handleNotFound);
   server.begin();
 }
 
 void setup() {
   Serial.begin(115200);
+  resetReason = describeResetReason(esp_reset_reason());
 
-  for (uint8_t i = 0; i < SERVO_COUNT; i++) {
-    servos[i].attach(SERVO_PINS[i], SERVO_PULSE_MIN, SERVO_PULSE_MAX);
-    setServo(i, SERVO_START_ANGLE);
-  }
+  // 1) Wi-Fi primeiro: a rede aparece o mais rapido possivel
+  setupWiFi();
+  setupServer();
 
   for (uint8_t i = 0; i < LED_COUNT; i++) {
     pinMode(LED_PINS[i], OUTPUT);
@@ -230,8 +279,18 @@ void setup() {
   tempSensor.setWaitForConversion(false);
   tempSensor.requestTemperatures();
 
-  setupWiFi();
-  setupServer();
+  // 2) Servos um de cada vez: os 4 se movendo juntos ao ligar puxam muita
+  //    corrente e podem reiniciar a placa (a rede some e volta)
+  for (uint8_t i = 0; i < SERVO_COUNT; i++) {
+    servos[i].attach(SERVO_PINS[i], SERVO_PULSE_MIN, SERVO_PULSE_MAX);
+    setServo(i, SERVO_START_ANGLE);
+    unsigned long t0 = millis();
+    while (millis() - t0 < SERVO_START_DELAY) {   // continua atendendo a rede
+      dnsServer.processNextRequest();
+      server.handleClient();
+      delay(1);
+    }
+  }
 }
 
 void loop() {
@@ -247,4 +306,5 @@ void loop() {
     lastTempRead = now;
     readTemperature();
   }
+  delay(1);   // cede tempo para as tarefas do Wi-Fi
 }
