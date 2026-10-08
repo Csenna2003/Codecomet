@@ -37,7 +37,9 @@ const char PAGINA_HTML[] PROGMEM = R"rawliteral(
   .row button{background:#334155;font-size:.9rem;padding:10px}
   footer{text-align:center;color:var(--mut);font-size:.8rem;padding:12px}
   .mouse-wrap{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));align-items:start}
-  #pad{position:relative;width:100%;max-width:320px;aspect-ratio:1;margin:auto;border-radius:16px;
+  .pad-box{width:100%;max-width:320px;margin:0 auto}
+  /* altura = largura via padding (funciona em qualquer navegador, inclusive antigos) */
+  #pad{position:relative;width:100%;height:0;padding-bottom:100%;min-height:200px;border-radius:16px;box-sizing:border-box;
        background:radial-gradient(circle,#334155 0,#1e293b 70%);border:2px solid #475569;touch-action:none;cursor:crosshair;user-select:none}
   #pad.ativo{border-color:var(--acc)}
   #pad::before,#pad::after{content:"";position:absolute;background:#475569}
@@ -65,37 +67,17 @@ const char PAGINA_HTML[] PROGMEM = R"rawliteral(
 </header>
 
 <main>
-  <section class="card">
-    <h2>Temperatura</h2>
-    <div><span class="big" id="temp">--</span> <span class="unit">&deg;C</span></div>
-  </section>
-
-  <section class="card">
-    <h2>Distancia (ultrassonico)</h2>
-    <div><span class="big" id="dist">--</span> <span class="unit">cm</span></div>
-    <div class="bar"><div id="distBar"></div></div>
-  </section>
-
-  <section class="card">
-    <h2>LEDs</h2>
-    <div class="leds" id="leds"></div>
-    <div class="row">
-      <button onclick="ledTodos(1)">Ligar todos</button>
-      <button onclick="ledTodos(0)">Desligar todos</button>
-    </div>
-  </section>
-
   <section class="card" style="grid-column:1/-1">
-    <h2>Servomotores &mdash; controle por mouse</h2>
+    <h2>Joystick dos servomotores</h2>
     <div class="mouse-wrap">
       <div>
-        <div id="pad">
+        <div class="pad-box"><div id="pad">
           <span style="top:6px;left:50%;transform:translateX(-50%)">frente</span>
           <span style="bottom:6px;left:50%;transform:translateX(-50%)">tr&aacute;s</span>
           <span style="left:8px;top:50%;transform:translateY(-50%)">esq.</span>
           <span style="right:8px;top:50%;transform:translateY(-50%)">dir.</span>
           <div id="knob"></div>
-        </div>
+        </div></div>
         <div id="mix">Arraste a bolinha com o mouse ou o dedo (no PC tamb&eacute;m funciona com as setas/WASD)</div>
       </div>
       <div>
@@ -120,9 +102,29 @@ const char PAGINA_HTML[] PROGMEM = R"rawliteral(
     </details>
     <div class="row"><button onclick="parar()">Centralizar todos (90&deg;)</button></div>
   </section>
+  <section class="card">
+    <h2>Temperatura</h2>
+    <div><span class="big" id="temp">--</span> <span class="unit">&deg;C</span></div>
+  </section>
+
+  <section class="card">
+    <h2>Distancia (ultrassonico)</h2>
+    <div><span class="big" id="dist">--</span> <span class="unit">cm</span></div>
+    <div class="bar"><div id="distBar"></div></div>
+  </section>
+
+  <section class="card">
+    <h2>LEDs</h2>
+    <div class="leds" id="leds"></div>
+    <div class="row">
+      <button onclick="ledTodos(1)">Ligar todos</button>
+      <button onclick="ledTodos(0)">Desligar todos</button>
+    </div>
+  </section>
+
 </main>
 
-<footer>Bateria: <span id="bat">--</span> V &middot; Dispositivos conectados: <span id="cli">--</span> &middot; &Uacute;ltimo rein&iacute;cio: <span id="rst">--</span></footer>
+<footer>Vers&atilde;o 1.3 (joystick) &middot; Bateria: <span id="bat">--</span> V &middot; Dispositivos conectados: <span id="cli">--</span> &middot; &Uacute;ltimo rein&iacute;cio: <span id="rst">--</span> &middot; Quedas de Wi&#8209;Fi: <span id="qd">--</span></footer>
 
 <script>
 const N_SERVOS = 4, N_LEDS = 3;
@@ -191,17 +193,27 @@ function moverPeloPonteiro(e) {
   const r = pad.getBoundingClientRect();
   posicionar(((e.clientX - r.left) / r.width) * 2 - 1, 1 - ((e.clientY - r.top) / r.height) * 2);
 }
-pad.addEventListener('pointerdown', e => {
-  pad.setPointerCapture(e.pointerId); mouseAtivo = true; pad.classList.add('ativo'); moverPeloPonteiro(e);
-});
-pad.addEventListener('pointermove', e => { if (mouseAtivo) moverPeloPonteiro(e); });
+function iniciar(e) { mouseAtivo = true; pad.classList.add('ativo'); moverPeloPonteiro(e); }
 function soltar() {
   if (!mouseAtivo) return;
   mouseAtivo = false; pad.classList.remove('ativo');
   if (optCentro.checked) posicionar(0, 0);
 }
-pad.addEventListener('pointerup', soltar);
-pad.addEventListener('pointercancel', soltar);
+if (window.PointerEvent) {
+  pad.addEventListener('pointerdown', e => { try { pad.setPointerCapture(e.pointerId); } catch (_) {} iniciar(e); });
+  pad.addEventListener('pointermove', e => { if (mouseAtivo) moverPeloPonteiro(e); });
+  pad.addEventListener('pointerup', soltar);
+  pad.addEventListener('pointercancel', soltar);
+} else {
+  // navegadores antigos: mouse + toque
+  pad.addEventListener('mousedown', iniciar);
+  document.addEventListener('mousemove', e => { if (mouseAtivo) moverPeloPonteiro(e); });
+  document.addEventListener('mouseup', soltar);
+  pad.addEventListener('touchstart', e => { e.preventDefault(); iniciar(e.touches[0]); }, {passive: false});
+  pad.addEventListener('touchmove',  e => { e.preventDefault(); if (mouseAtivo) moverPeloPonteiro(e.touches[0]); }, {passive: false});
+  pad.addEventListener('touchend', soltar);
+  pad.addEventListener('touchcancel', soltar);
+}
 
 function parar() { posicionar(0, 0); }
 
@@ -245,10 +257,10 @@ async function api(url) {
   const ehStatus = url === '/api/status';
   if (ehStatus && statusPendente) return;
   if (ehStatus) statusPendente = true;
-  const ctl = new AbortController();
-  const t = setTimeout(() => ctl.abort(), 2000);
+  const ctl = window.AbortController ? new AbortController() : null;
+  const t = setTimeout(() => { if (ctl) ctl.abort(); }, 2000);
   try {
-    const r = await fetch(url, {cache: 'no-store', signal: ctl.signal});
+    const r = await fetch(url, ctl ? {cache: 'no-store', signal: ctl.signal} : {cache: 'no-store'});
     atualizar(await r.json());
   } catch (e) { conexao(false); }
   finally { clearTimeout(t); if (ehStatus) statusPendente = false; }
@@ -268,6 +280,7 @@ function atualizar(d) {
   document.getElementById('bat').textContent = (d.bateria_mV / 1000).toFixed(2);
   document.getElementById('cli').textContent = d.clientes;
   document.getElementById('rst').textContent = d.reset || '--';
+  document.getElementById('qd').textContent = (d.quedas === undefined) ? '--' : d.quedas;
   d.leds.forEach((on, i) => document.getElementById('l' + i).classList.toggle('on', on));
   d.servos.forEach((a, i) => document.getElementById('r' + i).textContent = a + '\u00b0');
   d.servos.forEach((a, i) => {
@@ -278,7 +291,7 @@ function atualizar(d) {
 }
 
 // Atualiza os sensores periodicamente
-setInterval(() => api('/api/status'), 500);
+setInterval(() => api('/api/status'), 1000);
 api('/api/status');
 </script>
 </body>

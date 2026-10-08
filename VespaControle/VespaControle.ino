@@ -18,7 +18,6 @@
 
 #include <WiFi.h>
 #include <WebServer.h>
-#include <DNSServer.h>
 #include <ESPmDNS.h>
 #include <esp_wifi.h>
 #include <OneWire.h>
@@ -27,12 +26,13 @@
 
 #include "config.h"
 #include "pagina.h"
+#include "dns_local.h"
 
 // ---------------------------------------------------------------------------
 // Objetos globais
 // ---------------------------------------------------------------------------
 WebServer server(80);
-DNSServer dnsServer;
+LocalDNS dnsServer;
 
 VespaServo servos[SERVO_COUNT];
 const uint8_t SERVO_PINS[SERVO_COUNT] = {VESPA_SERVO_S1, VESPA_SERVO_S2,
@@ -51,6 +51,16 @@ float distanceCm = -1;  // -1 = fora de alcance / sem leitura
 VespaBattery battery;
 
 const char *resetReason = "";
+uint32_t wifiDrops = 0;            // quantas vezes um aparelho caiu da rede
+
+void onWiFiEvent(WiFiEvent_t event, WiFiEventInfo_t info) {
+  if (event == ARDUINO_EVENT_WIFI_AP_STACONNECTED) {
+    Serial.println("[wifi] aparelho conectou");
+  } else if (event == ARDUINO_EVENT_WIFI_AP_STADISCONNECTED) {
+    wifiDrops++;
+    Serial.printf("[wifi] aparelho desconectou (motivo %d)\n", info.wifi_ap_stadisconnected.reason);
+  }
+}
 
 unsigned long lastUltraRead = 0;
 unsigned long lastTempRead = 0;
@@ -115,6 +125,8 @@ void sendJsonStatus() {
   json += WiFi.softAPgetStationNum();
   json += ",\"uptime_s\":";
   json += millis() / 1000;
+  json += ",\"quedas\":";
+  json += wifiDrops;
   json += ",\"reset\":\"";
   json += resetReason;
   json += '"';
@@ -168,6 +180,10 @@ void handleServosCenter() {
 }
 
 void handleRoot() {
+  // sem cache: o navegador sempre carrega a pagina nova apos gravar o firmware
+  server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  server.sendHeader("Pragma", "no-cache");
+  server.sendHeader("Expires", "0");
   server.send_P(200, "text/html; charset=utf-8", PAGINA_HTML);
 }
 
@@ -216,6 +232,7 @@ const char *describeResetReason(esp_reset_reason_t r) {
 }
 
 void setupWiFi() {
+  WiFi.onEvent(onWiFiEvent);
   WiFi.persistent(false);       // nao grava config na flash a cada boot
   WiFi.mode(WIFI_AP);
   WiFi.setSleep(false);         // sem economia de energia: resposta rapida e estavel
@@ -228,15 +245,15 @@ void setupWiFi() {
   // Aparelhos parados (celular com tela apagada) nao derrubam a conexao tao cedo
   esp_wifi_set_inactive_time(WIFI_IF_AP, 60);
 
-  // Responde todas as consultas DNS com o IP da Vespa
-  dnsServer.start(53, "*", WiFi.softAPIP());
+  // DNS: so responde testes de conectividade e o nome da placa (ver dns_local.h)
+  dnsServer.begin(WiFi.softAPIP(), MDNS_NAME);
 
   if (MDNS.begin(MDNS_NAME)) {
     MDNS.addService("http", "tcp", 80);
   }
 
   Serial.println();
-  Serial.println("=== Vespa Controle ===");
+  Serial.println("=== Vespa Controle v1.3 (joystick) ===");
   Serial.print("Rede Wi-Fi: "); Serial.println(WIFI_SSID);
   Serial.print("Senha:      "); Serial.println(WIFI_PASSWORD);
   Serial.print("Acesse:     http://"); Serial.println(WiFi.softAPIP());
@@ -286,7 +303,7 @@ void setup() {
     setServo(i, SERVO_START_ANGLE);
     unsigned long t0 = millis();
     while (millis() - t0 < SERVO_START_DELAY) {   // continua atendendo a rede
-      dnsServer.processNextRequest();
+      dnsServer.process();
       server.handleClient();
       delay(1);
     }
@@ -294,7 +311,7 @@ void setup() {
 }
 
 void loop() {
-  dnsServer.processNextRequest();
+  dnsServer.process();
   server.handleClient();
 
   unsigned long now = millis();

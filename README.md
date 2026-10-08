@@ -43,8 +43,9 @@ conectados na rede.
 
 1. Ligue a Vespa.
 2. No celular/PC, conecte na rede Wi‑Fi **`Vespa-Controle`**, senha **`vespa1234`**.
-3. Abra no navegador: **http://192.168.4.1** (ou **http://vespa.local**).
-   Em muitos celulares a página abre sozinha (captive portal).
+3. Abra no navegador: **http://192.168.4.1** (ou **http://vespa**).
+   Use o navegador normal (Chrome/Safari). O joystick fica no topo da página e o
+   rodapé mostra a versão (deve aparecer "Versão 1.3 (joystick)").
 
 Nome da rede, senha e IP podem ser alterados em `VespaControle/config.h`.
 
@@ -53,7 +54,10 @@ Nome da rede, senha e IP podem ser alterados em `VespaControle/config.h`.
 O firmware já liga o Wi‑Fi antes de tudo, liga os servos um de cada vez, usa
 potência de transmissão moderada, desativa a economia de energia do Wi‑Fi e
 responde aos testes de internet dos celulares (para eles não largarem a rede da
-Vespa). Se ainda houver problema:
+Vespa). O DNS interno só responde a esses testes e ao nome da placa: o tráfego dos
+outros aplicativos do celular é recusado na hora e não congestiona a placa.
+O rodapé da página mostra quantas vezes um aparelho caiu da rede ("Quedas de Wi‑Fi").
+Se ainda houver problema:
 
 1. **Veja "Último reinício" no rodapé da página.** Se aparecer
    *queda de tensão (brownout)*, a alimentação não está aguentando os servos:
@@ -125,3 +129,4 @@ está fora de alcance.
 - `VespaControle/VespaControle.ino` — programa principal (Wi‑Fi, servidor web, sensores, atuadores)
 - `VespaControle/config.h` — rede Wi‑Fi e pinos
 - `VespaControle/pagina.h` — página web (HTML/CSS/JS embutido, funciona offline)
+- `VespaControle/dns_local.h` — servidor DNS mínimo (testes de conectividade + nome da placa)

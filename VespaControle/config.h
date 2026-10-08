@@ -25,8 +25,8 @@
 #define AP_GATEWAY     192, 168, 4, 1
 #define AP_SUBNET      255, 255, 255, 0
 
-// Nome amigavel: http://vespa.local (mDNS) - qualquer endereco digitado
-// tambem e redirecionado para a placa pelo servidor DNS interno.
+// Nome amigavel: http://vespa.local (mDNS) ou http://vespa
+// (respondido pelo servidor DNS interno da placa).
 #define MDNS_NAME      "vespa"
 
 // ---------------------------------------------------------------------------
@@ -68,5 +68,5 @@
 #define TEMP_SENSOR_PIN 21
 
 // Intervalos de leitura [ms]
-#define ULTRA_READ_INTERVAL  150
+#define ULTRA_READ_INTERVAL  250
 #define TEMP_READ_INTERVAL   1000
