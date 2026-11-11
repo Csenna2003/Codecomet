@@ -90,6 +90,7 @@ model Usuario {
   criadoEm         DateTime    @default(now())
 
   sessoes      Sessao[]
+  redefinicoes RedefinicaoSenha[]
   membros      Membro[]
   turmas       TurmaAluno[]
   turmasDadas  Turma[]
@@ -107,6 +108,28 @@ model Sessao {
   expiraEm  DateTime
   criadoEm  DateTime @default(now())
   usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+}
+
+// Falhas de login recentes, por e-mail e por IP, para limitar tentativas.
+model TentativaLogin {
+  id       String   @id @default(cuid())
+  chave    String
+  criadoEm DateTime @default(now())
+
+  @@index([chave, criadoEm])
+}
+
+// Link de uso único para o usuário criar uma nova senha.
+model RedefinicaoSenha {
+  tokenHash String    @id
+  usuarioId String
+  criadoPor String
+  expiraEm  DateTime
+  usadoEm   DateTime?
+  criadoEm  DateTime  @default(now())
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 
   @@index([usuarioId])
 }

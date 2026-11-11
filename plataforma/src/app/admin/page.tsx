@@ -4,6 +4,7 @@ import { exigirAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { brl } from "@/lib/fmt";
 import { criarCurso, criarLicenca, criarOrganizacao } from "../acoes/admin";
+import { gerarLinkDeSenha } from "../acoes/conta";
 
 const rotuloStatus = { RASCUNHO: "Rascunho", PUBLICADO: "Publicado", ARQUIVADO: "Arquivado" };
 
@@ -93,6 +94,12 @@ export default async function Admin({ searchParams }: { searchParams: SP }) {
         <label>Vagas<input name="vagas" type="number" min={1} required /></label>
         <label>Válida até (opcional)<input name="validade" type="date" /></label>
         <div><button className="btn sec">Salvar licença</button></div>
+      </form>
+
+      <h2>Nova senha para um usuário</h2>
+      <form action={gerarLinkDeSenha} className="cartao campos">
+        <label>E-mail da conta<input name="email" type="email" required /></label>
+        <div><button className="btn sec">Gerar link de nova senha</button></div>
       </form>
     </main>
   );

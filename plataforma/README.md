@@ -6,7 +6,9 @@ sequencial, certificado verificável e separação por escolas.**
 
 Stack: Next.js 15 (App Router, Server Actions) · PostgreSQL · Prisma · TypeScript.
 
-## Como rodar
+**Para colocar no ar, siga o [PUBLICAR.md](PUBLICAR.md).**
+
+## Como rodar (no seu computador)
 
 ```bash
 cd plataforma
@@ -15,6 +17,7 @@ npm install
 npm run db:migrate            # cria as tabelas
 npm run db:seed               # dados de demonstração (opcional)
 npm run dev                   # http://localhost:3000
+# produção: npm run build && npm run start   (o start aplica as migrações antes de subir)
 ```
 
 Contas criadas pelo seed (senha em `SEED_SENHA`, padrão `codecomet123`):
@@ -55,6 +58,13 @@ Código de convite da turma de demonstração: `DEMO7ANO`.
   mostra o projeto embutido. Nas entregas, o aluno envia o link do projeto dele e pode colar o código —
   a cópia do código fica guardada como prova mesmo se o projeto for apagado no simulador.
 
+## Senhas e primeiro acesso
+
+- **Primeiro administrador:** a primeira conta criada com o e-mail definido em `ADMIN_EMAIL` vira administradora.
+- **Limite de login:** 5 erros em 15 minutos bloqueiam novas tentativas para aquele e-mail.
+- **Esqueci a senha:** não há envio de e-mail. O coordenador (em `/escola`, botão "Nova senha") ou o admin
+  (em `/admin`) gera um link de uso único, válido por 24 horas, e o entrega ao usuário.
+
 ## Pagamento (Pix)
 
 Com `PAGAMENTO_MODO=pix`, a compra de um curso funciona assim:
@@ -86,8 +96,7 @@ Cursos gratuitos liberam na hora. `PAGAMENTO_MODO=simulado` troca o Pix por um b
 ## Ainda não incluído
 
 - Confirmação automática do Pix e pagamento por cartão (ver acima)
-- E-mails (boas-vindas, aviso de correção, recuperação de senha)
-- Limite de tentativas de login
+- E-mails (boas-vindas, aviso de correção, recuperação de senha por e-mail)
 - Upload de arquivos nas entregas (hoje: link do simulador, código ou link de vídeo)
 - Correção automática de simulações
 - Edição de aulas já criadas e reordenação (hoje: criar e excluir)

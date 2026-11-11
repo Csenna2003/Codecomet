@@ -5,6 +5,7 @@ import { ehAdmin, exigirUsuario, orgsGeridas } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { data, rotuloPapel } from "@/lib/fmt";
 import { criarConvite, criarTurma, desativarConvite, removerMembro } from "../acoes/escola";
+import { gerarLinkDeSenha } from "../acoes/conta";
 
 export default async function Escola({ searchParams }: { searchParams: SP }) {
   const u = await exigirUsuario();
@@ -117,6 +118,11 @@ export default async function Escola({ searchParams }: { searchParams: SP }) {
                     </td>
                   ))}
                   <td>
+                    <form action={gerarLinkDeSenha} style={{ marginBottom: ".4rem" }}>
+                      <input type="hidden" name="orgId" value={org.id} />
+                      <input type="hidden" name="usuarioId" value={m.usuarioId} />
+                      <button className="btn mini sec">Nova senha</button>
+                    </form>
                     <form action={removerMembro}>
                       <input type="hidden" name="orgId" value={org.id} />
                       <input type="hidden" name="usuarioId" value={m.usuarioId} />
@@ -197,6 +203,13 @@ export default async function Escola({ searchParams }: { searchParams: SP }) {
       {equipe.map((m) => (
         <div className="linha" key={m.id} style={{ marginBottom: ".5rem" }}>
           <span>{m.usuario.nome} — {rotuloPapel[m.papel]} <span className="suave pequeno">({m.usuario.email})</span></span>
+          {m.usuarioId !== u.id && m.papel === "PROFESSOR" && (
+            <form action={gerarLinkDeSenha}>
+              <input type="hidden" name="orgId" value={org.id} />
+              <input type="hidden" name="usuarioId" value={m.usuarioId} />
+              <button className="btn mini sec">Nova senha</button>
+            </form>
+          )}
           {m.usuarioId !== u.id && (
             <form action={removerMembro}>
               <input type="hidden" name="orgId" value={org.id} />

@@ -15,6 +15,9 @@ export default async function Entrar({ searchParams }: { searchParams: SP }) {
         <label>Senha<input name="senha" type="password" autoComplete="current-password" required /></label>
         <button className="btn">Entrar</button>
       </form>
+      <p className="suave pequeno">
+        Esqueceu a senha? Peça um link de nova senha ao seu professor ou à equipe Codecomet.
+      </p>
       <p>Ainda não tem conta? <Link href="/cadastro">Criar conta</Link></p>
     </main>
   );
