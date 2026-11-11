@@ -20,6 +20,10 @@ export default async function Painel({ searchParams }: { searchParams: SP }) {
       return { a, curso, estado: await estadoDoCurso(u.id, curso) };
     }),
   );
+  const pedidosAbertos = await db.pedido.findMany({
+    where: { usuarioId: u.id, status: "PENDENTE", valorCentavos: { gt: 0 } },
+    include: { curso: true },
+  });
   const [certificados, devolvidas] = await Promise.all([
     db.certificado.findMany({ where: { usuarioId: u.id }, include: { curso: true } }),
     db.entrega.findMany({
@@ -41,6 +45,13 @@ export default async function Painel({ searchParams }: { searchParams: SP }) {
         <p className="aviso alerta" key={e.id}>
           Seu professor pediu um ajuste em <strong>{e.exercicio.aula.titulo}</strong>.{" "}
           <Link href={`/aprender/${e.exercicio.aulaId}`}>Ver o comentário e reenviar</Link>
+        </p>
+      ))}
+
+      {pedidosAbertos.map((p) => (
+        <p className="aviso alerta" key={p.id}>
+          {p.avisouPagoEm ? "Estamos conferindo o seu Pix de " : "Falta pagar o Pix de "}
+          <strong>{p.curso.titulo}</strong>. <Link href={`/pedido/${p.id}`}>Ver pagamento</Link>
         </p>
       ))}
 

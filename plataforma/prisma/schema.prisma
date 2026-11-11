@@ -287,12 +287,15 @@ model Pedido {
   status        StatusPedido @default(PENDENTE)
   gatewayRef    String?
   criadoEm      DateTime     @default(now())
+  // Quando o aluno clicou em "Já paguei" (Pix com confirmação manual).
+  avisouPagoEm  DateTime?
   pagoEm        DateTime?
 
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   curso   Curso   @relation(fields: [cursoId], references: [id])
 
   @@index([usuarioId])
+  @@index([status])
 }
 
 // Fonte da verdade de "este usuário pode ver este curso?".

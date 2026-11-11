@@ -9,7 +9,7 @@ const rotuloStatus = { RASCUNHO: "Rascunho", PUBLICADO: "Publicado", ARQUIVADO: 
 
 export default async function Admin({ searchParams }: { searchParams: SP }) {
   await exigirAdmin();
-  const [orgs, cursos, usuarios, pagos] = await Promise.all([
+  const [orgs, cursos, usuarios, pagos, pendentes] = await Promise.all([
     db.organizacao.findMany({
       orderBy: { nome: "asc" },
       include: { _count: { select: { membros: true } }, licencas: { include: { curso: true } } },
@@ -17,6 +17,7 @@ export default async function Admin({ searchParams }: { searchParams: SP }) {
     db.curso.findMany({ orderBy: { criadoEm: "asc" }, include: { _count: { select: { acessos: true } } } }),
     db.usuario.count(),
     db.pedido.aggregate({ where: { status: "PAGO" }, _sum: { valorCentavos: true }, _count: true }),
+    db.pedido.count({ where: { status: "PENDENTE", valorCentavos: { gt: 0 } } }),
   ]);
   return (
     <main>
@@ -28,6 +29,11 @@ export default async function Admin({ searchParams }: { searchParams: SP }) {
         <div className="cartao">
           <h3>{pagos._sum.valorCentavos ? brl(pagos._sum.valorCentavos) : "R$ 0,00"}</h3>
           <span className="suave">em {pagos._count} pedidos pagos (venda direta)</span>
+        </div>
+        <div className="cartao">
+          <h3>{pendentes}</h3>
+          <span className="suave">Pix aguardando conferência · </span>
+          <Link href="/admin/pedidos">Conferir pagamentos</Link>
         </div>
       </div>
 

@@ -18,14 +18,27 @@ export async function matricular(f: FormData) {
   if (!curso || curso.status !== "PUBLICADO") redirect("/");
   if (await acessoAtivo(u.id, curso.id)) redirect(`/cursos/${curso.slug}`);
 
-  const pedido = await db.pedido.create({
-    data: { usuarioId: u.id, cursoId: curso.id, valorCentavos: curso.precoCentavos },
-  });
+  // Reaproveita o pedido em aberto para o aluno não acumular cobranças do mesmo curso.
+  const aberto = await db.pedido.findFirst({ where: { usuarioId: u.id, cursoId: curso.id, status: "PENDENTE" } });
+  const pedido = aberto
+    ? await db.pedido.update({ where: { id: aberto.id }, data: { valorCentavos: curso.precoCentavos } })
+    : await db.pedido.create({ data: { usuarioId: u.id, cursoId: curso.id, valorCentavos: curso.precoCentavos } });
   if (curso.precoCentavos === 0) {
     await confirmarPedido(pedido.id);
     redirect(`/cursos/${curso.slug}`);
   }
   redirect(`/pedido/${pedido.id}`);
+}
+
+/** O aluno avisa que fez o Pix; o pedido sobe para o topo da fila de conferência do admin. */
+export async function avisarPagamento(f: FormData) {
+  const u = await exigirUsuario();
+  const id = txt(f, "pedidoId");
+  await db.pedido.updateMany({
+    where: { id, usuarioId: u.id, status: "PENDENTE", avisouPagoEm: null },
+    data: { avisouPagoEm: new Date() },
+  });
+  redirect(`/pedido/${id}`);
 }
 
 export async function simularPagamento(f: FormData) {

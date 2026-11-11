@@ -7,6 +7,7 @@ import { exigirAdmin } from "@/lib/auth";
 import { codigoAleatorio, parseQuiz, slugify } from "@/lib/fmt";
 import { aplicarLicencas } from "@/lib/escola";
 import { embedSimulador, embedVideo } from "@/lib/simulador";
+import { confirmarPedido } from "@/lib/pedidos";
 
 const txt = (f: FormData, k: string) => String(f.get(k) ?? "").trim();
 const ir = (rota: string, tipo: "ok" | "erro", msg: string): never =>
@@ -168,4 +169,25 @@ export async function excluirAula(f: FormData) {
   if (aula.exercicio?._count.entregas) ir(rota, "erro", "Esta aula já tem entregas de alunos e não pode ser excluída.");
   await db.aula.delete({ where: { id: aula.id } });
   ir(rota, "ok", "Aula excluída.");
+}
+
+export async function confirmarPagamento(f: FormData) {
+  const admin = await exigirAdmin();
+  const id = txt(f, "pedidoId");
+  const pedido = await db.pedido.findUnique({ where: { id } });
+  if (!pedido || pedido.status !== "PENDENTE") ir("/admin/pedidos", "erro", "Este pedido não está mais pendente.");
+  await confirmarPedido(id, "pix-manual");
+  await db.eventoAuditoria.create({
+    data: { atorId: admin.id, acao: "pedido.confirmado", alvoTipo: "Pedido", alvoId: id, dados: { valorCentavos: pedido!.valorCentavos } },
+  });
+  ir("/admin/pedidos", "ok", "Pagamento confirmado e curso liberado para o aluno.");
+}
+
+export async function cancelarPedido(f: FormData) {
+  const admin = await exigirAdmin();
+  const id = txt(f, "pedidoId");
+  const r = await db.pedido.updateMany({ where: { id, status: "PENDENTE" }, data: { status: "CANCELADO" } });
+  if (!r.count) ir("/admin/pedidos", "erro", "Este pedido não está mais pendente.");
+  await db.eventoAuditoria.create({ data: { atorId: admin.id, acao: "pedido.cancelado", alvoTipo: "Pedido", alvoId: id } });
+  ir("/admin/pedidos", "ok", "Pedido cancelado.");
 }

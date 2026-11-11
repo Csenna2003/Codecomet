@@ -10,7 +10,7 @@ Stack: Next.js 15 (App Router, Server Actions) · PostgreSQL · Prisma · TypeSc
 
 ```bash
 cd plataforma
-cp .env.example .env          # ajuste DATABASE_URL e WEBHOOK_SECRET
+cp .env.example .env          # ajuste DATABASE_URL, WEBHOOK_SECRET e os dados do Pix
 npm install
 npm run db:migrate            # cria as tabelas
 npm run db:seed               # dados de demonstração (opcional)
@@ -55,19 +55,37 @@ Código de convite da turma de demonstração: `DEMO7ANO`.
   mostra o projeto embutido. Nas entregas, o aluno envia o link do projeto dele e pode colar o código —
   a cópia do código fica guardada como prova mesmo se o projeto for apagado no simulador.
 
-## Pagamento
+## Pagamento (Pix)
 
-`Pedido` fica `PENDENTE` até a confirmação. Cursos gratuitos liberam na hora.
+Com `PAGAMENTO_MODO=pix`, a compra de um curso funciona assim:
 
-- `PAGAMENTO_MODO=simulado`: mostra o botão "Simular pagamento aprovado" (desenvolvimento).
-- Produção: o gateway chama `POST /api/webhooks/pagamento` com o cabeçalho `x-webhook-secret` e o corpo
-  `{ "pedidoId": "...", "status": "PAGO" }`. **A integração com um gateway específico (geração da cobrança
-  Pix/cartão e validação da assinatura dele) ainda precisa ser feita** em `src/app/api/webhooks/pagamento/route.ts`
-  e na ação `matricular`.
+1. O aluno clica em **Comprar curso** e vê o QR Code e o **Pix copia e cola**, já com o valor do curso.
+2. Depois de pagar, clica em **Já paguei**.
+3. Você abre **Administração → Conferir pagamentos** (`/admin/pedidos`), confere no extrato do banco se o Pix
+   chegou e clica em **Confirmar recebimento**. O curso é liberado na hora.
+
+O Pix cai direto na sua conta, sem intermediário e sem taxa. Configure no `.env`:
+
+```
+PIX_CHAVE="..."     # exatamente como cadastrada no banco
+PIX_NOME="..."      # titular da conta
+PIX_CIDADE="..."    # cidade do titular
+```
+
+O identificador de cada Pix é o número do pedido; ele aparece no extrato de quem recebe e na tela de conferência.
+
+**Antes de vender, faça um teste real:** crie um curso de R$ 1,00, pague pelo aplicativo do seu banco e confira
+se o nome do recebedor e o valor aparecem certos.
+
+**Confirmação automática:** a rota `POST /api/webhooks/pagamento` (cabeçalho `x-webhook-secret`, corpo
+`{ "pedidoId": "...", "status": "PAGO" }`) já libera o curso sem conferência manual. Para usá-la é preciso
+contratar um serviço de cobrança (Asaas, Mercado Pago, Efí…) e adaptar a rota ao formato dele — ainda não feito.
+
+Cursos gratuitos liberam na hora. `PAGAMENTO_MODO=simulado` troca o Pix por um botão de teste (só desenvolvimento).
 
 ## Ainda não incluído
 
-- Gateway de pagamento real (ver acima)
+- Confirmação automática do Pix e pagamento por cartão (ver acima)
 - E-mails (boas-vindas, aviso de correção, recuperação de senha)
 - Limite de tentativas de login
 - Upload de arquivos nas entregas (hoje: link do simulador, código ou link de vídeo)
