@@ -1,0 +1,420 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PapelGlobal {
+  USUARIO
+  ADMIN_PLATAFORMA
+}
+
+enum TipoOrg {
+  ESCOLA
+  EMPRESA
+}
+
+enum PapelOrg {
+  ALUNO
+  PROFESSOR
+  COORDENADOR
+  ADMIN_ORG
+}
+
+enum Nivel {
+  INICIANTE
+  INTERMEDIARIO
+  AVANCADO
+}
+
+enum StatusCurso {
+  RASCUNHO
+  PUBLICADO
+  ARQUIVADO
+}
+
+enum TipoAula {
+  VIDEO
+  TEXTO
+  QUIZ
+  SIMULADOR
+  EXERCICIO
+}
+
+enum StatusPedido {
+  PENDENTE
+  PAGO
+  CANCELADO
+}
+
+enum OrigemAcesso {
+  COMPRA
+  LICENCA_ESCOLA
+  BOLSA
+  MANUAL
+}
+
+enum StatusAcesso {
+  ATIVO
+  REVOGADO
+}
+
+enum TipoEntrega {
+  LINK_SIMULADOR
+  CODIGO
+  LINK_VIDEO
+}
+
+enum StatusEntrega {
+  ENVIADA
+  APROVADA
+  PRECISA_AJUSTE
+}
+
+// ---------- Identidade ----------
+
+model Usuario {
+  id               String      @id @default(cuid())
+  nome             String
+  email            String      @unique
+  senhaHash        String
+  papelGlobal      PapelGlobal @default(USUARIO)
+  dataNascimento   DateTime?
+  // Preenchidos quando o aluno é menor de idade (LGPD).
+  responsavelNome  String?
+  responsavelEmail String?
+  consentimentoEm  DateTime?
+  criadoEm         DateTime    @default(now())
+
+  sessoes      Sessao[]
+  membros      Membro[]
+  turmas       TurmaAluno[]
+  turmasDadas  Turma[]
+  pedidos      Pedido[]
+  acessos      Acesso[]
+  progresso    ProgressoAula[]
+  entregas     Entrega[]
+  revisoes     Revisao[]
+  certificados Certificado[]
+}
+
+model Sessao {
+  tokenHash String   @id
+  usuarioId String
+  expiraEm  DateTime
+  criadoEm  DateTime @default(now())
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+}
+
+// ---------- Escolas (multi-tenant) ----------
+
+model Organizacao {
+  id        String   @id @default(cuid())
+  nome      String
+  tipo      TipoOrg  @default(ESCOLA)
+  documento String?
+  ativa     Boolean  @default(true)
+  criadoEm  DateTime @default(now())
+
+  membros      Membro[]
+  turmas       Turma[]
+  convites     Convite[]
+  licencas     Licenca[]
+  acessos      Acesso[]
+  entregas     Entrega[]
+  certificados Certificado[]
+}
+
+model Membro {
+  id        String   @id @default(cuid())
+  usuarioId String
+  orgId     String
+  papel     PapelOrg
+  criadoEm  DateTime @default(now())
+
+  usuario Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  org     Organizacao @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, orgId])
+  @@index([orgId])
+}
+
+model Turma {
+  id          String   @id @default(cuid())
+  orgId       String
+  nome        String
+  periodo     String?
+  professorId String?
+  criadoEm    DateTime @default(now())
+
+  org       Organizacao  @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  professor Usuario?     @relation(fields: [professorId], references: [id], onDelete: SetNull)
+  alunos    TurmaAluno[]
+  convites  Convite[]
+
+  @@index([orgId])
+}
+
+model TurmaAluno {
+  turmaId   String
+  usuarioId String
+  entrouEm  DateTime @default(now())
+
+  turma   Turma   @relation(fields: [turmaId], references: [id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@id([turmaId, usuarioId])
+}
+
+// Código que a escola distribui; vários alunos usam o mesmo código da turma.
+model Convite {
+  id       String    @id @default(cuid())
+  codigo   String    @unique
+  orgId    String
+  turmaId  String?
+  papel    PapelOrg  @default(ALUNO)
+  maxUsos  Int?
+  usos     Int       @default(0)
+  expiraEm DateTime?
+  ativo    Boolean   @default(true)
+  criadoEm DateTime  @default(now())
+
+  org   Organizacao @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  turma Turma?      @relation(fields: [turmaId], references: [id], onDelete: SetNull)
+
+  @@index([orgId])
+}
+
+// ---------- Catálogo ----------
+
+model Curso {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  titulo        String
+  descricao     String
+  nivel         Nivel       @default(INICIANTE)
+  cargaHoraria  Int         @default(0) // horas, impressas no certificado
+  precoCentavos Int         @default(0)
+  status        StatusCurso @default(RASCUNHO)
+  versao        Int         @default(1)
+  criadoEm      DateTime    @default(now())
+
+  modulos      Modulo[]
+  trilhas      TrilhaCurso[]
+  pedidos      Pedido[]
+  acessos      Acesso[]
+  licencas     Licenca[]
+  certificados Certificado[]
+}
+
+model Modulo {
+  id      String @id @default(cuid())
+  cursoId String
+  ordem   Int
+  titulo  String
+
+  curso Curso  @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  aulas Aula[]
+
+  @@index([cursoId])
+}
+
+model Aula {
+  id           String   @id @default(cuid())
+  moduloId     String
+  ordem        Int
+  titulo       String
+  tipo         TipoAula
+  conteudo     String   @default("")
+  videoUrl     String?
+  // Projeto do Tinkercad/Wokwi exibido dentro da aula.
+  simuladorUrl String?
+  // [{ pergunta, opcoes: string[], correta: number }]
+  quiz         Json?
+  obrigatoria  Boolean  @default(true)
+  duracaoMin   Int      @default(0)
+
+  modulo    Modulo          @relation(fields: [moduloId], references: [id], onDelete: Cascade)
+  exercicio Exercicio?
+  progresso ProgressoAula[]
+
+  @@index([moduloId])
+}
+
+model Exercicio {
+  id            String      @id @default(cuid())
+  aulaId        String      @unique
+  enunciado     String
+  rubrica       String[] // um critério por item
+  tipoEntrega   TipoEntrega @default(LINK_SIMULADOR)
+  notaMaxima    Int         @default(10)
+  maxTentativas Int?
+
+  aula     Aula      @relation(fields: [aulaId], references: [id], onDelete: Cascade)
+  entregas Entrega[]
+}
+
+model Trilha {
+  id        String        @id @default(cuid())
+  titulo    String
+  descricao String
+  cursos    TrilhaCurso[]
+}
+
+model TrilhaCurso {
+  trilhaId String
+  cursoId  String
+  ordem    Int
+
+  trilha Trilha @relation(fields: [trilhaId], references: [id], onDelete: Cascade)
+  curso  Curso  @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+
+  @@id([trilhaId, cursoId])
+}
+
+// ---------- Vendas e acesso ----------
+
+model Pedido {
+  id            String       @id @default(cuid())
+  usuarioId     String
+  cursoId       String
+  valorCentavos Int
+  status        StatusPedido @default(PENDENTE)
+  gatewayRef    String?
+  criadoEm      DateTime     @default(now())
+  pagoEm        DateTime?
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  curso   Curso   @relation(fields: [cursoId], references: [id])
+
+  @@index([usuarioId])
+}
+
+// Fonte da verdade de "este usuário pode ver este curso?".
+model Acesso {
+  id        String       @id @default(cuid())
+  usuarioId String
+  cursoId   String
+  orgId     String?
+  licencaId String?
+  pedidoId  String?
+  origem    OrigemAcesso
+  status    StatusAcesso @default(ATIVO)
+  inicio    DateTime     @default(now())
+  fim       DateTime?
+
+  usuario Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  curso   Curso        @relation(fields: [cursoId], references: [id])
+  org     Organizacao? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  licenca Licenca?     @relation(fields: [licencaId], references: [id], onDelete: SetNull)
+
+  @@unique([usuarioId, cursoId])
+  @@index([licencaId])
+}
+
+// A escola compra N vagas de um curso. Vagas usadas = acessos ATIVOS da licença.
+model Licenca {
+  id         String    @id @default(cuid())
+  orgId      String
+  cursoId    String
+  vagasTotal Int
+  validade   DateTime?
+  criadoEm   DateTime  @default(now())
+
+  org     Organizacao @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  curso   Curso       @relation(fields: [cursoId], references: [id])
+  acessos Acesso[]
+
+  @@unique([orgId, cursoId])
+}
+
+// ---------- Aprendizagem ----------
+
+// A linha existe quando a aula foi concluída. Pertence ao usuário, não à escola.
+model ProgressoAula {
+  usuarioId   String
+  aulaId      String
+  concluidoEm DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  aula    Aula    @relation(fields: [aulaId], references: [id], onDelete: Cascade)
+
+  @@id([usuarioId, aulaId])
+}
+
+model Entrega {
+  id          String        @id @default(cuid())
+  exercicioId String
+  usuarioId   String
+  // Escola pela qual o aluno acessava o curso no envio (define quem corrige).
+  orgId       String?
+  tentativa   Int
+  link        String?
+  // Cópia do código no momento do envio: prova da entrega mesmo se o projeto
+  // for apagado no simulador.
+  codigo      String?
+  observacao  String?
+  status      StatusEntrega @default(ENVIADA)
+  nota        Int?
+  enviadoEm   DateTime      @default(now())
+  revisadoEm  DateTime?
+
+  exercicio Exercicio    @relation(fields: [exercicioId], references: [id], onDelete: Cascade)
+  usuario   Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  org       Organizacao? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  revisoes  Revisao[]
+
+  @@unique([exercicioId, usuarioId, tentativa])
+  @@index([orgId, status])
+}
+
+model Revisao {
+  id                String        @id @default(cuid())
+  entregaId         String
+  revisorId         String
+  decisao           StatusEntrega
+  nota              Int
+  comentario        String
+  criteriosAtendidos String[]
+  criadoEm          DateTime      @default(now())
+
+  entrega Entrega @relation(fields: [entregaId], references: [id], onDelete: Cascade)
+  revisor Usuario @relation(fields: [revisorId], references: [id])
+
+  @@index([entregaId])
+}
+
+model Certificado {
+  id           String   @id @default(cuid())
+  codigo       String   @unique
+  usuarioId    String
+  cursoId      String
+  orgId        String?
+  cursoVersao  Int
+  cargaHoraria Int
+  emitidoEm    DateTime @default(now())
+
+  usuario Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  curso   Curso        @relation(fields: [cursoId], references: [id])
+  org     Organizacao? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+
+  @@unique([usuarioId, cursoId])
+}
+
+model EventoAuditoria {
+  id       String   @id @default(cuid())
+  atorId   String?
+  orgId    String?
+  acao     String
+  alvoTipo String
+  alvoId   String
+  dados    Json?
+  criadoEm DateTime @default(now())
+
+  @@index([orgId, criadoEm])
+}

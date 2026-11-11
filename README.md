@@ -1,3 +1,7 @@
+> **Este repositório tem dois projetos:**
+> - [`plataforma/`](plataforma/README.md) — plataforma web de cursos de Robótica e Programação (LMS com simulador, entregas, certificados e escolas).
+> - `VespaControle/` — firmware do painel Wi‑Fi da RoboCore Vespa, descrito abaixo.
+
 # Vespa Controle
 
 Painel web para controlar dispositivos ligados à placa **RoboCore Vespa** (ESP32).
