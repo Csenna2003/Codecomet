@@ -360,3 +360,83 @@ function etiqueta_situacao(?string $s): string
 {
     return $s ? '<span class="etiqueta ' . (CLASSE_SITUACAO[$s] ?? '') . '">' . e(SITUACOES_FIN[$s] ?? $s) . '</span>' : '<span class="suave pequeno">—</span>';
 }
+
+// ---------- Matrículas feitas pela administração ----------
+
+const ROTULO_ORIGEM = ['COMPRA' => 'Compra', 'LICENCA_ESCOLA' => 'Pela escola', 'BOLSA' => 'Bolsa', 'MANUAL' => 'Matrícula pela administração'];
+
+/** Matricula no curso (ou reativa a matrícula). Aceita o aluno pelo id ou pelo e-mail. */
+function acao_matricular_manual(): void
+{
+    $admin = exigir_admin();
+    $volta = post('voltar') === 'curso' ? ['admin_curso', ['id' => post('curso_id')]] : ['editar_aluno', ['id' => post('usuario_id')]];
+    $f = fn(string $m) => voltar('erro', $m, $volta[0], $volta[1]);
+    $al = post('usuario_id') !== ''
+        ? um('SELECT id, nome, email FROM usuarios WHERE id = ?', [post('usuario_id')])
+        : um('SELECT id, nome, email FROM usuarios WHERE email = ?', [strtolower(post('email'))]);
+    if (!$al) $f('Aluno não encontrado. Ele precisa ter uma conta (o aluno cria em "Criar conta", ou você cadastra como aluno particular).');
+    $curso = um('SELECT id, titulo, slug, status FROM cursos WHERE id = ?', [post('curso_id')]);
+    if (!$curso) $f('Escolha o curso.');
+    if ($curso['status'] !== 'PUBLICADO') $f('Publique o curso antes de matricular alunos (em Administração → Editar conteúdo → Status).');
+    $origem = post('origem') === 'BOLSA' ? 'BOLSA' : 'MANUAL';
+    $fim = null;
+    if (post('fim') !== '') {
+        $d = DateTime::createFromFormat('Y-m-d', post('fim'));
+        if (!$d || $d < new DateTime('today')) $f('A data final precisa ser hoje ou depois.');
+        $fim = $d->format('Y-m-d') . ' 23:59:59';
+    }
+    $atual = acesso_ativo($al['id'], $curso['id']);
+    if ($atual && $atual['origem'] !== 'LICENCA_ESCOLA' && $atual['fim'] === $fim) $f("{$al['nome']} já está matriculado(a) neste curso.");
+    $existe = um('SELECT id FROM acessos WHERE usuario_id = ? AND curso_id = ?', [$al['id'], $curso['id']]);
+    if ($existe) {
+        q("UPDATE acessos SET origem = ?, status = 'ATIVO', org_id = NULL, licenca_id = NULL, pedido_id = NULL, inicio = ?, fim = ? WHERE id = ?",
+            [$origem, agora(), $fim, $existe['id']]);
+    } else {
+        q("INSERT INTO acessos (id, usuario_id, curso_id, origem, status, inicio, fim) VALUES (?,?,?,?, 'ATIVO', ?, ?)",
+            [novo_id(), $al['id'], $curso['id'], $origem, agora(), $fim]);
+    }
+    auditar($admin['id'], null, 'matricula.manual', 'Usuario', $al['id'], ['curso' => $curso['id'], 'origem' => $origem]);
+    enviar_email($al['email'], 'Você foi matriculado(a): ' . $curso['titulo'],
+        'Olá, ' . explode(' ', $al['nome'])[0] . "!\n\nSua matrícula no curso {$curso['titulo']} está ativa" . ($fim ? ' até ' . data_br($fim) : '') . '. Bons estudos!',
+        'Começar o curso', url_absoluta('curso', ['slug' => $curso['slug']]));
+    voltar('ok', "{$al['nome']} matriculado(a) em {$curso['titulo']}.", $volta[0], $volta[1]);
+}
+
+function acao_cancelar_matricula(): void
+{
+    $admin = exigir_admin();
+    $a = um('SELECT * FROM acessos WHERE id = ?', [post('acesso_id')]);
+    if (!$a) ir('admin_alunos');
+    q("UPDATE acessos SET status = 'REVOGADO' WHERE id = ?", [$a['id']]);
+    auditar($admin['id'], $a['org_id'], 'matricula.cancelada', 'Usuario', $a['usuario_id'], ['curso' => $a['curso_id']]);
+    $msg = 'Matrícula cancelada. O histórico do aluno foi mantido.';
+    if ($a['origem'] === 'LICENCA_ESCOLA') $msg .= ' Atenção: a vaga veio da escola; para não voltar, tire o aluno da escola.';
+    voltar('ok', $msg, 'editar_aluno', ['id' => $a['usuario_id']]);
+}
+
+/** Coloca o aluno numa escola (e turma) sem código; recebe o curso se houver vaga na licença. */
+function acao_adicionar_escola(): void
+{
+    $admin = exigir_admin();
+    $uid = post('usuario_id');
+    $org = post('org_id');
+    $f = fn(string $m) => voltar('erro', $m, 'editar_aluno', ['id' => $uid]);
+    if (!valor('SELECT 1 FROM usuarios WHERE id = ?', [$uid]) || !valor('SELECT 1 FROM organizacoes WHERE id = ?', [$org])) $f('Escolha a escola.');
+    $turma = post('turma_id') ?: null;
+    if ($turma && !valor('SELECT 1 FROM turmas WHERE id = ? AND org_id = ?', [$turma, $org])) $f('A turma escolhida não é desta escola.');
+    q("INSERT IGNORE INTO membros (id, usuario_id, org_id, papel, criado_em) VALUES (?,?,?, 'ALUNO', ?)", [novo_id(), $uid, $org, agora()]);
+    if ($turma) q('INSERT IGNORE INTO turma_alunos (turma_id, usuario_id, entrou_em) VALUES (?,?,?)', [$turma, $uid, agora()]);
+    aplicar_licencas($org);
+    auditar($admin['id'], $org, 'membro.adicionado', 'Usuario', $uid);
+    voltar('ok', 'Aluno colocado na escola. Se a escola tem licença com vaga, os cursos dela já foram liberados.', 'editar_aluno', ['id' => $uid]);
+}
+
+function acao_remover_escola_aluno(): void
+{
+    $admin = exigir_admin();
+    $uid = post('usuario_id');
+    $org = post('org_id');
+    remover_da_escola($uid, $org);
+    auditar($admin['id'], $org, 'membro.removido', 'Usuario', $uid);
+    voltar('ok', 'Aluno retirado da escola. Os cursos que vinham dela foram encerrados; histórico e certificados mantidos.', 'editar_aluno', ['id' => $uid]);
+}

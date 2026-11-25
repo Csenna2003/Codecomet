@@ -91,6 +91,21 @@ Clique no nome do aluno no painel da escola, nas correções ou nas aulas partic
 e-mail em **Administração**. Mostra cada curso aula por aula (com a data de conclusão), as entregas e notas,
 os certificados e todas as aulas particulares. O aluno vê o próprio em **Meu painel → Meu acompanhamento**.
 
+## Matricular alunos
+
+Há quatro jeitos de um aluno entrar num curso:
+
+1. **Você matricula:** Administração → **Alunos** → **Editar** → seção **Matrículas** → escolha o curso.
+   Ou, na página do curso (Administração → **Editar conteúdo**), em **Alunos matriculados**, pelo e-mail do aluno.
+   Tipo "Matrícula" (pagamento por fora) ou "Bolsa / cortesia", com prazo opcional. O aluno recebe e-mail.
+2. **Pela escola:** o aluno usa o código da turma ao criar a conta, ou você o coloca na escola em
+   **Editar → Escola e turma**. Ele recebe os cursos da licença da escola, se houver vaga.
+3. **Compra:** o aluno clica em **Comprar curso** e paga o Pix; você confirma em **Conferir pagamentos**.
+4. **Curso gratuito:** o aluno clica em **Matricular-se grátis**.
+
+O curso precisa estar **Publicado** para receber matrículas. Cancelar uma matrícula encerra o acesso,
+mas mantém o histórico e os certificados.
+
 ## Cadastros (alunos, escolas e professores)
 
 - **Alunos:** Administração → **Alunos**. Busca por nome ou e-mail e filtro por situação financeira.

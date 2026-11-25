@@ -2,6 +2,12 @@
 exigir_admin();
 $curso = carregar_curso('id', get('id'));
 if (!$curso) nao_encontrado();
+$alunos = todos(
+    "SELECT a.origem, a.inicio, u.id, u.nome, u.email, o.nome AS org FROM acessos a JOIN usuarios u ON u.id = a.usuario_id
+     LEFT JOIN organizacoes o ON o.id = a.org_id
+     WHERE a.curso_id = ? AND a.status = 'ATIVO' AND (a.fim IS NULL OR a.fim > ?) ORDER BY u.nome",
+    [$curso['id'], agora()]
+);
 cabecalho('Editar curso');
 ?>
 <p class="pequeno"><a href="<?= e(url('admin')) ?>">← Administração</a> · <a href="<?= e(url('curso', ['slug' => $curso['slug']])) ?>">Ver como aluno</a></p>
@@ -65,4 +71,23 @@ cabecalho('Editar curso');
   <label>Novo módulo<input name="titulo" required></label>
   <div><button class="btn sec">Adicionar módulo</button></div>
 </form>
+
+<h2>Alunos matriculados (<?= count($alunos) ?>)</h2>
+<?php if ($curso['status'] !== 'PUBLICADO'): ?><p class="aviso alerta">Publique o curso (Status → Publicado, acima) para poder matricular alunos.</p><?php endif ?>
+<?= abrir_form('matricular_manual', 'cartao campos', ['curso_id' => $curso['id'], 'voltar' => 'curso']) ?>
+  <label>Matricular aluno (e-mail da conta)<input name="email" type="email" required></label>
+  <label>Tipo<select name="origem"><option value="MANUAL">Matrícula (pagamento por fora)</option><option value="BOLSA">Bolsa / cortesia</option></select></label>
+  <label>Acesso até (opcional)<input type="date" name="fim"></label>
+  <div><button class="btn">Matricular</button></div>
+</form>
+<?php if ($alunos): ?>
+<div class="cartao tabela-rolagem"><table>
+  <thead><tr><th>Aluno</th><th>Como entrou</th><th>Desde</th><th></th></tr></thead>
+  <tbody><?php foreach ($alunos as $a): ?>
+    <tr><td><?= e($a['nome']) ?><br><span class="suave pequeno"><?= e($a['email']) ?></span></td>
+      <td><?= e(ROTULO_ORIGEM[$a['origem']]) ?><?= $a['org'] ? ' (' . e($a['org']) . ')' : '' ?></td><td><?= e(data_br($a['inicio'])) ?></td>
+      <td><div class="acoes"><a class="btn mini sec" href="<?= e(url('aluno', ['id' => $a['id']])) ?>">Acompanhamento</a><a class="btn mini sec" href="<?= e(url('editar_aluno', ['id' => $a['id']])) ?>">Cadastro</a></div></td></tr>
+  <?php endforeach ?></tbody>
+</table></div>
+<?php endif ?>
 <?php rodape();
