@@ -1,0 +1,257 @@
+<?php
+declare(strict_types=1);
+
+/** Tabelas da plataforma (MySQL/MariaDB). Executado pelo instalar.php; pode rodar mais de uma vez. */
+function esquema_sql(): array
+{
+    $t = 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci';
+    return [
+        "CREATE TABLE IF NOT EXISTS usuarios (
+            id CHAR(20) PRIMARY KEY,
+            nome VARCHAR(150) NOT NULL,
+            email VARCHAR(190) NOT NULL UNIQUE,
+            senha_hash VARCHAR(255) NOT NULL,
+            senha_versao INT NOT NULL DEFAULT 0,
+            admin TINYINT(1) NOT NULL DEFAULT 0,
+            nascimento DATE NULL,
+            responsavel_nome VARCHAR(150) NULL,
+            responsavel_email VARCHAR(190) NULL,
+            consentimento_em DATETIME NULL,
+            criado_em DATETIME NOT NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS organizacoes (
+            id CHAR(20) PRIMARY KEY,
+            nome VARCHAR(150) NOT NULL,
+            documento VARCHAR(30) NULL,
+            ativa TINYINT(1) NOT NULL DEFAULT 1,
+            criado_em DATETIME NOT NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS membros (
+            id CHAR(20) PRIMARY KEY,
+            usuario_id CHAR(20) NOT NULL,
+            org_id CHAR(20) NOT NULL,
+            papel ENUM('ALUNO','PROFESSOR','COORDENADOR','ADMIN_ORG') NOT NULL,
+            criado_em DATETIME NOT NULL,
+            UNIQUE KEY (usuario_id, org_id),
+            KEY (org_id),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS turmas (
+            id CHAR(20) PRIMARY KEY,
+            org_id CHAR(20) NOT NULL,
+            nome VARCHAR(100) NOT NULL,
+            periodo VARCHAR(50) NULL,
+            professor_id CHAR(20) NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (org_id),
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE CASCADE,
+            FOREIGN KEY (professor_id) REFERENCES usuarios(id) ON DELETE SET NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS turma_alunos (
+            turma_id CHAR(20) NOT NULL,
+            usuario_id CHAR(20) NOT NULL,
+            entrou_em DATETIME NOT NULL,
+            PRIMARY KEY (turma_id, usuario_id),
+            FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE CASCADE,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS convites (
+            id CHAR(20) PRIMARY KEY,
+            codigo VARCHAR(20) NOT NULL UNIQUE,
+            org_id CHAR(20) NOT NULL,
+            turma_id CHAR(20) NULL,
+            papel ENUM('ALUNO','PROFESSOR','COORDENADOR','ADMIN_ORG') NOT NULL DEFAULT 'ALUNO',
+            max_usos INT NULL,
+            usos INT NOT NULL DEFAULT 0,
+            ativo TINYINT(1) NOT NULL DEFAULT 1,
+            criado_em DATETIME NOT NULL,
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE CASCADE,
+            FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE SET NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS cursos (
+            id CHAR(20) PRIMARY KEY,
+            slug VARCHAR(160) NOT NULL UNIQUE,
+            titulo VARCHAR(160) NOT NULL,
+            descricao TEXT NOT NULL,
+            nivel ENUM('INICIANTE','INTERMEDIARIO','AVANCADO') NOT NULL DEFAULT 'INICIANTE',
+            carga_horaria INT NOT NULL DEFAULT 0,
+            preco_centavos INT NOT NULL DEFAULT 0,
+            status ENUM('RASCUNHO','PUBLICADO','ARQUIVADO') NOT NULL DEFAULT 'RASCUNHO',
+            versao INT NOT NULL DEFAULT 1,
+            criado_em DATETIME NOT NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS modulos (
+            id CHAR(20) PRIMARY KEY,
+            curso_id CHAR(20) NOT NULL,
+            ordem INT NOT NULL,
+            titulo VARCHAR(160) NOT NULL,
+            KEY (curso_id),
+            FOREIGN KEY (curso_id) REFERENCES cursos(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS aulas (
+            id CHAR(20) PRIMARY KEY,
+            modulo_id CHAR(20) NOT NULL,
+            ordem INT NOT NULL,
+            titulo VARCHAR(160) NOT NULL,
+            tipo ENUM('VIDEO','TEXTO','QUIZ','SIMULADOR','EXERCICIO') NOT NULL,
+            conteudo MEDIUMTEXT NOT NULL,
+            video_url VARCHAR(500) NULL,
+            simulador_url VARCHAR(500) NULL,
+            quiz MEDIUMTEXT NULL,
+            obrigatoria TINYINT(1) NOT NULL DEFAULT 1,
+            duracao_min INT NOT NULL DEFAULT 0,
+            KEY (modulo_id),
+            FOREIGN KEY (modulo_id) REFERENCES modulos(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS exercicios (
+            id CHAR(20) PRIMARY KEY,
+            aula_id CHAR(20) NOT NULL UNIQUE,
+            enunciado TEXT NOT NULL,
+            rubrica TEXT NOT NULL,
+            tipo_entrega ENUM('LINK_SIMULADOR','CODIGO','LINK_VIDEO') NOT NULL DEFAULT 'LINK_SIMULADOR',
+            nota_maxima INT NOT NULL DEFAULT 10,
+            max_tentativas INT NULL,
+            FOREIGN KEY (aula_id) REFERENCES aulas(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS trilhas (
+            id CHAR(20) PRIMARY KEY,
+            titulo VARCHAR(160) NOT NULL,
+            descricao TEXT NOT NULL,
+            criado_em DATETIME NOT NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS trilha_cursos (
+            trilha_id CHAR(20) NOT NULL,
+            curso_id CHAR(20) NOT NULL,
+            ordem INT NOT NULL,
+            PRIMARY KEY (trilha_id, curso_id),
+            FOREIGN KEY (trilha_id) REFERENCES trilhas(id) ON DELETE CASCADE,
+            FOREIGN KEY (curso_id) REFERENCES cursos(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS pedidos (
+            id CHAR(20) PRIMARY KEY,
+            usuario_id CHAR(20) NOT NULL,
+            curso_id CHAR(20) NOT NULL,
+            valor_centavos INT NOT NULL,
+            status ENUM('PENDENTE','PAGO','CANCELADO') NOT NULL DEFAULT 'PENDENTE',
+            referencia VARCHAR(100) NULL,
+            criado_em DATETIME NOT NULL,
+            avisou_pago_em DATETIME NULL,
+            pago_em DATETIME NULL,
+            KEY (usuario_id),
+            KEY (status),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+            FOREIGN KEY (curso_id) REFERENCES cursos(id)
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS licencas (
+            id CHAR(20) PRIMARY KEY,
+            org_id CHAR(20) NOT NULL,
+            curso_id CHAR(20) NOT NULL,
+            vagas_total INT NOT NULL,
+            validade DATETIME NULL,
+            criado_em DATETIME NOT NULL,
+            UNIQUE KEY (org_id, curso_id),
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE CASCADE,
+            FOREIGN KEY (curso_id) REFERENCES cursos(id)
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS acessos (
+            id CHAR(20) PRIMARY KEY,
+            usuario_id CHAR(20) NOT NULL,
+            curso_id CHAR(20) NOT NULL,
+            org_id CHAR(20) NULL,
+            licenca_id CHAR(20) NULL,
+            pedido_id CHAR(20) NULL,
+            origem ENUM('COMPRA','LICENCA_ESCOLA','BOLSA','MANUAL') NOT NULL,
+            status ENUM('ATIVO','REVOGADO') NOT NULL DEFAULT 'ATIVO',
+            inicio DATETIME NOT NULL,
+            fim DATETIME NULL,
+            UNIQUE KEY (usuario_id, curso_id),
+            KEY (licenca_id),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+            FOREIGN KEY (curso_id) REFERENCES cursos(id),
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE SET NULL,
+            FOREIGN KEY (licenca_id) REFERENCES licencas(id) ON DELETE SET NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS progresso (
+            usuario_id CHAR(20) NOT NULL,
+            aula_id CHAR(20) NOT NULL,
+            concluido_em DATETIME NOT NULL,
+            PRIMARY KEY (usuario_id, aula_id),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+            FOREIGN KEY (aula_id) REFERENCES aulas(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS entregas (
+            id CHAR(20) PRIMARY KEY,
+            exercicio_id CHAR(20) NOT NULL,
+            usuario_id CHAR(20) NOT NULL,
+            org_id CHAR(20) NULL,
+            tentativa INT NOT NULL,
+            link VARCHAR(500) NULL,
+            codigo MEDIUMTEXT NULL,
+            observacao TEXT NULL,
+            status ENUM('ENVIADA','APROVADA','PRECISA_AJUSTE') NOT NULL DEFAULT 'ENVIADA',
+            nota INT NULL,
+            enviado_em DATETIME NOT NULL,
+            revisado_em DATETIME NULL,
+            UNIQUE KEY (exercicio_id, usuario_id, tentativa),
+            KEY (org_id, status),
+            FOREIGN KEY (exercicio_id) REFERENCES exercicios(id) ON DELETE CASCADE,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE SET NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS revisoes (
+            id CHAR(20) PRIMARY KEY,
+            entrega_id CHAR(20) NOT NULL,
+            revisor_id CHAR(20) NOT NULL,
+            decisao ENUM('ENVIADA','APROVADA','PRECISA_AJUSTE') NOT NULL,
+            nota INT NOT NULL,
+            comentario TEXT NOT NULL,
+            criterios TEXT NOT NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (entrega_id),
+            FOREIGN KEY (entrega_id) REFERENCES entregas(id) ON DELETE CASCADE,
+            FOREIGN KEY (revisor_id) REFERENCES usuarios(id)
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS certificados (
+            id CHAR(20) PRIMARY KEY,
+            codigo VARCHAR(20) NOT NULL UNIQUE,
+            usuario_id CHAR(20) NOT NULL,
+            curso_id CHAR(20) NOT NULL,
+            org_id CHAR(20) NULL,
+            curso_versao INT NOT NULL,
+            carga_horaria INT NOT NULL,
+            emitido_em DATETIME NOT NULL,
+            UNIQUE KEY (usuario_id, curso_id),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+            FOREIGN KEY (curso_id) REFERENCES cursos(id),
+            FOREIGN KEY (org_id) REFERENCES organizacoes(id) ON DELETE SET NULL
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS tentativas_login (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            chave VARCHAR(200) NOT NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (chave, criado_em)
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS redefinicoes (
+            token_hash CHAR(64) PRIMARY KEY,
+            usuario_id CHAR(20) NOT NULL,
+            criado_por CHAR(20) NOT NULL,
+            expira_em DATETIME NOT NULL,
+            usado_em DATETIME NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (usuario_id),
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+        ) $t",
+        "CREATE TABLE IF NOT EXISTS auditoria (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            ator_id CHAR(20) NULL,
+            org_id CHAR(20) NULL,
+            acao VARCHAR(60) NOT NULL,
+            alvo_tipo VARCHAR(40) NOT NULL,
+            alvo_id VARCHAR(40) NOT NULL,
+            dados TEXT NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (org_id, criado_em)
+        ) $t",
+    ];
+}

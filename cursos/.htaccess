@@ -1,0 +1,13 @@
+Options -Indexes
+DirectoryIndex index.php
+
+# O arquivo de configuração tem a senha do banco: nunca pode ser baixado.
+<FilesMatch "^(config\.php|config\.exemplo\.php)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

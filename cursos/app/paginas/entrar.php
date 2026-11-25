@@ -1,0 +1,13 @@
+<?php
+if (usuario_atual()) ir('painel');
+cabecalho('Entrar', true);
+?>
+<h1>Entrar</h1>
+<?= abrir_form('entrar') ?>
+  <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+  <label>Senha<input name="senha" type="password" autocomplete="current-password" required></label>
+  <button class="btn">Entrar</button>
+</form>
+<p class="suave pequeno">Esqueceu a senha? Peça um link de nova senha ao seu professor ou à nossa equipe.</p>
+<p>Ainda não tem conta? <a href="<?= e(url('cadastro')) ?>">Criar conta</a></p>
+<?php rodape();

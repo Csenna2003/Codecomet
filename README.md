@@ -1,5 +1,6 @@
-> **Este repositório tem dois projetos:**
-> - [`plataforma/`](plataforma/README.md) — plataforma web de cursos de Robótica e Programação (LMS com simulador, entregas, certificados e escolas).
+> **Este repositório tem três projetos:**
+> - [`cursos/`](COMO-INSTALAR.md) — **plataforma de cursos de Robótica e Programação em uso**: PHP + MySQL, roda na hospedagem compartilhada (HostGator) sem contratar nada. Guia: [COMO-INSTALAR.md](COMO-INSTALAR.md). Pacote pronto: `cursos.zip`.
+> - [`plataforma/`](plataforma/README.md) — versão anterior da mesma plataforma em Node.js/Next.js. Exige um serviço como o Railway; **não é a versão usada**.
 > - `VespaControle/` — firmware do painel Wi‑Fi da RoboCore Vespa, descrito abaixo.
 
 # Vespa Controle
