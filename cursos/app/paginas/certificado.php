@@ -11,6 +11,7 @@ cabecalho('Certificado');
 ?>
 <p class="aviso ok nao-imprimir">Certificado autêntico, emitido por <?= e(nome_site()) ?>.</p>
 <div class="certificado">
+  <img class="logo-certificado" src="assets/logo.png" alt="<?= e(nome_site()) ?>" width="256" height="107">
   <h1>CERTIFICADO DE CONCLUSÃO</h1>
   <p>Certificamos que</p>
   <p class="nome"><?= e($c['nome']) ?></p>

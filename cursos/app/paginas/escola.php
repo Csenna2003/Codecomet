@@ -71,7 +71,7 @@ cabecalho('Escola');
     <tbody>
     <?php foreach ($alunos as $m): ?>
       <tr>
-        <td><?= e($m['nome']) ?><br><span class="suave pequeno"><?= e($m['email']) ?></span></td>
+        <td><a href="<?= e(url('aluno', ['id' => $m['usuario_id']])) ?>"><?= e($m['nome']) ?></a><br><span class="suave pequeno"><?= e($m['email']) ?></span></td>
         <td><?= e(implode(', ', $turmaDe[$m['usuario_id']] ?? []) ?: '—') ?></td>
         <?php foreach ($licencas as $l): $x = $info[$l['id']]; $uid = $m['usuario_id']; ?>
           <td><?php if (isset($x['certs'][$uid])): ?><span class="etiqueta ok">Certificado</span>

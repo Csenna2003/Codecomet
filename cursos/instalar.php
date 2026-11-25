@@ -23,7 +23,8 @@ $conteudoManual = '';
 function tela(string $titulo, string $corpo): void
 {
     echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-        . '<title>Instalação</title><link rel="stylesheet" href="assets/estilo.css"></head><body><main class="estreito">'
+        . '<title>Instalação</title><link rel="stylesheet" href="assets/estilo.css?v=2"><link rel="icon" href="assets/icone-32.png"></head><body><main class="estreito">'
+        . '<p><img src="assets/logo.png" alt="" width="180" height="75"></p>'
         . '<h1>' . e($titulo) . '</h1>' . $corpo . '</main></body></html>';
     exit;
 }

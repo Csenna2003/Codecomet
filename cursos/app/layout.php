@@ -12,17 +12,22 @@ function cabecalho(string $titulo, bool $estreito = false): void
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($titulo === '' ? $site : "$titulo — $site") ?></title>
-<link rel="stylesheet" href="assets/estilo.css?v=1">
+<link rel="stylesheet" href="assets/estilo.css?v=2">
+<link rel="icon" href="assets/icone-32.png" sizes="32x32">
+<link rel="icon" href="assets/icone-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/icone-180.png">
+<meta name="theme-color" content="#0070b8">
 </head>
 <body>
 <header class="topo">
   <div class="dentro">
-    <a href="<?= e(url()) ?>" class="marca">🤖 <?= e($site) ?></a>
+    <a href="<?= e(url()) ?>" class="marca"><img src="assets/logo.png" alt="<?= e($site) ?>" width="256" height="107"></a>
     <nav>
       <a href="<?= e(url()) ?>">Cursos</a>
       <?php if ($u): ?>
         <a href="<?= e(url('painel')) ?>">Meu painel</a>
         <?php if (eh_equipe($u)): ?><a href="<?= e(url('professor')) ?>">Correções</a><?php endif ?>
+        <?php if (da_aulas_particulares($u)): ?><a href="<?= e(url('particulares')) ?>">Aulas particulares</a><?php endif ?>
         <?php if (eh_admin($u) || orgs_geridas($u)): ?><a href="<?= e(url('escola')) ?>">Escola</a><?php endif ?>
         <?php if (eh_admin($u)): ?><a href="<?= e(url('admin')) ?>">Administração</a><?php endif ?>
         <form method="post" action="index.php">
@@ -45,7 +50,7 @@ function rodape(): void
 {
     ?>
 </main>
-<script src="assets/app.js?v=1" defer></script>
+<script src="assets/app.js?v=2" defer></script>
 </body>
 </html>
 <?php

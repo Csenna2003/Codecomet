@@ -64,6 +64,33 @@ Crie um botão ou item de menu **"Área do aluno"** com o link `https://www.SEUS
 - [ ] **Simulador:** abra uma aula do curso de exemplo e veja se o Wokwi aparece dentro da página.
 - [ ] **Backup:** o cPanel tem **Backup** — baixe uma cópia do banco `..._cursos` de vez em quando.
 
+## Atualizar para uma versão nova
+
+1. No **Gerenciador de arquivos**, abra `public_html`.
+2. **Carregar** o `cursos.zip` novo → botão direito nele → **Extract** (Extrair), confirmando substituir os arquivos.
+3. Abra `https://www.SEUSITE.com.br/cursos/` normalmente. As tabelas novas do banco são criadas sozinhas.
+
+Seus cursos, alunos e o `config.php` (senha do banco e Pix) não são apagados: o pacote não traz o `config.php`.
+
+## Aulas particulares (presenciais)
+
+1. **Administração → Aulas particulares:** cadastre o aluno, o e-mail do professor (ele precisa ter conta)
+   e o nome e WhatsApp do responsável.
+2. **O professor**, pelo celular, abre **Aulas particulares** e toca em **Cheguei agora** ao chegar.
+   O horário registrado é o do servidor, não o do celular. Se esquecer, pode informar o horário, que fica
+   marcado como "informado".
+3. Ao terminar, ele descreve o **conteúdo apresentado** e toca em **Finalizar aula**.
+4. Aparece o botão **Enviar pelo WhatsApp**, com o link para o responsável. O responsável abre o link
+   (sem senha), vê horário de chegada, saída e conteúdo, e toca em **Confirmo** ou **Algo não confere**.
+5. Em **Administração → Aulas particulares** você vê o resumo do mês por professor (aulas, confirmadas,
+   horas confirmadas), útil para pagar os professores.
+
+## Acompanhamento por aluno
+
+Clique no nome do aluno no painel da escola, nas correções ou nas aulas particulares, ou busque pelo
+e-mail em **Administração**. Mostra cada curso aula por aula (com a data de conclusão), as entregas e notas,
+os certificados e todas as aulas particulares. O aluno vê o próprio em **Meu painel → Meu acompanhamento**.
+
 ## Mudar o Pix ou o nome da plataforma depois
 
 No Gerenciador de arquivos, abra `public_html/cursos/config.php` → **Editar** e altere as
@@ -75,7 +102,7 @@ linhas de `pix` ou `nome_site`. Salve. Esse arquivo tem a senha do banco: não c
 |---|---|---|
 | Você (admin) | Administração | Cria cursos, aulas, escolas e licenças; confere os Pix; gera nova senha para qualquer conta |
 | Coordenador da escola | Escola | Turmas, códigos de convite, vagas, progresso dos alunos, nova senha para alunos |
-| Professor | Correções | Corrige as entregas dos alunos das turmas dele |
+| Professor | Correções e Aulas particulares | Corrige as entregas das turmas dele; registra chegada e conteúdo das aulas particulares |
 | Aluno | Meu painel | Estuda, usa o simulador, envia projetos, recebe o certificado |
 
 **Para uma escola começar:** em Administração, crie a escola (aparece um código de administrador

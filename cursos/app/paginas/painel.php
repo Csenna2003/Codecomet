@@ -16,7 +16,7 @@ $ajustes = todos(
 $pedidos = todos("SELECT p.*, c.titulo FROM pedidos p JOIN cursos c ON c.id = p.curso_id WHERE p.usuario_id = ? AND p.status = 'PENDENTE' AND p.valor_centavos > 0", [$u['id']]);
 cabecalho('Meu painel');
 ?>
-<h1>Olá, <?= e(explode(' ', $u['nome'])[0]) ?>!</h1>
+<div class="linha"><h1>Olá, <?= e(explode(' ', $u['nome'])[0]) ?>!</h1><a class="btn sec mini" href="<?= e(url('aluno')) ?>">Meu acompanhamento</a></div>
 
 <?php foreach ($ajustes as $e): ?>
   <p class="aviso alerta">Seu professor pediu um ajuste em <strong><?= e($e['titulo']) ?></strong>. <a href="<?= e(url('aula', ['id' => $e['aula_id']])) ?>">Ver o comentário e reenviar</a></p>

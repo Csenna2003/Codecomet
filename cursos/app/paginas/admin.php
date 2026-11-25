@@ -16,6 +16,15 @@ cabecalho('Administração');
   <div class="cartao"><h3><?= $pendentes ?></h3><span class="suave">Pix aguardando conferência · </span><a href="<?= e(url('admin_pedidos')) ?>">Conferir pagamentos</a></div>
 </div>
 
+<div class="cartao linha">
+  <form method="get" action="index.php" class="campos" style="flex:1">
+    <input type="hidden" name="r" value="aluno">
+    <label>Acompanhamento de um aluno (e-mail)<input name="email" type="email" required></label>
+    <div><button class="btn sec">Ver acompanhamento</button></div>
+  </form>
+  <a class="btn" href="<?= e(url('admin_particulares')) ?>">Aulas particulares</a>
+</div>
+
 <h2>Cursos</h2>
 <?php if ($cursos): ?>
 <div class="cartao tabela-rolagem"><table>

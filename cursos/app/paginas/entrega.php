@@ -17,7 +17,7 @@ cabecalho('Corrigir entrega');
 ?>
 <p class="pequeno"><a href="<?= e(url('professor')) ?>">← Correções</a></p>
 <h1><?= e($e['aula']) ?></h1>
-<p class="suave"><?= e($e['aluno']) ?> · <?= e($e['org_nome'] ?? 'Venda direta') ?> · tentativa <?= (int) $e['tentativa'] ?> · enviada em <?= e(data_br($e['enviado_em'])) ?> · <?= e(ROTULO_ENTREGA[$e['status']]) ?></p>
+<p class="suave"><a href="<?= e(url('aluno', ['id' => $e['usuario_id']])) ?>"><?= e($e['aluno']) ?></a> · <?= e($e['org_nome'] ?? 'Venda direta') ?> · tentativa <?= (int) $e['tentativa'] ?> · enviada em <?= e(data_br($e['enviado_em'])) ?> · <?= e(ROTULO_ENTREGA[$e['status']]) ?></p>
 
 <details class="cartao"><summary>Enunciado do exercício</summary><p class="texto-aula"><?= e($e['enunciado']) ?></p></details>
 
