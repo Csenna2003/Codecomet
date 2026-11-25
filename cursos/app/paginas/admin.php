@@ -12,7 +12,7 @@ cabecalho('Administração');
 <div class="grade">
   <div class="cartao"><h3><?= $usuarios ?></h3><span class="suave">usuários</span></div>
   <div class="cartao"><h3><?= count($orgs) ?></h3><span class="suave">escolas</span></div>
-  <div class="cartao"><h3><?= $pagos['total'] ? e(brl((int) $pagos['total'])) : 'R$ 0,00' ?></h3><span class="suave">em <?= (int) $pagos['n'] ?> pedidos pagos</span></div>
+  <div class="cartao"><h3><?= e(reais((int) $pagos['total'])) ?></h3><span class="suave">em <?= (int) $pagos['n'] ?> pedidos pagos</span></div>
   <div class="cartao"><h3><?= $pendentes ?></h3><span class="suave">Pix aguardando conferência · </span><a href="<?= e(url('admin_pedidos')) ?>">Conferir pagamentos</a></div>
 </div>
 
@@ -22,7 +22,11 @@ cabecalho('Administração');
     <label>Acompanhamento de um aluno (e-mail)<input name="email" type="email" required></label>
     <div><button class="btn sec">Ver acompanhamento</button></div>
   </form>
-  <a class="btn" href="<?= e(url('admin_particulares')) ?>">Aulas particulares</a>
+  <div class="acoes">
+    <a class="btn" href="<?= e(url('admin_alunos')) ?>">Alunos</a>
+    <a class="btn" href="<?= e(url('professores')) ?>">Professores</a>
+    <a class="btn" href="<?= e(url('admin_particulares')) ?>">Aulas particulares</a>
+  </div>
 </div>
 
 <h2>Cursos</h2>
@@ -46,7 +50,7 @@ cabecalho('Administração');
 <h2>Escolas</h2>
 <?php foreach ($orgs as $o): $lics = todos('SELECT l.vagas_total, c.titulo FROM licencas l JOIN cursos c ON c.id = l.curso_id WHERE l.org_id = ?', [$o['id']]); ?>
   <div class="cartao">
-    <div class="linha"><strong><?= e($o['nome']) ?></strong><a href="<?= e(url('escola', ['org' => $o['id']])) ?>">Abrir painel da escola</a></div>
+    <div class="linha"><strong><?= e($o['nome']) ?><?= $o['ativa'] ? '' : ' <span class="etiqueta">Inativa</span>' ?></strong><span class="acoes"><a href="<?= e(url('editar_escola', ['id' => $o['id']])) ?>">Editar cadastro</a> · <a href="<?= e(url('escola', ['org' => $o['id']])) ?>">Abrir painel da escola</a></span></div>
     <p class="pequeno suave"><?= (int) $o['n'] ?> pessoas<?= $o['documento'] ? ' · ' . e($o['documento']) : '' ?></p>
     <?php foreach ($lics as $l): ?><p class="pequeno">Licença: <?= e($l['titulo']) ?> — <?= (int) $l['vagas_total'] ?> vagas</p><?php endforeach ?>
   </div>

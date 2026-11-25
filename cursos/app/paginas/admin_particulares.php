@@ -8,8 +8,9 @@ $vinculos = todos(
      JOIN usuarios al ON al.id = p.aluno_id JOIN usuarios pr ON pr.id = p.professor_id ORDER BY p.ativo DESC, al.nome'
 );
 $aulas = todos(
-    'SELECT ap.*, al.nome AS aluno, pr.nome AS professor FROM aulas_particulares ap
+    'SELECT ap.*, al.nome AS aluno, pr.nome AS professor, pf.valor_hora_centavos, pf.chave_pix FROM aulas_particulares ap
      JOIN usuarios al ON al.id = ap.aluno_id JOIN usuarios pr ON pr.id = ap.professor_id
+     LEFT JOIN professores pf ON pf.usuario_id = ap.professor_id
      WHERE ap.chegada >= ? AND ap.chegada < ? ORDER BY ap.chegada DESC',
     [$ini, $fim]
 );
@@ -17,6 +18,8 @@ $porProf = [];
 foreach ($aulas as $a) {
     $p = &$porProf[$a['professor']];
     $p['total'] = ($p['total'] ?? 0) + 1;
+    $p['valor_hora'] = $a['valor_hora_centavos'];
+    $p['pix'] = $a['chave_pix'];
     $p[$a['status']] = ($p[$a['status']] ?? 0) + 1;
     if ($a['status'] === 'CONFIRMADA') $p['min'] = ($p['min'] ?? 0) + (int) round((strtotime($a['saida']) - strtotime($a['chegada'])) / 60);
     unset($p);
@@ -36,13 +39,17 @@ cabecalho('Aulas particulares — administração');
 <h2>Resumo de <?= e(date('m/Y', strtotime($ini))) ?> por professor</h2>
 <?php if (!$porProf): ?><p class="suave">Nenhuma aula neste mês.</p><?php else: ?>
 <div class="cartao tabela-rolagem"><table>
-  <thead><tr><th>Professor</th><th>Aulas</th><th>Confirmadas</th><th>Aguardando</th><th>Não confirmadas</th><th>Horas confirmadas</th></tr></thead>
+  <thead><tr><th>Professor</th><th>Aulas</th><th>Confirmadas</th><th>Aguardando</th><th>Não confirmadas</th><th>Horas confirmadas</th><th>Valor da hora</th><th>A pagar (horas confirmadas)</th></tr></thead>
   <tbody><?php foreach ($porProf as $nome => $p): ?>
     <tr><td><?= e($nome) ?></td><td><?= (int) $p['total'] ?></td><td><?= (int) ($p['CONFIRMADA'] ?? 0) ?></td><td><?= (int) ($p['AGUARDANDO'] ?? 0) + (int) ($p['EM_ANDAMENTO'] ?? 0) ?></td>
-      <td><?= (int) ($p['CONTESTADA'] ?? 0) ?></td><td><?= e($horas((int) ($p['min'] ?? 0))) ?></td></tr>
+      <td><?= (int) ($p['CONTESTADA'] ?? 0) ?></td><td><?= e($horas((int) ($p['min'] ?? 0))) ?></td>
+      <td><?= $p['valor_hora'] !== null ? e(reais((int) $p['valor_hora'])) : '<span class="suave pequeno">definir no perfil</span>' ?></td>
+      <td><?= $p['valor_hora'] !== null ? '<strong>' . e(reais((int) round(($p['min'] ?? 0) / 60 * $p['valor_hora']))) . '</strong>' . ($p['pix'] ? '<br><span class="suave pequeno">Pix: ' . e($p['pix']) . '</span>' : '') : '—' ?></td></tr>
   <?php endforeach ?></tbody>
 </table></div>
 <?php endif ?>
+
+<p class="pequeno suave">O valor a pagar considera só as aulas confirmadas pelo responsável, pela duração real (da chegada à saída).</p>
 
 <h2>Aulas do mês</h2>
 <?php if ($aulas): ?>

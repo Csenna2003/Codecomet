@@ -91,6 +91,25 @@ Clique no nome do aluno no painel da escola, nas correções ou nas aulas partic
 e-mail em **Administração**. Mostra cada curso aula por aula (com a data de conclusão), as entregas e notas,
 os certificados e todas as aulas particulares. O aluno vê o próprio em **Meu painel → Meu acompanhamento**.
 
+## Cadastros (alunos, escolas e professores)
+
+- **Alunos:** Administração → **Alunos**. Busca por nome ou e-mail e filtro por situação financeira.
+  Em **Editar** ficam dados pessoais, CPF, endereço (o CEP preenche o resto), responsável e o
+  **financeiro**: responsável financeiro, mensalidade, vencimento, forma de pagamento e situação.
+  O próprio aluno atualiza telefone, endereço e senha em **Meu painel → Meus dados**.
+- **Escolas:** Administração → **Editar cadastro** na escola (ou **Dados da escola** no painel dela).
+  A coordenação edita os dados de contato e endereço; o **contrato e o financeiro** só você vê e altera.
+  Desmarcar "Escola ativa" suspende o acesso de alunos e equipe pela escola.
+- **Professores:** Administração → **Professores**. Cadastre pelo e-mail; se a pessoa não tiver conta,
+  ela recebe um e-mail para criar a senha. No perfil: endereço, competências, disponibilidade
+  (dias × manhã/tarde/noite), CPF, chave Pix e **valor da hora-aula** (este só você altera).
+  A lista filtra por competência, dia e período. O professor preenche o próprio perfil em
+  **Meu painel → Meu perfil de professor**.
+- No resumo mensal das aulas particulares aparece o **valor a pagar** a cada professor
+  (horas confirmadas × valor da hora) e a chave Pix dele.
+
+CPFs e dados financeiros só aparecem para a administração da plataforma.
+
 ## E-mails automáticos
 
 A plataforma envia e-mails pelo próprio servidor da HostGator (sem contratar nada):

@@ -42,7 +42,7 @@ foreach ($licencas as $l) {
 $campoOrg = ['org_id' => $orgId];
 cabecalho('Escola');
 ?>
-<h1><?= e($orgNome) ?></h1>
+<div class="linha"><h1><?= e($orgNome) ?></h1><a class="btn sec mini" href="<?= e(url('editar_escola', ['id' => $orgId])) ?>">Dados da escola</a></div>
 <?php if (count($orgs) > 1): ?>
   <p class="pequeno">Trocar de escola:
   <?php foreach ($orgs as $id => $nome) if ($id !== $orgId): ?><a href="<?= e(url('escola', ['org' => $id])) ?>" style="margin-right:.75rem"><?= e($nome) ?></a><?php endif ?>

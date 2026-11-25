@@ -41,6 +41,25 @@
     b.addEventListener('click', function () { window.print(); });
   });
 
+  // CEP: preenche rua, bairro, cidade e UF pelo ViaCEP (serviço público e gratuito).
+  document.querySelectorAll('input[data-cep]').forEach(function (campo) {
+    campo.addEventListener('blur', function () {
+      var cep = campo.value.replace(/\D/g, '');
+      if (cep.length !== 8 || !window.fetch) return;
+      var grupo = campo.closest('fieldset') || document;
+      fetch('https://viacep.com.br/ws/' + cep + '/json/').then(function (r) { return r.json(); }).then(function (d) {
+        if (d.erro) return;
+        campo.value = cep.slice(0, 5) + '-' + cep.slice(5);
+        grupo.querySelectorAll('[data-end]').forEach(function (el) {
+          var v = d[el.getAttribute('data-end')];
+          if (v && !el.value) el.value = v;
+        });
+        var rua = grupo.querySelector('[data-end="logradouro"]');
+        if (rua && d.logradouro && rua.value === d.logradouro) { rua.value = d.logradouro + ', '; rua.focus(); }
+      }).catch(function () {});
+    });
+  });
+
   // QR Code do Pix, desenhado no próprio navegador (assets/qrcode.js).
   document.querySelectorAll('[data-qr]').forEach(function (el) {
     if (typeof qrcode !== 'function') return;

@@ -2,7 +2,8 @@
 $u = exigir_usuario();
 $acessos = todos(
     "SELECT a.*, o.nome AS org_nome FROM acessos a LEFT JOIN organizacoes o ON o.id = a.org_id
-     WHERE a.usuario_id = ? AND a.status = 'ATIVO' AND (a.fim IS NULL OR a.fim > ?) ORDER BY a.inicio",
+     WHERE a.usuario_id = ? AND a.status = 'ATIVO' AND (a.fim IS NULL OR a.fim > ?)
+       AND NOT (a.origem = 'LICENCA_ESCOLA' AND o.ativa = 0) ORDER BY a.inicio",
     [$u['id'], agora()]
 );
 $certificados = todos('SELECT ce.*, c.titulo FROM certificados ce JOIN cursos c ON c.id = ce.curso_id WHERE ce.usuario_id = ? ORDER BY ce.emitido_em', [$u['id']]);
@@ -16,7 +17,7 @@ $ajustes = todos(
 $pedidos = todos("SELECT p.*, c.titulo FROM pedidos p JOIN cursos c ON c.id = p.curso_id WHERE p.usuario_id = ? AND p.status = 'PENDENTE' AND p.valor_centavos > 0", [$u['id']]);
 cabecalho('Meu painel');
 ?>
-<div class="linha"><h1>Olá, <?= e(explode(' ', $u['nome'])[0]) ?>!</h1><a class="btn sec mini" href="<?= e(url('aluno')) ?>">Meu acompanhamento</a></div>
+<div class="linha"><h1>Olá, <?= e(explode(' ', $u['nome'])[0]) ?>!</h1><span class="acoes"><a class="btn sec mini" href="<?= e(url('aluno')) ?>">Meu acompanhamento</a><a class="btn sec mini" href="<?= e(url('meus_dados')) ?>">Meus dados</a><?php if (eh_professor_cadastrado($u)): ?><a class="btn sec mini" href="<?= e(url('perfil_professor')) ?>">Meu perfil de professor</a><?php endif ?></span></div>
 
 <?php foreach ($ajustes as $e): ?>
   <p class="aviso alerta">Seu professor pediu um ajuste em <strong><?= e($e['titulo']) ?></strong>. <a href="<?= e(url('aula', ['id' => $e['aula_id']])) ?>">Ver o comentário e reenviar</a></p>

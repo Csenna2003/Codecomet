@@ -45,6 +45,8 @@ function acesso_ativo(string $uid, string $cursoId): ?array
     $a = um('SELECT * FROM acessos WHERE usuario_id = ? AND curso_id = ?', [$uid, $cursoId]);
     if (!$a || $a['status'] !== 'ATIVO') return null;
     if ($a['fim'] && strtotime($a['fim']) < time()) return null;
+    // Escola desativada: os acessos que vieram da licença dela ficam suspensos.
+    if ($a['origem'] === 'LICENCA_ESCOLA' && $a['org_id'] && !valor('SELECT ativa FROM organizacoes WHERE id = ?', [$a['org_id']])) return null;
     return $a;
 }
 

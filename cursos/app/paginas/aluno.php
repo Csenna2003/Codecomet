@@ -36,7 +36,8 @@ $minutos = array_sum(array_map(fn($a) => (int) round((strtotime($a['saida']) - s
 
 cabecalho('Acompanhamento — ' . $al['nome']);
 ?>
-<h1><?= $proprio ? 'Meu acompanhamento' : 'Acompanhamento: ' . e($al['nome']) ?></h1>
+<div class="linha"><h1><?= $proprio ? 'Meu acompanhamento' : 'Acompanhamento: ' . e($al['nome']) ?></h1>
+<?php if (eh_admin($u)): ?><a class="btn sec mini" href="<?= e(url('editar_aluno', ['id' => $alunoId])) ?>">Editar cadastro</a><?php elseif ($proprio): ?><a class="btn sec mini" href="<?= e(url('meus_dados')) ?>">Meus dados</a><?php endif ?></div>
 <div class="cartao">
   <dl class="dados">
     <dt>Aluno</dt><dd><?= e($al['nome']) ?> <span class="suave pequeno">(<?= e($al['email']) ?>)</span></dd>

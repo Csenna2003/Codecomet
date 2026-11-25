@@ -135,3 +135,7 @@ fieldset.pilha { display: grid; gap: .75rem; }
 dl.dados { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: 0 0 1rem; }
 dl.dados dt { color: var(--suave); }
 dl.dados dd { margin: 0; }
+.grade-marcas { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .1rem 1rem; }
+table.disponibilidade { width: auto; }
+table.disponibilidade td { text-align: center; }
+table.disponibilidade th, table.disponibilidade td { padding: .35rem .8rem; }

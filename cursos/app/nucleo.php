@@ -123,6 +123,12 @@ function brl(int $centavos): string
     return $centavos === 0 ? 'Gratuito' : 'R$ ' . number_format($centavos / 100, 2, ',', '.');
 }
 
+/** Sempre em reais, mesmo quando zero (para valores a pagar e mensalidades). */
+function reais(int $centavos): string
+{
+    return 'R$ ' . number_format($centavos / 100, 2, ',', '.');
+}
+
 function data_br(?string $d): string
 {
     return $d ? date('d/m/Y', strtotime($d)) : '';
