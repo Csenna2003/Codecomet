@@ -8,6 +8,6 @@ cabecalho('Entrar', true);
   <label>Senha<input name="senha" type="password" autocomplete="current-password" required></label>
   <button class="btn">Entrar</button>
 </form>
-<p class="suave pequeno">Esqueceu a senha? Peça um link de nova senha ao seu professor ou à nossa equipe.</p>
+<p><a href="<?= e(url('esqueci')) ?>">Esqueci minha senha</a></p>
 <p>Ainda não tem conta? <a href="<?= e(url('cadastro')) ?>">Criar conta</a></p>
 <?php rodape();

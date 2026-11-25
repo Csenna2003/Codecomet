@@ -83,6 +83,20 @@ cabecalho('Administração');
 </form>
 <?php endif ?>
 
+<h2>E-mails enviados</h2>
+<?php $emails = todos('SELECT * FROM emails_log ORDER BY id DESC LIMIT 15'); ?>
+<p class="suave pequeno">A plataforma envia e-mails de boas-vindas, nova senha, correções, pagamentos e certificados. Remetente: <strong><?= e(remetente_email()) ?></strong>.</p>
+<?= botao_acao('testar_email', 'Enviar um e-mail de teste para mim', [], 'btn sec') ?>
+<?php if ($emails): ?>
+<div class="cartao tabela-rolagem" style="margin-top:1rem"><table>
+  <thead><tr><th>Quando</th><th>Para</th><th>Assunto</th><th>Situação</th></tr></thead>
+  <tbody><?php foreach ($emails as $m): ?>
+    <tr><td><?= e(date('d/m H:i', strtotime($m['criado_em']))) ?></td><td><?= e($m['para']) ?></td><td><?= e($m['assunto']) ?></td>
+      <td><?= $m['enviado'] ? '<span class="etiqueta ok">Entregue ao servidor</span>' : '<span class="etiqueta erro">Recusado</span>' ?></td></tr>
+  <?php endforeach ?></tbody>
+</table></div>
+<?php endif ?>
+
 <h2>Nova senha para um usuário</h2>
 <?= abrir_form('gerar_link_senha', 'cartao campos') ?>
   <label>E-mail da conta<input name="email" type="email" required></label>

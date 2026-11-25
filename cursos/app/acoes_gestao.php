@@ -221,7 +221,24 @@ function acao_confirmar_pagamento(): void
     if (!$p) voltar('erro', 'Este pedido não está mais pendente.', 'admin_pedidos');
     confirmar_pedido($id, 'pix-manual');
     auditar($admin['id'], null, 'pedido.confirmado', 'Pedido', $id, ['valor' => (int) $p['valor_centavos']]);
+    $al = um('SELECT u.nome, u.email, c.titulo, c.slug FROM usuarios u JOIN cursos c ON c.id = ? WHERE u.id = ?', [$p['curso_id'], $p['usuario_id']]);
+    if ($al) {
+        enviar_email($al['email'], 'Pagamento confirmado: ' . $al['titulo'],
+            'Olá, ' . explode(' ', $al['nome'])[0] . "!\n\nRecebemos o seu Pix de " . brl((int) $p['valor_centavos']) . " e o curso {$al['titulo']} já está liberado. Bons estudos!",
+            'Começar o curso', url_absoluta('curso', ['slug' => $al['slug']]));
+    }
     voltar('ok', 'Pagamento confirmado e curso liberado para o aluno.', 'admin_pedidos');
+}
+
+function acao_testar_email(): void
+{
+    $u = exigir_admin();
+    $ok = enviar_email($u['email'], 'Teste de e-mail — ' . nome_site(),
+        "Se você recebeu esta mensagem, o envio de e-mails da plataforma está funcionando.\n\nRemetente usado: " . remetente_email(),
+        'Abrir a plataforma', url_absoluta('admin'));
+    voltar($ok ? 'ok' : 'erro', $ok
+        ? "E-mail de teste enviado para {$u['email']}. Confira a caixa de entrada e a de spam."
+        : 'A hospedagem recusou o envio. Confira em cPanel → Contas de e-mail se o envio está habilitado.', 'admin');
 }
 
 function acao_cancelar_pedido(): void

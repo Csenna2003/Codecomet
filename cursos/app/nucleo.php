@@ -229,9 +229,15 @@ function https(): bool
 /** Endereço completo da pasta da plataforma, para links enviados a usuários. */
 function url_absoluta(string $rota, array $p = []): string
 {
+    return url_base() . url($rota, $p);
+}
+
+/** Endereço completo da pasta da plataforma, terminado em "/". */
+function url_base(): string
+{
     $pasta = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    return (https() ? 'https' : 'http') . '://' . $host . $pasta . '/' . url($rota, $p);
+    return (https() ? 'https' : 'http') . '://' . $host . $pasta . '/';
 }
 
 function auditar(?string $ator, ?string $org, string $acao, string $tipo, string $alvo, array $dados = []): void

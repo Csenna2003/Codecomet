@@ -91,6 +91,20 @@ Clique no nome do aluno no painel da escola, nas correções ou nas aulas partic
 e-mail em **Administração**. Mostra cada curso aula por aula (com a data de conclusão), as entregas e notas,
 os certificados e todas as aulas particulares. O aluno vê o próprio em **Meu painel → Meu acompanhamento**.
 
+## E-mails automáticos
+
+A plataforma envia e-mails pelo próprio servidor da HostGator (sem contratar nada):
+boas-vindas no cadastro (e aviso ao responsável, se o aluno for menor), "Esqueci minha senha",
+correção de entrega, pagamento confirmado, certificado emitido, aviso de Pix para você conferir
+e o link de confirmação da aula particular (se o responsável tiver e-mail cadastrado).
+
+- Remetente: `nao-responda@` o seu domínio. Para os e-mails não caírem no spam, crie essa conta em
+  **cPanel → Contas de e-mail** (ex.: `nao-responda@adororobotica.com.br`).
+- Para usar outro remetente, acrescente no `config.php` a linha
+  `'email_remetente' => 'contato@adororobotica.com.br',` antes do último `];`.
+- **Administração → E-mails enviados** mostra os últimos envios e tem o botão
+  **Enviar um e-mail de teste para mim**.
+
 ## Mudar o Pix ou o nome da plataforma depois
 
 No Gerenciador de arquivos, abra `public_html/cursos/config.php` → **Editar** e altere as
@@ -114,7 +128,6 @@ Você confere no extrato e clica em **Confirmar recebimento**; o curso libera na
 
 ## O que ainda não existe
 
-- Envio de e-mails (recuperação de senha é por link gerado pelo admin ou pela escola)
 - Confirmação automática do Pix e cartão de crédito (exigiriam contratar um serviço de cobrança)
 - Upload de arquivos nas entregas (o aluno envia link do simulador, código ou link de vídeo)
 - Editar ou reordenar aulas já criadas (dá para criar e excluir)

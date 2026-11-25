@@ -279,6 +279,14 @@ function esquema_sql(): array
             FOREIGN KEY (aluno_id) REFERENCES usuarios(id) ON DELETE CASCADE,
             FOREIGN KEY (professor_id) REFERENCES usuarios(id) ON DELETE CASCADE
         ) $t",
+        "CREATE TABLE IF NOT EXISTS emails_log (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            para VARCHAR(190) NOT NULL,
+            assunto VARCHAR(200) NOT NULL,
+            enviado TINYINT(1) NOT NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (criado_em)
+        ) $t",
         "CREATE TABLE IF NOT EXISTS auditoria (
             id BIGINT AUTO_INCREMENT PRIMARY KEY,
             ator_id CHAR(20) NULL,

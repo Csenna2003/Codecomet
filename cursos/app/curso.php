@@ -142,7 +142,14 @@ function verificar_certificado(string $uid, string $cursoId): ?array
             $curso['versao'], $curso['carga_horaria'], agora()]
     );
     auditar($uid, $acesso['org_id'] ?? null, 'certificado.emitido', 'Certificado', $id);
-    return um('SELECT * FROM certificados WHERE usuario_id = ? AND curso_id = ?', [$uid, $cursoId]);
+    $cert = um('SELECT * FROM certificados WHERE usuario_id = ? AND curso_id = ?', [$uid, $cursoId]);
+    $al = um('SELECT nome, email FROM usuarios WHERE id = ?', [$uid]);
+    if ($cert && $al && function_exists('enviar_email')) {
+        enviar_email($al['email'], 'Parabéns! Seu certificado de ' . $curso['titulo'],
+            'Olá, ' . explode(' ', $al['nome'])[0] . "!\n\nVocê concluiu o curso {$curso['titulo']} e o seu certificado já está disponível. Ele tem um código de verificação ({$cert['codigo']}) que qualquer pessoa pode conferir.",
+            'Ver o certificado', url_absoluta('certificado', ['codigo' => $cert['codigo']]));
+    }
+    return $cert;
 }
 
 /**

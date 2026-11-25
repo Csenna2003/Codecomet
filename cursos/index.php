@@ -12,6 +12,7 @@ require __DIR__ . '/app/layout.php';
 require __DIR__ . '/app/acoes.php';
 require __DIR__ . '/app/acoes_gestao.php';
 require __DIR__ . '/app/particular.php';
+require __DIR__ . '/app/email.php';
 require __DIR__ . '/app/esquema.php';
 
 header('X-Frame-Options: SAMEORIGIN');
@@ -29,7 +30,7 @@ iniciar_sessao();
  * Após enviar uma versão nova dos arquivos, cria as tabelas que faltarem.
  * Feito uma vez por sessão; os comandos só criam o que não existe.
  */
-const VERSAO_ESQUEMA = 2;
+const VERSAO_ESQUEMA = 3;
 if (($_SESSION['esquema'] ?? 0) !== VERSAO_ESQUEMA) {
     if (!valor("SHOW TABLES LIKE 'usuarios'")) {
         header('Location: instalar.php');
@@ -42,7 +43,7 @@ if (($_SESSION['esquema'] ?? 0) !== VERSAO_ESQUEMA) {
 const ROTAS = [
     'inicio', 'entrar', 'cadastro', 'painel', 'curso', 'aula', 'pedido', 'certificado', 'redefinir',
     'professor', 'entrega', 'escola', 'admin', 'admin_curso', 'admin_pedidos',
-    'aluno', 'particulares', 'particular_aula', 'confirmar', 'admin_particulares',
+    'aluno', 'particulares', 'particular_aula', 'confirmar', 'admin_particulares', 'esqueci',
 ];
 
 try {

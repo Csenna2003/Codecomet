@@ -66,7 +66,7 @@ function mensagem_whatsapp(array $a, string $link): string
 {
     return "Olá, {$a['responsavel_nome']}! A aula particular de {$a['aluno_nome']} com {$a['professor_nome']} em "
         . data_br($a['chegada']) . ' foi registrada (chegada ' . hora($a['chegada']) . ', saída ' . hora($a['saida']) . ").\n"
-        . "Veja o conteúdo da aula e confirme por este link: $link";
+        . ($link !== '' ? "Veja o conteúdo da aula e confirme por este link: $link" : 'Veja o conteúdo da aula e confirme pelo botão abaixo.');
 }
 
 function carregar_aula_particular(string $id): ?array
@@ -103,7 +103,11 @@ function acao_criar_vinculo(): void
         q('INSERT INTO usuarios (id, nome, email, senha_hash, responsavel_nome, criado_em) VALUES (?,?,?,?,?,?)',
             [$id, $nomeAluno, $emailAluno, password_hash(bin2hex(random_bytes(16)), PASSWORD_DEFAULT), $respNome, agora()]);
         $aluno = ['id' => $id];
-        $msgConta = ' Conta do aluno criada. Para ele acessar a plataforma, gere um link de nova senha em Administração.';
+        $link = criar_link_senha($id, $admin['id']);
+        $foi = enviar_email($emailAluno, 'Sua conta na ' . nome_site(),
+            "Olá!\n\nCriamos uma conta para $nomeAluno na plataforma " . nome_site() . ", onde ficam registradas as aulas particulares e o acompanhamento.\n\nPara entrar, crie uma senha pelo botão abaixo. O link vale por 24 horas; depois disso, use \"Esqueci minha senha\" na tela de entrada.",
+            'Criar minha senha', $link);
+        $msgConta = $foi ? ' Conta do aluno criada e e-mail enviado para ele criar a senha.' : ' Conta do aluno criada. Para ele acessar, gere um link de nova senha em Administração.';
     }
     if ($aluno['id'] === $prof['id']) $falha('O aluno e o professor precisam ser pessoas diferentes.');
     $existe = um('SELECT id FROM particulares WHERE aluno_id = ? AND professor_id = ?', [$aluno['id'], $prof['id']]);
@@ -160,8 +164,15 @@ function acao_finalizar_aula_particular(): void
     if (mb_strlen($conteudo) > 5000 || mb_strlen(post('observacoes')) > 2000) voltar('erro', 'Texto muito longo.', 'particulares');
     q("UPDATE aulas_particulares SET saida = ?, conteudo = ?, observacoes = ?, status = 'AGUARDANDO' WHERE id = ? AND status = 'EM_ANDAMENTO'",
         [agora(), $conteudo, post('observacoes') ?: null, $a['id']]);
-    $_SESSION['link_confirmacao'][$a['id']] = novo_link_confirmacao($a['id']);
+    $link = novo_link_confirmacao($a['id']);
+    $_SESSION['link_confirmacao'][$a['id']] = $link;
     auditar($u['id'], null, 'particular.finalizada', 'AulaParticular', $a['id']);
+    // Se o responsável tem e-mail cadastrado, o link vai também por e-mail.
+    $resp = um('SELECT responsavel_email FROM usuarios WHERE id = ?', [$a['aluno_id']]);
+    $det = carregar_aula_particular($a['id']);
+    if ($det && !empty($resp['responsavel_email'])) {
+        enviar_email($resp['responsavel_email'], 'Confirme a aula de ' . $det['aluno_nome'] . ' em ' . data_br($det['chegada']), mensagem_whatsapp($det, ''), 'Ver a aula e confirmar', $link);
+    }
     voltar('ok', 'Aula finalizada. Agora envie o link de confirmação para o responsável.', 'particular_aula', ['id' => $a['id']]);
 }
 

@@ -57,6 +57,15 @@ function acao_cadastrar(): void
     );
     unset($_SESSION['form_cadastro']);
     entrar_como(um('SELECT * FROM usuarios WHERE id = ?', [$id]));
+    $primeiro = explode(' ', $nome)[0];
+    enviar_email($email, 'Bem-vindo(a) à ' . nome_site() . '!',
+        "Olá, $primeiro!\n\nSua conta foi criada com o e-mail $email. Para entrar de novo, use este e-mail e a senha que você escolheu.\n\nSe esquecer a senha, use a opção \"Esqueci minha senha\" na tela de entrada.",
+        'Acessar a plataforma', url_absoluta('painel'));
+    if ($menor) {
+        enviar_email($respEmail, 'Cadastro de ' . $primeiro . ' na ' . nome_site(),
+            "Olá, $respNome!\n\n$nome criou uma conta na plataforma de cursos " . nome_site() . " com o e-mail $email, informando você como responsável e com a sua autorização.\n\nSe você não reconhece este cadastro, responda para a escola ou fale com a nossa equipe.",
+            'Conhecer a plataforma', url_absoluta('inicio'));
+    }
 
     if ($codigo !== '') {
         $r = usar_convite($id, $codigo);
@@ -114,14 +123,47 @@ function acao_gerar_link_senha(): void
         }
         $link = criar_link_senha($m['id'], $u['id']);
         auditar($u['id'], $orgId, 'senha.link_gerado', 'Usuario', $m['id']);
-        voltar('ok', "Envie este link para {$m['nome']} (vale por 24 horas, um único uso): $link", 'escola', ['org' => $orgId]);
+        $foi = email_link_senha($m['id'], $link);
+        voltar('ok', ($foi ? "Enviamos o link por e-mail para {$m['nome']}. " : '') . "Se preferir, envie você mesmo (vale por 24 horas, um único uso): $link", 'escola', ['org' => $orgId]);
     }
     if (!eh_admin($u)) ir('painel');
     $alvo = um('SELECT id, nome FROM usuarios WHERE email = ?', [strtolower(post('email'))]);
     if (!$alvo) voltar('erro', 'Nenhuma conta com este e-mail.', 'admin');
     $link = criar_link_senha($alvo['id'], $u['id']);
     auditar($u['id'], null, 'senha.link_gerado', 'Usuario', $alvo['id']);
-    voltar('ok', "Envie este link para {$alvo['nome']} (vale por 24 horas, um único uso): $link", 'admin');
+    $foi = email_link_senha($alvo['id'], $link);
+    voltar('ok', ($foi ? "Enviamos o link por e-mail para {$alvo['nome']}. " : '') . "Se preferir, envie você mesmo (vale por 24 horas, um único uso): $link", 'admin');
+}
+
+/** "Esqueci minha senha": envia o link por e-mail. A resposta é a mesma exista ou não a conta. */
+function acao_esqueci_senha(): void
+{
+    $email = strtolower(post('email'));
+    $msg = 'Se houver uma conta com este e-mail, enviamos um link para criar uma nova senha. Confira também a caixa de spam.';
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) voltar('erro', 'Informe um e-mail válido.', 'esqueci');
+    $chave = "senha:$email";
+    $ip = 'senha-ip:' . ($_SERVER['REMOTE_ADDR'] ?? '');
+    $desde = date('Y-m-d H:i:s', time() - 3600);
+    $porEmail = (int) valor('SELECT COUNT(*) FROM tentativas_login WHERE chave = ? AND criado_em > ?', [$chave, $desde]);
+    $porIp = (int) valor('SELECT COUNT(*) FROM tentativas_login WHERE chave = ? AND criado_em > ?', [$ip, $desde]);
+    if ($porEmail >= 3 || $porIp >= 10) voltar('ok', $msg, 'entrar');
+    q('INSERT INTO tentativas_login (chave, criado_em) VALUES (?,?), (?,?)', [$chave, agora(), $ip, agora()]);
+    $u = um('SELECT id, nome FROM usuarios WHERE email = ?', [$email]);
+    if ($u) {
+        $link = criar_link_senha($u['id'], $u['id']);
+        enviar_email($email, 'Criar nova senha — ' . nome_site(),
+            'Olá, ' . explode(' ', $u['nome'])[0] . "!\n\nRecebemos um pedido para criar uma nova senha. O link vale por 24 horas e pode ser usado uma vez.\n\nSe não foi você, ignore este e-mail: sua senha atual continua valendo.",
+            'Criar nova senha', $link);
+    }
+    voltar('ok', $msg, 'entrar');
+}
+
+function email_link_senha(string $uid, string $link): bool
+{
+    $al = um('SELECT nome, email FROM usuarios WHERE id = ?', [$uid]);
+    return $al && enviar_email($al['email'], 'Criar nova senha — ' . nome_site(),
+        'Olá, ' . explode(' ', $al['nome'])[0] . "!\n\nA equipe da escola gerou um link para você criar uma nova senha. Ele vale por 24 horas e pode ser usado uma vez.",
+        'Criar nova senha', $link);
 }
 
 function acao_redefinir_senha(): void
@@ -171,8 +213,16 @@ function acao_avisar_pagamento(): void
 {
     $u = exigir_usuario();
     $id = post('pedido_id');
-    q("UPDATE pedidos SET avisou_pago_em = ? WHERE id = ? AND usuario_id = ? AND status = 'PENDENTE' AND avisou_pago_em IS NULL",
-        [agora(), $id, $u['id']]);
+    $mudou = q("UPDATE pedidos SET avisou_pago_em = ? WHERE id = ? AND usuario_id = ? AND status = 'PENDENTE' AND avisou_pago_em IS NULL",
+        [agora(), $id, $u['id']])->rowCount();
+    if ($mudou) {
+        $p = um('SELECT p.valor_centavos, c.titulo FROM pedidos p JOIN cursos c ON c.id = p.curso_id WHERE p.id = ?', [$id]);
+        foreach (emails_admins() as $adm) {
+            enviar_email($adm, 'Pix para conferir: ' . brl((int) $p['valor_centavos']) . ' — ' . $u['nome'],
+                "{$u['nome']} ({$u['email']}) avisou que pagou o Pix de " . brl((int) $p['valor_centavos']) . " do curso {$p['titulo']}.\n\nIdentificador no extrato: $id\n\nConfira no extrato do banco e confirme o recebimento para liberar o curso.",
+                'Conferir pagamentos', url_absoluta('admin_pedidos'));
+        }
+    }
     ir('pedido', ['id' => $id]);
 }
 
@@ -284,6 +334,13 @@ function acao_revisar_entrega(): void
     q('INSERT INTO revisoes (id, entrega_id, revisor_id, decisao, nota, comentario, criterios, criado_em) VALUES (?,?,?,?,?,?,?,?)',
         [novo_id(), $e['id'], $u['id'], $decisao, $nota, $comentario, json_encode($criterios, JSON_UNESCAPED_UNICODE), agora()]);
     auditar($u['id'], $e['org_id'], 'entrega.' . strtolower($decisao), 'Entrega', $e['id'], ['nota' => $nota]);
+    $al = um('SELECT u.nome, u.email, a.titulo, a.id AS aula_id FROM usuarios u, exercicios x JOIN aulas a ON a.id = x.aula_id WHERE u.id = ? AND x.id = ?', [$e['usuario_id'], $e['exercicio_id']]);
+    if ($al) {
+        enviar_email($al['email'], ($decisao === 'APROVADA' ? 'Entrega aprovada: ' : 'Ajuste pedido: ') . $al['titulo'],
+            'Olá, ' . explode(' ', $al['nome'])[0] . "!\n\nSua entrega em \"{$al['titulo']}\" foi corrigida: " . ($decisao === 'APROVADA' ? 'aprovada' : 'o professor pediu um ajuste') . " (nota $nota de $max)."
+            . ($comentario !== '' ? "\n\nComentário do professor: $comentario" : ''),
+            'Ver a correção', url_absoluta('aula', ['id' => $al['aula_id']]));
+    }
     if ($decisao === 'APROVADA') verificar_certificado($e['usuario_id'], $e['curso_id']);
     voltar('ok', 'Correção registrada.', 'professor');
 }
