@@ -128,6 +128,14 @@
     });
   });
 
+  // Simuladores da plataforma avisam a própria altura, para o quadro crescer junto (sem rolagem dupla no celular).
+  window.addEventListener('message', function (ev) {
+    if (ev.origin !== location.origin || !ev.data || typeof ev.data.alturaSimulador !== 'number') return;
+    document.querySelectorAll('iframe[data-sim-interno]').forEach(function (f) {
+      if (f.contentWindow === ev.source) f.style.height = Math.min(Math.max(ev.data.alturaSimulador, 300), 3000) + 'px';
+    });
+  });
+
   // QR Code do Pix, desenhado no próprio navegador (assets/qrcode.js).
   document.querySelectorAll('[data-qr]').forEach(function (el) {
     if (typeof qrcode !== 'function') return;

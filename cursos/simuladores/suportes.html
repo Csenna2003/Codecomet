@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suportes e posição de impressão</title>
+<link rel="stylesheet" href="comum.css">
+</head>
+<body>
+<div class="sim">
+  <div class="palco" style="height:420px">
+    <canvas id="tela" aria-label="Vista lateral da peça sendo impressa camada por camada"></canvas>
+    <span class="dica-palco">Vista de lado. Cada faixa representa algumas camadas.</span>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Peça</h2>
+      <div class="campo"><label for="peca">Escolha</label><select id="peca" style="grid-column:1/-1">
+        <option value="rampa">Parede inclinada (balanço)</option>
+        <option value="t">Letra T</option>
+        <option value="furo">Furo deitado (horizontal)</option></select></div>
+      <div id="op-rampa">
+        <div class="campo"><label for="ang">Inclinação em relação à vertical (°)</label><input type="number" id="ang" min="0" max="70" step="5" value="20"><input type="range"></div>
+      </div>
+      <div id="op-t" hidden>
+        <div class="campo"><label for="pos">Posição na mesa</label><select id="pos" style="grid-column:1/-1"><option value="pe">Em pé (como a letra é lida)</option><option value="deitada">Deitada (de costas na mesa)</option></select></div>
+      </div>
+      <div id="op-furo" hidden>
+        <div class="campo"><label for="dfuro">Diâmetro do furo (mm)</label><input type="number" id="dfuro" min="4" max="20" step="1" value="14"><input type="range"></div>
+        <div class="campo"><label for="forma">Formato</label><select id="forma" style="grid-column:1/-1"><option value="redondo">Redondo</option><option value="gota">Gota (ponta para cima)</option></select></div>
+      </div>
+      <p style="margin:8px 0 0"><label><input type="checkbox" id="suporte"> Ativar suportes no fatiador</label></p>
+    </div>
+    <div class="caixa">
+      <h2>Resultado</h2>
+      <p style="margin:0" id="resultado"></p>
+      <p class="pequeno" id="detalhe" style="margin:4px 0 0"></p>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var larg = 600, alt = 420, desafios, estado = {};
+  var peca = document.getElementById('peca'), pos = document.getElementById('pos'), forma = document.getElementById('forma'), suporte = document.getElementById('suporte');
+  var ang = Sim.campo('ang', atualizar), dfuro = Sim.campo('dfuro', atualizar);
+  [peca, pos, forma, suporte].forEach(function (el) { el.addEventListener('change', atualizar); });
+  var ctx = Sim.canvas(document.getElementById('tela'), function (w, h) { larg = w; alt = h; desenhar(); });
+  var COR = { ok: '#2b8fd6', risco: '#e0a526', cai: '#d9534f', sup: '#b8c2cf' };
+
+  function avaliar() {
+    var p = peca.value, s = suporte.checked;
+    if (p === 'rampa') {
+      var a = ang.valor();
+      var nivel = a <= 45 ? 'ok' : a <= 55 ? 'risco' : 'cai';
+      return { p: p, a: a, nivel: s && nivel !== 'ok' ? 'apoiado' : nivel,
+        texto: nivel === 'ok' ? 'Imprime bem sem suporte.' : nivel === 'risco' ? 'No limite: imprime, mas a face de baixo fica feia.' : 'Cada camada fica sem apoio e cai.',
+        detalhe: 'Cada camada de 0,2 mm avança ' + Sim.num(0.2 * Math.tan(a * Math.PI / 180), 2) + ' mm além da de baixo.' };
+    }
+    if (p === 't') {
+      var pe = pos.value === 'pe';
+      return { p: p, pe: pe, nivel: pe ? (s ? 'apoiado' : 'cai') : 'ok',
+        texto: pe ? 'Os braços do T ficam no ar (balanço de 90°): precisa de suporte. E as camadas atravessam os braços: eles quebram fácil.'
+                  : 'Nenhuma parte no ar: sem suporte. As camadas correm ao longo dos braços: ficam fortes.',
+        detalhe: pe ? 'Força nos braços: fraca (a peça é mais fraca entre camadas).' : 'Força nos braços: forte.' };
+    }
+    var d = dfuro.valor(), gota = forma.value === 'gota';
+    var nivel2 = gota || d <= 8 ? 'ok' : d <= 10 ? 'risco' : 'cai';
+    return { p: p, d: d, gota: gota, nivel: s && nivel2 !== 'ok' ? 'apoiado' : nivel2,
+      texto: gota ? 'A ponta da gota tem 45°: o "teto" do furo se sustenta sozinho.' : nivel2 === 'ok' ? 'Furo pequeno: o teto fecha bem.' : nivel2 === 'risco' ? 'O teto do furo fica um pouco caído.' : 'O teto do furo cai: o furo sai deformado e menor.',
+      detalhe: 'Suporte dentro de furo pequeno é difícil de tirar: prefira o formato de gota.' };
+  }
+  function atualizar() {
+    document.getElementById('op-rampa').hidden = peca.value !== 'rampa';
+    document.getElementById('op-t').hidden = peca.value !== 't';
+    document.getElementById('op-furo').hidden = peca.value !== 'furo';
+    estado = avaliar();
+    var rot = { ok: ['Sem suporte', 'ok'], risco: ['No limite', 'alerta'], cai: ['Precisa de suporte', 'erro'], apoiado: ['Com suporte', 'alerta'] }[estado.nivel];
+    document.getElementById('resultado').innerHTML = '<span class="selo ' + rot[1] + '">' + rot[0] + '</span> ' + estado.texto;
+    document.getElementById('detalhe').textContent = estado.detalhe;
+    desenhar();
+    if (desafios) desafios.verificar();
+  }
+
+  function desenhar() {
+    if (!ctx || !estado.p) return;
+    ctx.clearRect(0, 0, larg, alt); ctx.fillStyle = '#fbfdff'; ctx.fillRect(0, 0, larg, alt);
+    var mesa = alt - 40, esc = Math.min(larg / 90, (alt - 80) / 45);
+    ctx.fillStyle = '#5b6578'; ctx.fillRect(0, mesa, larg, 8);
+    ctx.fillStyle = '#5b6578'; ctx.font = '12px system-ui'; ctx.fillText('mesa da impressora', 10, mesa + 24);
+    var cx = larg / 2, s = suporte.checked;
+    function faixa(x, y, w, h, cor) { ctx.fillStyle = cor; ctx.fillRect(x, y, w, h); ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1; ctx.strokeRect(x, y, w, h); }
+    function sup(x, y, w, h) {
+      ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+      ctx.fillStyle = '#e7ebf0'; ctx.fillRect(x, y, w, h); ctx.strokeStyle = COR.sup; ctx.lineWidth = 1.5;
+      for (var k = -h; k < w; k += 6) { ctx.beginPath(); ctx.moveTo(x + k, y + h); ctx.lineTo(x + k + h, y); ctx.stroke(); }
+      ctx.restore();
+    }
+    if (estado.p === 'rampa') {
+      // escala fixa que cabe até 70° (20 mm de altura, até 55 mm para o lado)
+      var H = 20, e2 = Math.min((mesa - 40) / H, (larg - 60) / (10 + H * Math.tan(70 * Math.PI / 180)));
+      var a = estado.a, passo = 1, n = H / passo, w = 10 * e2, tg = Math.tan(a * Math.PI / 180), x0 = 30;
+      var nivel = a <= 45 ? 'ok' : a <= 55 ? 'risco' : 'cai', st = passo * tg * e2, bh = passo * e2;
+      // suporte: só embaixo da parte de cada camada que passa da camada de baixo
+      if (s && nivel !== 'ok') for (var i = 1; i < n; i++) sup(x0 + (i - 1) * st + w, mesa - i * bh, st, i * bh);
+      for (var i2 = 0; i2 < n; i2++) {
+        var desloc = nivel === 'cai' && !s && i2 > 0 ? Math.min(i2, 6) * 2.5 : 0;     // camadas caindo
+        faixa(x0 + i2 * st, mesa - (i2 + 1) * bh + desloc, w, bh - 1, i2 === 0 || s ? COR.ok : COR[nivel]);
+      }
+      // linha de referência de 45°
+      ctx.strokeStyle = 'rgba(0,112,184,.6)'; ctx.setLineDash([5, 4]); ctx.beginPath();
+      ctx.moveTo(x0 + w, mesa); ctx.lineTo(x0 + w + H * e2, mesa - H * e2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#0070b8'; ctx.fillText('limite de 45°', x0 + w + H * e2 + 4, mesa - H * e2);
+    } else if (estado.p === 't') {
+      if (estado.pe) {
+        var hT = 30 * esc, wH = 30 * esc, eH = 6 * esc, eV = 8 * esc;
+        // haste
+        for (var j = 0; j < 8; j++) faixa(cx - eV / 2, mesa - (j + 1) * (hT - eH) / 8, eV, (hT - eH) / 8 - 1, COR.ok);
+        // braços (no ar)
+        if (s) { sup(cx - wH / 2, mesa - hT + eH, wH / 2 - eV / 2, hT - eH); sup(cx + eV / 2, mesa - hT + eH, wH / 2 - eV / 2, hT - eH); }
+        for (var k2 = 0; k2 < 3; k2++) faixa(cx - wH / 2, mesa - hT + eH - (k2 + 1) * eH / 3 + (s ? 0 : (k2 === 0 ? 14 : 6)), wH, eH / 3 - 1, s ? COR.ok : COR.cai);
+        ctx.fillStyle = '#a3261d'; ctx.textAlign = 'center'; ctx.fillText('camadas atravessam o braço → fraco', cx, mesa - hT - 20); ctx.textAlign = 'start';
+      } else {
+        var esp = 5 * esc;
+        for (var m = 0; m < 4; m++) faixa(cx - 18 * esc, mesa - (m + 1) * esp / 4, 36 * esc, esp / 4 - 1, COR.ok);
+        ctx.fillStyle = '#12743b'; ctx.fillText('T deitado: camadas ao longo dos braços → forte', cx - 18 * esc, mesa - esp - 10);
+      }
+    } else {
+      var e3 = Math.min((mesa - 30) / 32, larg / 70), R = estado.d / 2 * e3, ccx = cx, ccy = mesa - 16 * e3, bloco = 15 * e3;
+      ctx.fillStyle = COR.ok; ctx.fillRect(ccx - bloco, mesa - 32 * e3, bloco * 2, 32 * e3);
+      ctx.fillStyle = '#fbfdff'; ctx.beginPath();
+      if (estado.gota) { ctx.arc(ccx, ccy, R, Math.PI / 4 * -1 + Math.PI * 0, Math.PI * 1.25, false); ctx.lineTo(ccx, ccy - R * Math.SQRT2); ctx.closePath(); }
+      else ctx.arc(ccx, ccy, R, 0, 2 * Math.PI);
+      ctx.fill();
+      if (!estado.gota && estado.nivel !== 'ok' && !s) {
+        // teto caído
+        ctx.fillStyle = estado.nivel === 'cai' ? COR.cai : COR.risco; ctx.beginPath();
+        ctx.ellipse(ccx, ccy - R * 0.62, R * 0.62, R * (estado.nivel === 'cai' ? 0.3 : 0.15), 0, 0, 2 * Math.PI); ctx.fill();
+      }
+      if (s && estado.nivel === 'apoiado') sup(ccx - R * 0.7, ccy - R * 0.7, R * 1.4, R * 1.4);
+      ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 1;
+      for (var yy = mesa - 32 * e3; yy < mesa; yy += 1.5 * e3) { ctx.beginPath(); ctx.moveTo(ccx - bloco, yy); ctx.lineTo(ccx + bloco, yy); ctx.stroke(); }
+    }
+  }
+
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Parede inclinada: encontre a <strong>maior inclinação</strong> que ainda imprime bem <strong>sem suporte</strong>.',
+      teste: function () { return estado.p === 'rampa' && estado.a === 45 && !suporte.checked; } },
+    { texto: 'Incline a parede para <strong>60°</strong> e ative os <strong>suportes</strong>.',
+      teste: function () { return estado.p === 'rampa' && estado.a === 60 && suporte.checked; } },
+    { texto: 'Letra T: escolha a posição que <strong>não precisa de suporte</strong> e deixa os braços <strong>mais fortes</strong> (sem suportes ativados).',
+      teste: function () { return estado.p === 't' && !estado.pe && !suporte.checked; } },
+    { texto: 'Furo deitado de <strong>14 mm</strong>: faça ele sair bem <strong>sem suporte</strong>.',
+      teste: function () { return estado.p === 'furo' && estado.d === 14 && estado.gota && !suporte.checked; } }
+  ], 'Parabéns! Pense na posição de impressão enquanto modela: é o jeito mais fácil de evitar suportes.');
+  atualizar();
+})();
+</script>
+</body>
+</html>

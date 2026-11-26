@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suporte de celular: vai tombar?</title>
+<link rel="stylesheet" href="comum.css">
+</head>
+<body>
+<div class="sim">
+  <div class="palco" style="height:400px">
+    <canvas id="tela" aria-label="Vista lateral do suporte de celular com o centro de gravidade"></canvas>
+    <span class="dica-palco">Vista de lado · ● centro de gravidade · seta: o seu dedo tocando a tela</span>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Projeto do suporte</h2>
+      <div class="campo"><label for="base">Comprimento da base (mm)</label><input type="number" id="base" min="30" max="140" step="1" value="40"><input type="range"></div>
+      <div class="campo"><label for="ang">Ângulo do encosto com a mesa (°)</label><input type="number" id="ang" min="40" max="80" step="5" value="70"><input type="range"></div>
+      <div class="campo"><label for="toque">Toque na tela</label><select id="toque" style="grid-column:1/-1">
+        <option value="0">Sem toque</option><option value="60">Toque leve</option><option value="150">Toque firme</option></select></div>
+    </div>
+    <div class="caixa">
+      <h2>Resultado</h2>
+      <p style="margin:0" id="resultado"></p>
+      <p class="pequeno" id="detalhe" style="margin:4px 0 0"></p>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+      <div id="pergunta" hidden style="margin-top:8px">
+        <p class="pequeno" style="margin:0 0 4px">Sem toque, com o encosto em 50°, a base mínima aumenta ou diminui em relação a 70°?</p>
+        <select id="resposta"><option value="">Escolha…</option><option value="aumenta">Aumenta</option><option value="diminui">Diminui</option></select>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var larg = 600, alt = 400, desafios, r = {}, viuTombar = false, viu50 = false;
+  var BORDA = 8, LABIO = 12, CEL = { massa: 180, comp: 150 }, ENCOSTO = 90;
+  var base = Sim.campo('base', atualizar), ang = Sim.campo('ang', atualizar);
+  var toque = document.getElementById('toque'), resposta = document.getElementById('resposta');
+  toque.addEventListener('change', atualizar); resposta.addEventListener('change', function () { desafios.verificar(); });
+  var ctx = Sim.canvas(document.getElementById('tela'), function (w, h) { larg = w; alt = h; desenhar(); });
+
+  // momento em volta da borda de trás da base (g·mm). Positivo = estável (a frente fica apoiada).
+  function momento(L, graus, F) {
+    var t = graus * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+    var pesos = [[CEL.massa, BORDA + CEL.comp / 2 * c], [0.3 * ENCOSTO, BORDA + ENCOSTO / 2 * c], [0.3 * L, L / 2]];
+    var xt = BORDA + 100 * c, zt = LABIO + 100 * s;
+    return pesos.reduce(function (a, p) { return a + p[0] * (L - p[1]); }, 0) + F * (c * (L - xt) - s * zt);
+  }
+  function baseMinima(graus, F) { for (var L = 20; L < 400; L++) if (momento(L, graus, F) > 0) return L; return 400; }
+  function cg(L, graus) {
+    var t = graus * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+    var p = [[CEL.massa, BORDA + CEL.comp / 2 * c, LABIO + CEL.comp / 2 * s], [0.3 * ENCOSTO, BORDA + ENCOSTO / 2 * c, 4 + ENCOSTO / 2 * s], [0.3 * L, L / 2, 2]];
+    var m = p.reduce(function (a, q) { return a + q[0]; }, 0);
+    return [p.reduce(function (a, q) { return a + q[0] * q[1]; }, 0) / m, p.reduce(function (a, q) { return a + q[0] * q[2]; }, 0) / m];
+  }
+  function atualizar() {
+    var L = base.valor(), g = ang.valor(), F = +toque.value;
+    r = { L: L, g: g, F: F, m: momento(L, g, F), min: baseMinima(g, F), cg: cg(L, g) };
+    r.tomba = r.m <= 0;
+    if (r.tomba && F === 150 && L === 40) viuTombar = true;
+    if (g === 50 && F === 0) viu50 = true;
+    document.getElementById('pergunta').hidden = !viu50 || !(desafios && desafios.feitos()[2]);
+    var res = document.getElementById('resultado');
+    res.innerHTML = r.tomba ? '<span class="selo erro">Tomba para trás</span>' : '<span class="selo ok">Estável</span>';
+    document.getElementById('detalhe').textContent = 'Base mínima para esta situação: ' + r.min + ' mm. ' +
+      (r.tomba ? 'O peso e o toque fazem o suporte girar em volta da borda de trás.' : 'O centro de gravidade e o toque ficam "dentro" da base.');
+    desenhar();
+    if (desafios) desafios.verificar();
+  }
+
+  function desenhar() {
+    if (!ctx || !r.L) return;
+    ctx.clearRect(0, 0, larg, alt); ctx.fillStyle = '#fbfdff'; ctx.fillRect(0, 0, larg, alt);
+    var esc = Math.min((larg - 60) / 175, (alt - 90) / 160), ox = 30, mesa = alt - 62;
+    ctx.fillStyle = '#c9d2dc'; ctx.fillRect(0, mesa, larg, 6);
+    ctx.save();
+    // tombando: gira em volta da borda de trás da base
+    var px = ox + r.L * esc;
+    if (r.tomba) { ctx.translate(px, mesa); ctx.rotate(18 * Math.PI / 180); ctx.translate(-px, -mesa); }
+    var t = r.g * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+    var P = function (x, z) { return [ox + x * esc, mesa - z * esc]; };
+    function poli(pts, cor) { ctx.beginPath(); pts.forEach(function (p, i) { var q = P(p[0], p[1]); if (i) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); }); ctx.closePath(); ctx.fillStyle = cor; ctx.fill(); }
+    poli([[0, 0], [r.L, 0], [r.L, 4], [0, 4]], '#2b8fd6');                    // base
+    poli([[0, 4], [5, 4], [5, LABIO + 2], [0, LABIO + 2]], '#2b8fd6');        // lábio (batente)
+    poli([[BORDA + 2, 4], [BORDA + 2 + 4 * s, 4], [BORDA + 2 + 4 * s + ENCOSTO * c, 4 + ENCOSTO * s], [BORDA + 2 + ENCOSTO * c, 4 + ENCOSTO * s]], '#2b8fd6'); // encosto
+    // celular apoiado no lábio e no encosto
+    var n = [-s, c];
+    // o verso do celular encosta na face da frente do encosto, na altura do batente
+    var bx = BORDA + 2 + (LABIO - 4) / s * c, bz = LABIO;
+    poli([[bx, bz], [bx + CEL.comp * c, bz + CEL.comp * s], [bx + CEL.comp * c + 9 * n[0], bz + CEL.comp * s + 9 * n[1]], [bx + 9 * n[0], bz + 9 * n[1]]], '#1b2333');
+    // centro de gravidade
+    var g = P(r.cg[0], r.cg[1]);
+    ctx.fillStyle = '#e8742a'; ctx.beginPath(); ctx.arc(g[0], g[1], 6, 0, 2 * Math.PI); ctx.fill();
+    ctx.strokeStyle = '#e8742a'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(g[0], g[1]); ctx.lineTo(g[0], P(0, 0)[1]); ctx.stroke(); ctx.setLineDash([]);
+    // toque
+    if (r.F) {
+      var tp = P(bx + 100 * c + 9 * n[0], bz + 100 * s + 9 * n[1]), comp = r.F === 150 ? 60 : 35;
+      var dx = -n[0] * comp, dy = n[1] * comp; // seta empurrando a tela
+      ctx.strokeStyle = '#a3261d'; ctx.fillStyle = '#a3261d'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(tp[0] - dx, tp[1] - dy); ctx.lineTo(tp[0], tp[1]); ctx.stroke();
+      ctx.beginPath(); ctx.arc(tp[0], tp[1], 4, 0, 2 * Math.PI); ctx.fill();
+    }
+    ctx.restore();
+    // ponto de giro
+    ctx.fillStyle = '#1b2333'; ctx.beginPath(); ctx.arc(px, mesa, 4, 0, 2 * Math.PI); ctx.fill();
+    ctx.font = '12px system-ui'; ctx.textAlign = 'center'; ctx.fillText('borda de trás (ponto de giro)', px, mesa + 24); ctx.textAlign = 'start';
+  }
+
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Com a base de <strong>40 mm</strong>, escolha <strong>toque firme</strong> e veja o suporte tombar.', teste: function () { return viuTombar; } },
+    { texto: 'Aumente a base até o suporte <strong>não tombar</strong> com toque firme.', teste: function () { return r.F === 150 && !r.tomba; } },
+    { texto: 'Com o encosto em <strong>70°</strong> e toque firme, encontre a <strong>menor base estável</strong> (sobrando no máximo 5 mm). Base menor = menos plástico e menos tempo.',
+      teste: function () { return r.g === 70 && r.F === 150 && !r.tomba && r.L <= r.min + 5; } },
+    { texto: 'Agora escolha <strong>sem toque</strong> e mude o encosto para <strong>50°</strong>. Depois responda a pergunta abaixo.',
+      teste: function () { return viu50 && resposta.value === (baseMinima(50, 0) > baseMinima(70, 0) ? 'aumenta' : 'diminui'); } }
+  ], 'Parabéns! Use isso no Tinkercad: confira o centro de gravidade antes de imprimir.');
+  atualizar();
+})();
+</script>
+</body>
+</html>

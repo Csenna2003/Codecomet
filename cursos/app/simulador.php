@@ -25,8 +25,25 @@ function plataforma_de(string $url): ?string
 }
 
 /** Link de compartilhamento do Tinkercad/Wokwi -> endereço usado no iframe da aula. */
+/** Simuladores próprios da plataforma (pasta simuladores/): ['simuladores/nome.html' => 'Título']. */
+function simuladores_internos(): array
+{
+    $r = [];
+    foreach (glob(RAIZ . '/simuladores/*.html') ?: [] as $arq) {
+        $html = (string) file_get_contents($arq, false, null, 0, 2000);
+        $r['simuladores/' . basename($arq)] = preg_match('#<title>(.*?)</title>#s', $html, $m) ? html_entity_decode(trim($m[1])) : basename($arq, '.html');
+    }
+    return $r;
+}
+
 function embed_simulador(string $url): ?array
 {
+    $url = trim($url);
+    if (preg_match('#^simuladores/[a-z0-9-]+\.html$#', $url)) {
+        if (!is_file(RAIZ . '/' . $url)) return null;
+        return ['plataforma' => 'Adoro Robótica', 'embed' => $url, 'original' => $url, 'interno' => true,
+                'titulo' => simuladores_internos()[$url] ?? 'Simulador'];
+    }
     $p = partes_https($url);
     if (!$p) return null;
     if ($p['host'] === 'tinkercad.com' && preg_match('#/(?:things|embed)/([A-Za-z0-9]+)#', $p['path'], $m)) {

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixa paramétrica</title>
+<link rel="stylesheet" href="comum.css">
+<style>
+  table.formulas { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  table.formulas td { border-bottom: 1px dashed var(--borda); padding: 3px 2px; vertical-align: top; }
+  table.formulas td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
+  table.formulas code { font-size: 12px; color: var(--suave); }
+</style>
+</head>
+<body>
+<div class="sim">
+  <div>
+    <div class="palco" style="height:430px">
+      <canvas id="tela" aria-label="Caixa com tampa em 3D, montada a partir dos parâmetros"></canvas>
+      <div class="vistas" data-vistas></div>
+      <span class="dica-palco">Arraste para girar · roda ou dois dedos para aproximar</span>
+    </div>
+    <div class="caixa" style="margin-top:12px">
+      <h2>Medidas calculadas pelas fórmulas</h2>
+      <table class="formulas" id="formulas"></table>
+    </div>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Parâmetros (mm)</h2>
+      <div class="campo"><label for="li">largura_interna</label><input type="number" id="li" min="20" max="120" step="1" value="60"><input type="range"></div>
+      <div class="campo"><label for="pi">profundidade_interna</label><input type="number" id="pi" min="20" max="120" step="1" value="80"><input type="range"></div>
+      <div class="campo"><label for="ai">altura_interna</label><input type="number" id="ai" min="5" max="60" step="1" value="20"><input type="range"></div>
+      <div class="campo"><label for="pa">parede</label><input type="number" id="pa" min="0.8" max="4" step="0.4" value="1.6"><input type="range"></div>
+      <div class="campo"><label for="fo">folga</label><input type="number" id="fo" min="0" max="0.6" step="0.05" value="0.1"><input type="range"></div>
+    </div>
+    <div class="caixa">
+      <h2>Para guardar</h2>
+      <div class="campo"><label for="obj">Objeto</label><select id="obj" style="grid-column:1/-1">
+        <option value="baralho">Baralho (63 × 88 × 18 mm)</option><option value="mini">Cartas pequenas (44 × 67 × 15 mm)</option><option value="nada">Nenhum</option></select></div>
+      <p style="margin:6px 0 0;display:flex;gap:10px;flex-wrap:wrap"><label><input type="checkbox" id="explodir" checked> Tampa afastada</label><label><input type="checkbox" id="frente"> Esconder a parede da frente</label></p>
+      <p class="aviso" id="aviso" hidden></p>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var OBJ = { baralho: [63, 88, 18], mini: [44, 67, 15], nada: null };
+  var SAIA = 4, c = {}, r = {}, desafios, viuParede = false;
+  var cena = new Sim.Cena3D(document.getElementById('tela'), { alvo: [35, 45, 20], dist: 260, grade: { tam: 130, passo: 10, x0: -20, y0: -20 }, eixos: false });
+  Sim.botoesVista(document.querySelector('[data-vistas]'), cena);
+  ['li', 'pi', 'ai', 'pa', 'fo'].forEach(function (id) { c[id] = Sim.campo(id, atualizar); });
+  ['obj', 'explodir', 'frente'].forEach(function (id) { document.getElementById(id).addEventListener('change', atualizar); });
+  function arr(v) { return Math.round(v * 100) / 100; }
+
+  function atualizar() {
+    var li = c.li.valor(), pi = c.pi.valor(), ai = c.ai.valor(), pa = c.pa.valor(), fo = c.fo.valor();
+    r = { li: li, pi: pi, ai: ai, pa: pa, fo: fo,
+      le: arr(li + 2 * pa), pe: arr(pi + 2 * pa), ae: arr(ai + pa),
+      sl: arr(li - 2 * fo), sp: arr(pi - 2 * fo), obj: OBJ[document.getElementById('obj').value] };
+    if (pa === 2) viuParede = true;
+    var f = [], azul = '#2b8fd6', verde = '#3aa76d', semFrente = document.getElementById('frente').checked;
+    // caixa: fundo + 4 paredes
+    f = f.concat(Sim.Geo.caixa(0, 0, 0, r.le, r.pe, pa, azul));
+    if (!semFrente) f = f.concat(Sim.Geo.caixa(0, 0, pa, r.le, pa, ai, azul));
+    f = f.concat(Sim.Geo.caixa(0, r.pe - pa, pa, r.le, pa, ai, azul));
+    f = f.concat(Sim.Geo.caixa(0, pa, pa, pa, pi, ai, azul));
+    f = f.concat(Sim.Geo.caixa(r.le - pa, pa, pa, pa, pi, ai, azul));
+    // tampa: placa + saia que entra na caixa
+    var zt = r.ae + (document.getElementById('explodir').checked ? 25 : 0), ox = pa + fo, oy = pa + fo;
+    f = f.concat(Sim.Geo.caixa(0, 0, zt, r.le, r.pe, pa, verde));
+    f = f.concat(Sim.Geo.caixa(ox, oy, zt - SAIA, r.sl, pa, SAIA, verde));
+    f = f.concat(Sim.Geo.caixa(ox, oy + r.sp - pa, zt - SAIA, r.sl, pa, SAIA, verde));
+    f = f.concat(Sim.Geo.caixa(ox, oy + pa, zt - SAIA, pa, r.sp - 2 * pa, SAIA, verde));
+    f = f.concat(Sim.Geo.caixa(ox + r.sl - pa, oy + pa, zt - SAIA, pa, r.sp - 2 * pa, SAIA, verde));
+    // objeto (transparente)
+    if (r.obj) f = f.concat(Sim.Geo.caixa(pa + (li - r.obj[0]) / 2, pa + (pi - r.obj[1]) / 2, pa, r.obj[0], r.obj[1], r.obj[2], '#e0a526', { alfa: 0.45, duasFaces: true }));
+    cena.faces = f;
+    cena.alvo = [r.le / 2, r.pe / 2, r.ae / 2];
+    cena.desenhar();
+
+    var linhas = [
+      ['largura externa', 'largura_interna + 2 × parede', r.le], ['profundidade externa', 'profundidade_interna + 2 × parede', r.pe],
+      ['altura externa', 'altura_interna + parede (fundo)', r.ae], ['saia da tampa: largura', 'largura_interna − 2 × folga', r.sl],
+      ['saia da tampa: profundidade', 'profundidade_interna − 2 × folga', r.sp]];
+    document.getElementById('formulas').innerHTML = linhas.map(function (l) { return '<tr><td>' + l[0] + '<br><code>' + l[1] + '</code></td><td>' + Sim.num(l[2], 2) + ' mm</td></tr>'; }).join('');
+    var aviso = document.getElementById('aviso'), msg = null, tipo = 'alerta';
+    if (r.obj) {
+      var sobra = [li - r.obj[0], pi - r.obj[1], ai - r.obj[2]];
+      if (sobra.some(function (s) { return s < 0; })) { msg = 'O objeto não cabe: aumente as medidas internas.'; tipo = 'erro'; }
+      else if (sobra.some(function (s) { return s < 1; })) msg = 'Cabe muito justo: deixe pelo menos 1 mm a mais em cada medida.';
+      else if (sobra.some(function (s) { return s > 3; })) msg = 'Sobra mais de 3 mm: o objeto vai ficar chacoalhando e você gasta plástico à toa.';
+      else { msg = 'O objeto cabe com folga boa.'; tipo = 'ok'; }
+    }
+    aviso.hidden = !msg; aviso.className = 'aviso ' + tipo; aviso.textContent = msg || '';
+    if (desafios) desafios.verificar();
+  }
+  function cabeBem(nome) {
+    var o = OBJ[nome]; if (document.getElementById('obj').value !== nome) return false;
+    return [r.li - o[0], r.pi - o[1], r.ai - o[2]].every(function (s) { return s >= 1 && s <= 3; });
+  }
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Mude a <strong>parede</strong> para 2 mm e veja todas as medidas externas mudarem sozinhas.', teste: function () { return viuParede; } },
+    { texto: 'Faça o <strong>baralho</strong> caber: de 1 a 3 mm a mais que ele em largura, profundidade e altura internas.', teste: function () { return cabeBem('baralho'); } },
+    { texto: 'Tampa <strong>deslizante</strong>: deixe a folga entre 0,20 e 0,30 mm.', teste: function () { return r.fo >= 0.2 - 1e-9 && r.fo <= 0.3 + 1e-9 && cabeBem('baralho'); } },
+    { texto: 'Sua impressora deixa encaixes apertados: aumente a <strong>folga para 0,40 mm</strong> e veja a saia da tampa diminuir.', teste: function () { return Math.abs(r.fo - 0.4) < 1e-9; } },
+    { texto: 'Gere a <strong>versão para cartas pequenas</strong> mudando só os parâmetros (mesma regra de 1 a 3 mm).', teste: function () { return cabeBem('mini'); } }
+  ], 'Parabéns! É assim que o CAD paramétrico funciona: no Fusion, faça o mesmo com Modificar → Alterar parâmetros.');
+  atualizar();
+})();
+</script>
+</body>
+</html>

@@ -12,7 +12,7 @@ function cabecalho(string $titulo, bool $estreito = false): void
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($titulo === '' ? $site : "$titulo — $site") ?></title>
-<link rel="stylesheet" href="assets/estilo.css?v=9">
+<link rel="stylesheet" href="assets/estilo.css?v=10">
 <link rel="icon" href="assets/icone-32.png" sizes="32x32">
 <link rel="icon" href="assets/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/icone-180.png">
@@ -55,7 +55,7 @@ function rodape(): void
 {
     ?>
 </main>
-<script src="assets/app.js?v=5" defer></script>
+<script src="assets/app.js?v=6" defer></script>
 </body>
 </html>
 <?php

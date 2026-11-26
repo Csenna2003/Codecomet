@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eixos, posição e medidas</title>
+<link rel="stylesheet" href="comum.css">
+</head>
+<body>
+<div class="sim">
+  <div class="palco" style="height:440px">
+    <canvas id="tela" aria-label="Plano de trabalho em 3D com uma caixa"></canvas>
+    <div class="vistas" data-vistas></div>
+    <span class="dica-palco">Arraste para girar a vista · roda ou dois dedos para aproximar</span>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Posição do canto (mm)</h2>
+      <div class="campo"><label for="px">X (vermelho)</label><input type="number" id="px" min="0" max="100" step="1" value="0"><input type="range"></div>
+      <div class="campo"><label for="py">Y (verde)</label><input type="number" id="py" min="0" max="100" step="1" value="0"><input type="range"></div>
+      <div class="campo"><label for="pz">Z (azul, altura do chão)</label><input type="number" id="pz" min="0" max="80" step="1" value="0"><input type="range"></div>
+    </div>
+    <div class="caixa">
+      <h2>Tamanho (mm)</h2>
+      <div class="campo"><label for="tw">Largura (X)</label><input type="number" id="tw" min="1" max="100" step="1" value="20"><input type="range"></div>
+      <div class="campo"><label for="td">Profundidade (Y)</label><input type="number" id="td" min="1" max="100" step="1" value="20"><input type="range"></div>
+      <div class="campo"><label for="th">Altura (Z)</label><input type="number" id="th" min="1" max="80" step="1" value="20"><input type="range"></div>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var cena = new Sim.Cena3D(document.getElementById('tela'), { alvo: [50, 50, 15], dist: 230, grade: { tam: 100, passo: 5 } });
+  Sim.botoesVista(document.querySelector('[data-vistas]'), cena);
+  var c = {};
+  ['px', 'py', 'pz', 'tw', 'td', 'th'].forEach(function (id) { c[id] = Sim.campo(id, atualizar); });
+  var desafios;
+  function v(id) { return c[id].valor(); }
+  function atualizar() {
+    var x = v('px'), y = v('py'), z = v('pz'), w = v('tw'), d = v('td'), h = v('th');
+    cena.faces = Sim.Geo.caixa(x, y, z, w, d, h, '#2b8fd6');
+    cena.linhas = z > 0 ? [{ a: [x, y, 0], b: [x, y, z], tracejada: true, cor: '#26c' }] : [];
+    cena.rotulos = [
+      { p: [x + w / 2, y - 4, z], texto: w + ' mm', cor: '#b22' },
+      { p: [x + w + 4, y + d / 2, z], texto: d + ' mm', cor: '#181' },
+      { p: [x - 4, y, z + h / 2], texto: h + ' mm', cor: '#22a' },
+      { p: [x, y, z], texto: '(' + x + ', ' + y + ', ' + z + ')' }
+    ];
+    cena.desenhar();
+    if (desafios) desafios.verificar();
+  }
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Coloque o <strong>cubo de 20 mm</strong> com o canto em <strong>X = 40</strong> e <strong>Y = 20</strong>, apoiado no plano (Z = 0).',
+      teste: function () { return v('px') === 40 && v('py') === 20 && v('pz') === 0 && v('tw') === 20 && v('td') === 20 && v('th') === 20; } },
+    { texto: 'Transforme o cubo no <strong>tampo de uma mesa</strong>: 60 × 40 × 4 mm (largura × profundidade × altura).',
+      teste: function () { return v('tw') === 60 && v('td') === 40 && v('th') === 4; } },
+    { texto: 'Levante o tampo para ficar <strong>40 mm acima do plano</strong>, onde as pernas da mesa vão encostar.',
+      teste: function () { return v('tw') === 60 && v('td') === 40 && v('th') === 4 && v('pz') === 40; } },
+    { texto: 'Gire a vista até enxergar o tampo <strong>por baixo</strong> (arraste para cima, abaixo do plano).',
+      teste: function () { return cena.inclinacao < -5; } },
+    { texto: 'Centralize o tampo no plano de 100 × 100 mm: o centro dele deve ficar em X = 50 e Y = 50.',
+      teste: function () { return v('px') + v('tw') / 2 === 50 && v('py') + v('td') / 2 === 50 && v('th') === 4; } }
+  ], 'Parabéns! Você domina posição, tamanho e câmera. Agora faça a mesa completa no Tinkercad.');
+  var desenharOriginal = cena.desenhar;
+  cena.desenhar = function () { desenharOriginal(); if (desafios) desafios.verificar(); };
+  atualizar();
+})();
+</script>
+</body>
+</html>

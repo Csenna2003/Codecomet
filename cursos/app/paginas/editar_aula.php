@@ -39,7 +39,8 @@ cabecalho('Editar aula');
 
   <div class="campos">
     <label>Link do vídeo (YouTube ou Vimeo)<input name="video_url" type="url" value="<?= e($a['video_url'] ?? '') ?>"></label>
-    <label>Link do projeto no simulador (Tinkercad ou Wokwi)<input name="simulador_url" type="url" value="<?= e($a['simulador_url'] ?? '') ?>"></label>
+    <label>Simulador: link do Tinkercad ou Wokwi, ou um simulador da plataforma<input name="simulador_url" list="sims-internos" inputmode="url" value="<?= e($a['simulador_url'] ?? '') ?>" placeholder="https://www.tinkercad.com/things/... ou simuladores/..."></label>
+    <datalist id="sims-internos"><?php foreach (simuladores_internos() as $arq => $tit): ?><option value="<?= e($arq) ?>"><?= e($tit) ?></option><?php endforeach ?></datalist>
   </div>
 
   <fieldset class="pilha"><legend>Quiz (só para aula do tipo Quiz)</legend>

@@ -58,7 +58,14 @@ cabecalho($aula['titulo']);
   </details>
 <?php endif ?>
 
-<?php if ($sim): ?>
+<?php if ($sim && !empty($sim['interno'])): ?>
+  <section>
+    <h2>Simulador: <?= e($sim['titulo']) ?></h2>
+    <iframe class="quadro simulador interno" src="<?= e($sim['embed']) ?>" title="<?= e($sim['titulo']) ?>" loading="lazy" data-sim-interno></iframe>
+    <p class="pequeno suave">Os desafios do simulador se corrigem sozinhos. Funciona no computador e no celular.
+      <a href="<?= e($sim['embed']) ?>" target="_blank" rel="noopener">Abrir em tela cheia ↗</a></p>
+  </section>
+<?php elseif ($sim): ?>
   <section>
     <h2>Simulador (<?= e($sim['plataforma']) ?>)</h2>
     <iframe class="quadro simulador" src="<?= e($sim['embed']) ?>" title="Simulador da aula" loading="lazy"

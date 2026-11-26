@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paquímetro digital</title>
+<link rel="stylesheet" href="comum.css">
+</head>
+<body>
+<div class="sim">
+  <div class="palco" style="height:360px">
+    <canvas id="tela" aria-label="Paquímetro digital medindo um objeto"></canvas>
+    <span class="dica-palco">Arraste o bico móvel (à direita) ou use os botões de ajuste fino</span>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Objeto entre os bicos</h2>
+      <div class="campo"><label for="obj">Objeto</label>
+        <select id="obj" style="grid-column:1/-1">
+          <option value="nada">Nenhum (bicos livres)</option>
+          <option value="pilha">Pilha AA (diâmetro)</option>
+          <option value="moeda">Moeda de R$ 1 (diâmetro)</option>
+          <option value="borracha">Borracha macia (largura)</option>
+          <option value="misterio">Peça misteriosa</option>
+        </select></div>
+      <p style="display:flex;gap:4px;flex-wrap:wrap;margin:6px 0 0">
+        <button type="button" data-passo="-1">− 1</button><button type="button" data-passo="-0.1">− 0,1</button><button type="button" data-passo="-0.01">− 0,01</button>
+        <button type="button" data-passo="0.01">+ 0,01</button><button type="button" data-passo="0.1">+ 0,1</button><button type="button" data-passo="1">+ 1</button>
+      </p>
+      <p style="margin:8px 0 0"><button type="button" class="cheio" id="zero">ZERO</button> <span class="pequeno">Zere sempre com os bicos fechados.</span></p>
+      <p class="aviso" id="aviso" hidden></p>
+    </div>
+    <div class="caixa">
+      <h2>Anotar a medida</h2>
+      <div class="campo"><label for="anota">Valor lido (mm)</label><input type="number" id="anota" step="0.01" min="0" max="150"></div>
+      <p style="margin:4px 0 0"><button type="button" id="anotar">Anotar no caderno</button></p>
+      <ul class="medidas" id="caderno" style="margin-top:6px"></ul>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var misterio = Math.round((8 + Math.random() * 30) * 20) / 20; // de 0,05 em 0,05 mm
+  var OBJ = {
+    nada: { nome: 'Nenhum', tam: 0 },
+    pilha: { nome: 'Pilha AA', tam: 14.5, cor: '#d9a320', forma: 'redondo' },
+    moeda: { nome: 'Moeda de R$ 1', tam: 27.0, cor: '#c7a64a', forma: 'redondo' },
+    borracha: { nome: 'Borracha', tam: 20.0, cor: '#e7738f', forma: 'quadrado', macio: 0.6 },
+    misterio: { nome: 'Peça misteriosa', tam: misterio, cor: '#7a8ca3', forma: 'quadrado' }
+  };
+  var abertura = 32.4, refZero = 0.37, zerouFechado = false, anotacoes = {}, desafios, larg = 600, alt = 360;
+  var sel = document.getElementById('obj'), aviso = document.getElementById('aviso');
+  var ctx = Sim.canvas(document.getElementById('tela'), function (w, h) { larg = w; alt = h; desenhar(); });
+  function obj() { return OBJ[sel.value]; }
+  function minimo() { var o = obj(); return o.tam ? o.tam - (o.macio || 0) : 0; }
+  function amassado() { var o = obj(); return o.macio && abertura < o.tam - 0.005; }
+  function leitura() { return Math.round((abertura - refZero) * 100) / 100; }
+  function mover(v) { abertura = Math.max(minimo(), Math.min(150, Math.round(v * 100) / 100)); desenhar(); }
+
+  function desenhar() {
+    if (!ctx) return;
+    var esc = Math.min(5.5, (larg - 120) / 60), x0 = 70, y = alt / 2 + 10, xm = x0 + abertura * esc;
+    ctx.clearRect(0, 0, larg, alt); ctx.fillStyle = '#fbfdff'; ctx.fillRect(0, 0, larg, alt);
+    // régua (haste)
+    ctx.fillStyle = '#c9d2dc'; ctx.fillRect(x0 - 20, y - 70, larg - x0, 26);
+    ctx.fillStyle = '#5b6578'; ctx.font = '10px system-ui'; ctx.textAlign = 'center';
+    for (var mm = 0; x0 + mm * esc < larg - 10; mm++) {
+      var xx = x0 + mm * esc, grande = mm % 10 === 0;
+      ctx.fillRect(xx, y - 70, 1, grande ? 12 : mm % 5 === 0 ? 8 : 5);
+      if (grande) ctx.fillText(mm, xx, y - 50);
+    }
+    // objeto
+    var o = obj();
+    if (o.tam) {
+      var w = (amassado() ? abertura : o.tam) * esc, hh = o.forma === 'redondo' ? o.tam * esc : 26;
+      ctx.fillStyle = o.cor;
+      if (o.forma === 'redondo') { ctx.beginPath(); ctx.ellipse(x0 + w / 2, y + 30, w / 2, Math.min(hh, 120) / 2, 0, 0, 2 * Math.PI); ctx.fill(); }
+      else { ctx.fillRect(x0, y + 30 - hh / 2, w, hh); }
+      ctx.fillStyle = '#1b2333'; ctx.font = '600 12px system-ui'; ctx.fillText(o.nome, x0 + w / 2, y + 30 + Math.min(hh, 120) / 2 + 16);
+    }
+    // bico fixo (esquerda) e corpo do visor
+    ctx.fillStyle = '#8b96a5';
+    ctx.fillRect(x0 - 20, y - 44, 20, 140);             // bico fixo
+    ctx.fillRect(xm, y - 44, 20, 140);                  // bico móvel
+    ctx.fillRect(xm - 2, y - 76, 120, 36);              // cursor
+    // visor
+    ctx.fillStyle = '#e8f0d8'; ctx.fillRect(xm + 8, y - 72, 82, 28);
+    ctx.fillStyle = '#1b2333'; ctx.font = 'bold 20px ui-monospace, Menlo, Consolas, monospace'; ctx.textAlign = 'right';
+    ctx.fillText(leitura().toFixed(2).replace('.', ','), xm + 86, y - 51);
+    ctx.font = '10px system-ui'; ctx.fillText('mm', xm + 112, y - 51);
+    ctx.textAlign = 'start';
+    // aviso
+    var msg = null;
+    if (amassado()) msg = 'Você está apertando demais: a borracha amassou e a medida ficou menor. Abra um pouco até só encostar.';
+    else if (refZero !== 0 && Math.abs(abertura) < 0.005) msg = 'Bicos fechados: aperte ZERO para o visor marcar 0,00.';
+    aviso.hidden = !msg; aviso.className = 'aviso alerta'; aviso.textContent = msg || '';
+    if (desafios) desafios.verificar();
+  }
+
+  // arrastar o bico móvel
+  var arrastando = false, ultimoX = 0, cv = document.getElementById('tela');
+  cv.addEventListener('pointerdown', function (e) { arrastando = true; ultimoX = e.clientX; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointermove', function (e) {
+    if (!arrastando) return;
+    var esc = Math.min(5.5, (larg - 120) / 60);
+    mover(abertura + (e.clientX - ultimoX) / esc); ultimoX = e.clientX;
+  });
+  cv.addEventListener('pointerup', function () { arrastando = false; });
+  document.querySelectorAll('[data-passo]').forEach(function (b) { b.addEventListener('click', function () { mover(abertura + parseFloat(b.dataset.passo)); }); });
+  document.getElementById('zero').addEventListener('click', function () {
+    refZero = abertura;
+    if (Math.abs(abertura) < 0.005) zerouFechado = true;
+    desenhar();
+  });
+  sel.addEventListener('change', function () { mover(Math.max(abertura, minimo() + (obj().macio || 0))); });
+  document.getElementById('anotar').addEventListener('click', function () {
+    var v = parseFloat(String(document.getElementById('anota').value).replace(',', '.'));
+    if (isNaN(v) || sel.value === 'nada') return;
+    if (Math.abs(v - leitura()) > 0.005) {
+      aviso.hidden = false; aviso.className = 'aviso erro';
+      aviso.textContent = 'O valor anotado não é o que o visor mostra agora (' + Sim.num(leitura(), 2) + ' mm). Anote exatamente a leitura.';
+      return;
+    }
+    anotacoes[sel.value] = v;
+    var ul = document.getElementById('caderno'); ul.innerHTML = '';
+    Object.keys(anotacoes).forEach(function (k) { var li = document.createElement('li'); li.innerHTML = '<span>' + OBJ[k].nome + '</span><strong>' + Sim.num(anotacoes[k], 2) + ' mm</strong>'; ul.appendChild(li); });
+    desafios.verificar();
+  });
+  function anotouCerto(k) { return anotacoes[k] !== undefined && Math.abs(anotacoes[k] - OBJ[k].tam) <= 0.021; }
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Sem objeto, <strong>feche os bicos</strong> (arraste até o fim) e aperte <strong>ZERO</strong>.', teste: function () { return zerouFechado; } },
+    { texto: 'Meça a <strong>pilha AA</strong>: encoste os bicos nela e anote o valor do visor.', teste: function () { return anotouCerto('pilha'); } },
+    { texto: 'Meça a <strong>moeda de R$ 1</strong> e anote.', teste: function () { return anotouCerto('moeda'); } },
+    { texto: 'Meça a <strong>borracha sem apertar</strong>: os bicos só encostam, sem amassar.', teste: function () { return anotouCerto('borracha'); } },
+    { texto: 'Descubra a medida da <strong>peça misteriosa</strong> (com duas casas decimais).', teste: function () { return anotouCerto('misterio'); } }
+  ], 'Parabéns! Agora meça objetos de verdade e monte a tabela no caderno de bordo.');
+  desenhar();
+})();
+</script>
+</body>
+</html>

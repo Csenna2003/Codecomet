@@ -114,6 +114,32 @@ professor corrige pela rubrica da apostila. O "Guia do professor" de cada aula a
 prontos**. Ele só troca os textos que ainda estão iguais ao que foi importado: o que você editou, o
 progresso dos alunos, as entregas e o preço não mudam.
 
+**Atualizar para a versão nova:** quando um curso pronto ganha uma versão com outra organização das
+aulas (como o de Modelagem 3D, que passou a seguir o mesmo roteiro dos outros cursos e ganhou
+simuladores), o cartão dele em **Administração → Cursos prontos** mostra o botão **Atualizar para a
+versão nova**. Ele só aparece enquanto o curso **não tem alunos, vendas nem licenças**; o preço e o status
+são mantidos, mas edições feitas nas aulas desse curso são substituídas. Com alunos, a troca não é
+oferecida, para não perder o progresso de ninguém.
+
+## Simuladores da plataforma
+
+O curso de Modelagem 3D tem 8 simuladores próprios, que funcionam dentro da aula, no computador e no
+celular, sem conta em outro site. Cada um tem desafios que se corrigem sozinhos:
+
+| Simulador | Onde está |
+|---|---|
+| Eixos, posição e medidas | Módulo 1, Aula 3 |
+| Sólido e furo: o copo | Módulo 1, Aula 4 |
+| Paquímetro digital | Módulo 2, Aula 1 |
+| Folgas e encaixes | Módulo 2, Aula 4 |
+| Fatiador: camadas, paredes e preenchimento | Módulo 3, Aula 4 |
+| Suportes e posição de impressão | Módulo 3, Aula 5 |
+| Suporte de celular: vai tombar? | Módulo 4, Aula 2 |
+| Caixa paramétrica | Módulo 5, Aula 5 |
+
+Eles ficam na pasta `cursos/simuladores/`. Ao editar qualquer aula (de qualquer curso), o campo
+**Simulador** sugere esses 8 simuladores; também continua aceitando links do Tinkercad e do Wokwi.
+
 ## Editar aulas pela tela
 
 Em **Administração → curso → Editar conteúdo**, cada aula tem os botões **Editar**, **↑ ↓** (mudar a

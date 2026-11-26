@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fatiador: camadas, paredes e preenchimento</title>
+<link rel="stylesheet" href="comum.css">
+<style>
+  .legenda { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: var(--suave); }
+  .legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+  .barra { height: 10px; background: var(--borda); border-radius: 99px; overflow: hidden; }
+  .barra span { display: block; height: 100%; background: var(--primaria); }
+</style>
+</head>
+<body>
+<div class="sim">
+  <div>
+    <div class="palco" style="height:420px">
+      <canvas id="tela" aria-label="Uma camada da peça fatiada: paredes e preenchimento"></canvas>
+    </div>
+    <div class="caixa" style="margin-top:12px">
+      <div class="campo"><label for="camada">Camada mostrada</label><input type="number" id="camada" min="1" max="100" step="1" value="1"><input type="range"></div>
+      <div class="legenda"><span><i style="background:#e8742a"></i>paredes (perímetros)</span><span><i style="background:#f2c14e"></i>preenchimento</span><span><i style="background:#d9534f"></i>camada sólida (topo e fundo)</span></div>
+      <p class="pequeno" style="margin:6px 0 0">Peça: bloco de 40 × 30 × 20 mm com um furo de 10 mm no meio. Bico de 0,4 mm (linha de 0,45 mm), PLA.</p>
+    </div>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Configurações</h2>
+      <div class="campo"><label for="altura">Altura de camada (mm)</label><select id="altura"><option value="0.12">0,12</option><option value="0.16">0,16</option><option value="0.2" selected>0,20</option><option value="0.28">0,28</option></select></div>
+      <div class="campo"><label for="paredes">Paredes</label><input type="number" id="paredes" min="1" max="6" step="1" value="2"><input type="range"></div>
+      <div class="campo"><label for="tb">Camadas sólidas (topo e fundo, cada)</label><input type="number" id="tb" min="1" max="8" step="1" value="4"><input type="range"></div>
+      <div class="campo"><label for="inf">Preenchimento (%)</label><input type="number" id="inf" min="0" max="100" step="5" value="20"><input type="range"></div>
+      <div class="campo"><label for="padrao">Padrão</label><select id="padrao"><option value="grade">Grade</option><option value="linhas">Linhas</option><option value="giroide">Giroide</option></select></div>
+    </div>
+    <div class="caixa">
+      <h2>Estimativa</h2>
+      <ul class="medidas" id="estimativa"></ul>
+      <p class="pequeno" style="margin:6px 0 2px">Resistência (comparativa)</p>
+      <div class="barra"><span id="res"></span></div>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+      <div id="pergunta" hidden style="margin-top:8px">
+        <p class="pequeno" style="margin:0 0 4px">Qual configuração é mais forte e gasta menos filamento?</p>
+        <select id="resposta"><option value="">Escolha…</option><option value="a">2 paredes + 50%</option><option value="b">4 paredes + 20%</option></select>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var W = 0.45, PECA = { l: 40, p: 30, alt: 20, rFuro: 5 }, larg = 600, alt = 420, desafios, e = {};
+  var vistas = { primeira: false, meio: false, viu100: false, voltou20: false, cfgA: false, cfgB: false };
+  var c = { camada: Sim.campo('camada', mudouCamada), paredes: Sim.campo('paredes', atualizar), tb: Sim.campo('tb', atualizar), inf: Sim.campo('inf', atualizar) };
+  var selAlt = document.getElementById('altura'), selPad = document.getElementById('padrao'), resposta = document.getElementById('resposta');
+  selAlt.addEventListener('change', atualizar); selPad.addEventListener('change', atualizar);
+  resposta.addEventListener('change', function () { desafios.verificar(); });
+  var ctx = Sim.canvas(document.getElementById('tela'), function (w, h) { larg = w; alt = h; desenhar(); });
+
+  function estimar(h, paredes, tb, d) {
+    var N = Math.round(PECA.alt / h), P = paredes * (2 * (PECA.l + PECA.p) + 2 * Math.PI * PECA.rFuro);
+    var A = (PECA.l - 2 * paredes * W) * (PECA.p - 2 * paredes * W) - Math.PI * Math.pow(PECA.rFuro + paredes * W, 2);
+    var sol = Math.min(tb * 2, N), Ls = sol * A / W, Lp = (N - sol) * A / W * d, Lper = N * P;
+    return {
+      N: N, solidas: sol,
+      min: (Lper / 40 + Ls / 60 + Lp / 90 + N) / 60,
+      g: (Lper + Ls + Lp) * W * h / 1000 * 1.24,
+      res: Math.round(100 * (0.6 * Math.min(paredes, 5) / 5 + 0.25 * Math.min(d, 0.5) / 0.5 + 0.15 * Math.min(tb, 8) / 8))
+    };
+  }
+  function mudouCamada() { desenhar(); registrar(); }
+  function atualizar() {
+    var h = parseFloat(selAlt.value);
+    e = estimar(h, c.paredes.valor(), c.tb.valor(), c.inf.valor() / 100);
+    var cam = document.getElementById('camada'); cam.max = e.N; cam.closest('.campo').querySelector('input[type=range]').max = e.N;
+    if (c.camada.valor() > e.N) c.camada.definir(e.N);
+    var ul = document.getElementById('estimativa'); ul.innerHTML = '';
+    [['Camadas', e.N], ['Tempo', Math.round(e.min) + ' min'], ['Filamento', Sim.num(e.g, 1) + ' g'], ['Resistência', e.res + ' de 100']].forEach(function (l) {
+      var li = document.createElement('li'); li.innerHTML = '<span>' + l[0] + '</span><strong>' + l[1] + '</strong>'; ul.appendChild(li);
+    });
+    document.getElementById('res').style.width = e.res + '%';
+    desenhar(); registrar();
+  }
+  function registrar() {
+    var k = c.camada.valor(), d = c.inf.valor(), pw = c.paredes.valor(), h = parseFloat(selAlt.value);
+    if (k === 1) vistas.primeira = true;
+    if (k > e.solidas && k <= e.N - e.solidas / 2 && d > 0) vistas.meio = true;
+    if (d === 100) vistas.viu100 = true;
+    if (vistas.viu100 && d === 20) vistas.voltou20 = true;
+    if (pw === 2 && d === 50 && h === 0.2) vistas.cfgA = true;
+    if (pw === 4 && d === 20 && h === 0.2) vistas.cfgB = true;
+    document.getElementById('pergunta').hidden = !(vistas.cfgA && vistas.cfgB);
+    if (desafios) desafios.verificar();
+  }
+
+  function desenhar() {
+    if (!ctx || !e.N) return;
+    ctx.clearRect(0, 0, larg, alt); ctx.fillStyle = '#fbfdff'; ctx.fillRect(0, 0, larg, alt);
+    var esc = Math.min((larg - 120) / PECA.l, (alt - 50) / PECA.p), ox = (larg - 60 - PECA.l * esc) / 2, oy = (alt - PECA.p * esc) / 2;
+    var X = function (mm) { return ox + mm * esc; }, Y = function (mm) { return oy + mm * esc; };
+    var k = c.camada.valor(), paredes = c.paredes.valor(), meio = PECA.alt / 2;
+    var nSol = e.solidas / 2, solida = k <= nSol || k > e.N - nSol, d = c.inf.valor() / 100;
+    // peça "fantasma"
+    ctx.fillStyle = '#eef2f7'; ctx.fillRect(X(0), Y(0), PECA.l * esc, PECA.p * esc);
+    ctx.fillStyle = '#fbfdff'; ctx.beginPath(); ctx.arc(X(PECA.l / 2), Y(PECA.p / 2), PECA.rFuro * esc, 0, 2 * Math.PI); ctx.fill();
+    // paredes: contornos de fora para dentro, e em volta do furo
+    ctx.strokeStyle = '#e8742a'; ctx.lineWidth = Math.max(1, W * esc * 0.9);
+    for (var i = 0; i < paredes; i++) {
+      var o = W / 2 + i * W;
+      ctx.strokeRect(X(o), Y(o), (PECA.l - 2 * o) * esc, (PECA.p - 2 * o) * esc);
+      ctx.beginPath(); ctx.arc(X(PECA.l / 2), Y(PECA.p / 2), (PECA.rFuro + o) * esc, 0, 2 * Math.PI); ctx.stroke();
+    }
+    // área interna (recortada)
+    var ins = paredes * W;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(X(ins), Y(ins), (PECA.l - 2 * ins) * esc, (PECA.p - 2 * ins) * esc);
+    ctx.arc(X(PECA.l / 2), Y(PECA.p / 2), (PECA.rFuro + ins) * esc, 0, 2 * Math.PI, true);
+    ctx.clip('evenodd');
+    ctx.lineWidth = Math.max(1, W * esc * 0.8);
+    var dir = k % 2 === 0 ? 1 : -1;
+    function linhas45(passo, sentido, cor) {
+      ctx.strokeStyle = cor; ctx.beginPath();
+      for (var t = -PECA.p; t < PECA.l + PECA.p; t += passo) {
+        if (sentido > 0) { ctx.moveTo(X(t), Y(0)); ctx.lineTo(X(t + PECA.p), Y(PECA.p)); }
+        else { ctx.moveTo(X(t), Y(PECA.p)); ctx.lineTo(X(t + PECA.p), Y(0)); }
+      }
+      ctx.stroke();
+    }
+    if (solida) linhas45(W, dir, '#d9534f');
+    else if (d > 0) {
+      var pad = selPad.value;
+      if (pad === 'grade') { linhas45(2 * W / d * Math.SQRT2, 1, '#f2c14e'); linhas45(2 * W / d * Math.SQRT2, -1, '#f2c14e'); }
+      else if (pad === 'linhas') linhas45(W / d * Math.SQRT2, dir, '#f2c14e');
+      else {
+        // giroide (aproximação): ondas que mudam de fase a cada camada
+        var per = 2.2 * W / d * 2, fase = (k * parseFloat(selAlt.value)) / per * 2 * Math.PI;
+        ctx.strokeStyle = '#f2c14e'; ctx.beginPath();
+        for (var y = -per; y < PECA.p + per; y += per / 2) {
+          for (var x = 0; x <= PECA.l; x += 0.5) {
+            var yy = y + Math.sin(x / per * 2 * Math.PI + fase) * per / 4;
+            if (x === 0) ctx.moveTo(X(x), Y(yy)); else ctx.lineTo(X(x), Y(yy));
+          }
+        }
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+    // barra lateral: a pilha de camadas
+    var bx = larg - 46, bt = 20, bh = alt - 40;
+    ctx.fillStyle = '#eef2f7'; ctx.fillRect(bx, bt, 22, bh);
+    ctx.fillStyle = 'rgba(217,83,79,.5)'; ctx.fillRect(bx, bt, 22, bh * nSol / e.N); ctx.fillRect(bx, bt + bh - bh * nSol / e.N, 22, bh * nSol / e.N);
+    var yk = bt + bh - bh * (k - 0.5) / e.N;
+    ctx.fillStyle = '#0070b8'; ctx.fillRect(bx - 4, yk - 2, 30, 4);
+    ctx.fillStyle = '#1b2333'; ctx.font = '600 12px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText('Camada ' + k + ' de ' + e.N + (solida ? ' · sólida' : ' · preenchimento ' + Math.round(d * 100) + '%'), larg - 56, 16);
+    ctx.textAlign = 'start';
+  }
+
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Mova o controle <strong>Camada</strong>: veja a <strong>primeira camada</strong> (sólida) e depois uma camada do <strong>meio</strong>, com preenchimento.',
+      teste: function () { return vistas.primeira && vistas.meio; } },
+    { texto: 'Configure um <strong>rascunho rápido</strong>: camada de 0,28 mm e 10% de preenchimento.',
+      teste: function () { return selAlt.value === '0.28' && c.inf.valor() === 10; } },
+    { texto: 'Coloque <strong>100% de preenchimento</strong>, veja o tempo e o filamento subirem, e depois volte para <strong>20%</strong>.',
+      teste: function () { return vistas.voltou20; } },
+    { texto: 'Com camada de 0,20 mm, experimente <strong>2 paredes + 50%</strong> e depois <strong>4 paredes + 20%</strong>. Compare e responda a pergunta abaixo.',
+      teste: function () { return vistas.cfgA && vistas.cfgB && resposta.value === 'b'; } }
+  ], 'Parabéns! Lembre: paredes dão mais resistência do que preenchimento. Agora fatie uma peça sua no fatiador de verdade.');
+  atualizar();
+})();
+</script>
+</body>
+</html>

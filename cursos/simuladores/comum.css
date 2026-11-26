@@ -1,0 +1,44 @@
+/* Simuladores da plataforma: mesmo visual das aulas. */
+:root {
+  --fundo: #f4f8fc; --cartao: #fff; --texto: #1b2333; --suave: #5b6578; --borda: #dfe3ec;
+  --primaria: #0070b8; --ok: #12743b; --ok-fundo: #e3f6ea; --erro: #a3261d; --erro-fundo: #fde8e6;
+  --alerta: #8a5a00; --alerta-fundo: #fff3d6;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--fundo); color: var(--texto); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.sim { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 12px; padding: 12px; max-width: 1100px; margin: 0 auto; }
+@media (max-width: 760px) { .sim { grid-template-columns: 1fr; } }
+.palco { position: relative; background: #fff; border: 1px solid var(--borda); border-radius: 10px; overflow: hidden; min-height: 300px; }
+.palco canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.palco canvas:active { cursor: grabbing; }
+.palco .dica-palco { position: absolute; left: 8px; bottom: 6px; font-size: 12px; color: var(--suave); background: rgba(255,255,255,.85); padding: 2px 6px; border-radius: 6px; pointer-events: none; }
+.palco .vistas { position: absolute; right: 8px; top: 8px; display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.painel { display: flex; flex-direction: column; gap: 10px; }
+.caixa { background: #fff; border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; }
+.caixa h2 { font-size: 14px; margin: 0 0 6px; color: var(--primaria); text-transform: uppercase; letter-spacing: .03em; }
+.campo { display: grid; grid-template-columns: 1fr 86px; align-items: center; gap: 4px 8px; margin: 6px 0; font-size: 14px; }
+.campo input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--primaria); }
+.campo input[type=number] { width: 86px; padding: 4px 6px; border: 1px solid var(--borda); border-radius: 6px; font: inherit; text-align: right; }
+.campo select { grid-column: 2; padding: 4px; border: 1px solid var(--borda); border-radius: 6px; font: inherit; }
+button, .botao { font: inherit; font-size: 13px; padding: 5px 10px; border-radius: 8px; border: 1px solid var(--primaria); background: #fff; color: var(--primaria); cursor: pointer; }
+button.cheio { background: var(--primaria); color: #fff; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #9cc9ea; outline-offset: 1px; }
+.medidas { font-variant-numeric: tabular-nums; font-size: 14px; margin: 0; padding-left: 0; list-style: none; }
+.medidas li { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--borda); padding: 2px 0; }
+.medidas li:last-child { border-bottom: 0; }
+.selo { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; }
+.selo.ok { background: var(--ok-fundo); color: var(--ok); }
+.selo.erro { background: var(--erro-fundo); color: var(--erro); }
+.selo.alerta { background: var(--alerta-fundo); color: var(--alerta); }
+.desafios { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.desafios li { display: grid; grid-template-columns: 22px 1fr; gap: 6px; font-size: 14px; padding: 6px; border-radius: 8px; background: var(--fundo); }
+.desafios li .marca { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--borda); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; }
+.desafios li.feito { background: var(--ok-fundo); }
+.desafios li.feito .marca { background: var(--ok); border-color: var(--ok); }
+.desafios li.atual { outline: 2px solid var(--primaria); }
+.parabens { margin: 6px 0 0; font-weight: 600; color: var(--ok); }
+.aviso { font-size: 13px; padding: 6px 8px; border-radius: 8px; margin: 6px 0 0; }
+.aviso.erro { background: var(--erro-fundo); color: var(--erro); }
+.aviso.alerta { background: var(--alerta-fundo); color: var(--alerta); }
+.aviso.ok { background: var(--ok-fundo); color: var(--ok); }
+.pequeno { font-size: 13px; color: var(--suave); }

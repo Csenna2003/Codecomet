@@ -72,16 +72,28 @@ function pacotes_de_cursos(): array
     return $r;
 }
 
+function ler_pacote(string $arquivo): array
+{
+    $c = json_decode((string) file_get_contents(RAIZ . '/app/conteudo/' . basename($arquivo)), true);
+    if (!is_array($c) || empty($c['modulos'])) throw new RuntimeException('Pacote inválido.');
+    return $c;
+}
+
 /** Cria o curso (em rascunho) com módulos, aulas, exercícios e notas do professor. */
 function importar_pacote(string $arquivo): string
 {
-    $c = json_decode((string) file_get_contents(RAIZ . '/app/conteudo/' . $arquivo), true);
-    if (!is_array($c)) throw new RuntimeException('Pacote inválido.');
-    return transacao(function () use ($c) {
+    $c = ler_pacote($arquivo);
+    return transacao(function () use ($c) { return inserir_pacote($c); });
+}
+
+/** Grava o pacote no banco. Chame dentro de uma transação. */
+function inserir_pacote(array $c): string
+{
+    {
         $cursoId = novo_id();
-        q("INSERT INTO cursos (id, slug, titulo, descricao, nivel, carga_horaria, preco_centavos, status, criado_em)
-           VALUES (?,?,?,?,?,?,0,'RASCUNHO',?)",
-            [$cursoId, $c['slug'], $c['titulo'], $c['descricao'], $c['nivel'] ?? 'INICIANTE', (int) ($c['carga_horaria'] ?? 0), agora()]);
+        q("INSERT INTO cursos (id, slug, titulo, descricao, nivel, carga_horaria, preco_centavos, status, versao, criado_em)
+           VALUES (?,?,?,?,?,?,0,'RASCUNHO',?,?)",
+            [$cursoId, $c['slug'], $c['titulo'], $c['descricao'], $c['nivel'] ?? 'INICIANTE', (int) ($c['carga_horaria'] ?? 0), (int) ($c['versao'] ?? 1), agora()]);
         foreach ($c['modulos'] as $mi => $m) {
             $modId = novo_id();
             q('INSERT INTO modulos (id, curso_id, ordem, titulo) VALUES (?,?,?,?)', [$modId, $cursoId, $mi + 1, $m['titulo']]);
@@ -100,7 +112,45 @@ function importar_pacote(string $arquivo): string
             }
         }
         return $cursoId;
+    }
+}
+
+/** O pacote traz uma versão mais nova (campo "versao") do que a importada? */
+function pacote_mudou(string $arquivo, string $cursoId): bool
+{
+    $c = ler_pacote($arquivo);
+    return (int) ($c['versao'] ?? 1) > (int) valor('SELECT versao FROM cursos WHERE id = ?', [$cursoId]);
+}
+
+/** O curso já tem alunos, vendas, licenças ou certificados? Então não pode ser substituído. */
+function curso_tem_alunos(string $cursoId): bool
+{
+    foreach (['acessos', 'pedidos', 'licencas', 'certificados'] as $t)
+        if (valor("SELECT 1 FROM $t WHERE curso_id = ? LIMIT 1", [$cursoId])) return true;
+    return (bool) valor('SELECT 1 FROM progresso p JOIN aulas a ON a.id = p.aula_id JOIN modulos m ON m.id = a.modulo_id WHERE m.curso_id = ? LIMIT 1', [$cursoId])
+        || (bool) valor('SELECT 1 FROM entregas e JOIN exercicios x ON x.id = e.exercicio_id JOIN aulas a ON a.id = x.aula_id JOIN modulos m ON m.id = a.modulo_id WHERE m.curso_id = ? LIMIT 1', [$cursoId]);
+}
+
+/** Troca um curso pronto ainda sem alunos pela versão nova do pacote, mantendo preço e status. */
+function acao_substituir_curso(): void
+{
+    $admin = exigir_admin();
+    $arq = post('arquivo');
+    $pacotes = pacotes_de_cursos();
+    if (!isset($pacotes[$arq])) voltar('erro', 'Curso não encontrado.', 'admin');
+    $velho = um('SELECT id, preco_centavos, status FROM cursos WHERE slug = ?', [$pacotes[$arq]['slug']]);
+    if (!$velho) voltar('erro', 'Este curso ainda não foi importado.', 'admin');
+    if (curso_tem_alunos($velho['id'])) voltar('erro', 'Este curso já tem alunos ou vendas: ele não pode ser substituído. Use a edição de aulas.', 'admin');
+    $c = ler_pacote($arq);
+    $novo = transacao(function () use ($c, $velho) {
+        q('DELETE FROM trilha_cursos WHERE curso_id = ?', [$velho['id']]);
+        q('DELETE FROM cursos WHERE id = ?', [$velho['id']]);
+        $id = inserir_pacote($c);
+        q('UPDATE cursos SET preco_centavos = ?, status = ? WHERE id = ?', [$velho['preco_centavos'], $velho['status'], $id]);
+        return $id;
     });
+    auditar($admin['id'], null, 'curso.substituido', 'Curso', $novo, ['pacote' => $arq, 'anterior' => $velho['id']]);
+    voltar('ok', 'Curso atualizado para a versão nova. Preço e status foram mantidos.', 'admin_curso', ['id' => $novo]);
 }
 
 function acao_importar_curso(): void

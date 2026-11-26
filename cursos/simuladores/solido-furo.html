@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sólido e furo: o copo</title>
+<link rel="stylesheet" href="comum.css">
+</head>
+<body>
+<div class="sim">
+  <div class="palco" style="height:460px">
+    <canvas id="tela" aria-label="Cilindro sólido e cilindro furo em 3D"></canvas>
+    <div class="vistas" data-vistas></div>
+    <span class="dica-palco">Arraste para girar · roda ou dois dedos para aproximar</span>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>Cilindro sólido</h2>
+      <div class="campo"><label for="sd">Diâmetro (mm)</label><input type="number" id="sd" min="20" max="80" step="1" value="50"><input type="range"></div>
+      <div class="campo"><label for="sh">Altura (mm)</label><input type="number" id="sh" min="10" max="90" step="1" value="70"><input type="range"></div>
+    </div>
+    <div class="caixa">
+      <h2>Cilindro furo</h2>
+      <div class="campo"><label for="fd">Diâmetro (mm)</label><input type="number" id="fd" min="0" max="80" step="1" value="44"><input type="range"></div>
+      <div class="campo"><label for="fh">Altura (mm)</label><input type="number" id="fh" min="1" max="100" step="1" value="70"><input type="range"></div>
+      <div class="campo"><label for="fz">Elevação do furo (mm)</label><input type="number" id="fz" min="0" max="40" step="1" value="0"><input type="range"></div>
+      <p style="margin:8px 0 0;display:flex;gap:6px;flex-wrap:wrap">
+        <label><input type="checkbox" id="agrupar"> Agrupar (Ctrl + G)</label>
+        <label><input type="checkbox" id="corte" checked> Ver em corte</label>
+      </p>
+    </div>
+    <div class="caixa">
+      <h2>Resultado</h2>
+      <ul class="medidas" id="medidas"></ul>
+      <p class="aviso" id="aviso" hidden></p>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var cena = new Sim.Cena3D(document.getElementById('tela'), { alvo: [0, 0, 35], dist: 230, grade: { tam: 100, passo: 5, x0: -50, y0: -50 }, eixos: false });
+  Sim.botoesVista(document.querySelector('[data-vistas]'), cena);
+  var c = {}, desafios, r = {};
+  ['sd', 'sh', 'fd', 'fh', 'fz'].forEach(function (id) { c[id] = Sim.campo(id, atualizar); });
+  var agrupar = document.getElementById('agrupar'), corte = document.getElementById('corte');
+  agrupar.addEventListener('change', atualizar); corte.addEventListener('change', atualizar);
+
+  function calcular() {
+    var R = c.sd.valor() / 2, H = c.sh.valor(), rf = c.fd.valor() / 2, zb = c.fz.valor(), zt = zb + c.fh.valor();
+    var atravessa = rf >= R;                // furo mais largo que o sólido: some tudo na altura dele
+    var fundo = rf > 0 ? Math.min(zb, H) : H;
+    var topo = zt > H ? 'aberto' : (zt === H ? 'pelicula' : 'fechado');
+    return { R: R, H: H, rf: rf, zb: Math.min(zb, H), zt: Math.min(zt, H), fundo: fundo, parede: rf > 0 ? R - rf : R,
+             topo: topo, tampa: Math.max(0, H - zt), atravessa: atravessa, semFuro: rf === 0 || zb >= H };
+  }
+
+  function atualizar() {
+    r = calcular();
+    var a0 = corte.checked ? -80 : 0, a1 = corte.checked ? 190 : 360, azul = '#2b8fd6', corteCor = '#f0a33a';
+    var f = [];
+    if (!agrupar.checked) {
+      f = f.concat(Sim.Geo.anel(0, 0, 0, r.R, 0, r.H, azul, 0, 360));
+      if (c.fd.valor() > 0) f = f.concat(Sim.Geo.anel(0, 0, 0, c.fd.valor() / 2, c.fz.valor(), c.fz.valor() + c.fh.valor(), '#8a8f99', 0, 360, 40).map(function (x) { x.alfa = 0.35; x.duasFaces = true; return x; }));
+    } else if (r.semFuro) {
+      f = Sim.Geo.anel(0, 0, 0, r.R, 0, r.H, azul, a0, a1, 48, corteCor);
+    } else {
+      // resultado do agrupamento: fundo maciço, parede (anel) e tampa maciça se o furo não chegar ao topo
+      if (r.zb > 0) f = f.concat(Sim.Geo.anel(0, 0, 0, r.R, 0, r.zb, azul, a0, a1, 48, corteCor));
+      if (!r.atravessa) f = f.concat(Sim.Geo.anel(0, 0, r.rf, r.R, r.zb, r.zt, azul, a0, a1, 48, corteCor));
+      if (r.zt < r.H) f = f.concat(Sim.Geo.anel(0, 0, 0, r.R, r.zt, r.H, azul, a0, a1, 48, corteCor));
+    }
+    cena.faces = f;
+    cena.rotulos = agrupar.checked && !r.semFuro && corte.checked ? [
+      { p: [r.R + 6, 0, r.H * 0.6], texto: 'parede ' + Sim.num(r.parede) + ' mm', cor: '#a35a00' },
+      { p: [r.R / 2, -r.R - 6, r.zb / 2], texto: 'fundo ' + Sim.num(r.fundo) + ' mm', cor: '#a35a00' }
+    ] : [];
+    cena.desenhar();
+
+    var med = document.getElementById('medidas'), aviso = document.getElementById('aviso');
+    med.innerHTML = '';
+    var linhas = agrupar.checked ? [
+      ['Parede', r.atravessa ? 'não sobrou parede' : Sim.mm(r.parede)],
+      ['Fundo', Sim.mm(r.fundo)],
+      ['Topo', r.topo === 'aberto' ? 'aberto' : r.topo === 'pelicula' ? 'película?' : 'fechado, ' + Sim.mm(r.tampa)]
+    ] : [['Situação', 'peças separadas']];
+    linhas.forEach(function (l) { var li = document.createElement('li'); li.innerHTML = '<span>' + l[0] + '</span><strong>' + l[1] + '</strong>'; med.appendChild(li); });
+    var msg = null, tipo = 'alerta';
+    if (!agrupar.checked) { msg = 'O furo (cinza) ainda não cavou nada: ele só funciona depois de agrupar com o sólido.'; }
+    else if (r.atravessa) { msg = 'O furo é mais largo que o sólido: ele apaga a peça inteira na altura dele.'; tipo = 'erro'; }
+    else if (r.fundo === 0 && !r.semFuro) { msg = 'Sem fundo: virou um tubo. Levante o furo para sobrar fundo.'; }
+    else if (r.topo === 'pelicula') { msg = 'O furo termina exatamente no topo do sólido. No Tinkercad isso pode deixar uma "película" finíssima. Faça o furo passar 1 mm do topo.'; }
+    else if (r.parede < 0.8 && !r.semFuro) { msg = 'Parede com menos de 0,8 mm: fina demais para imprimir.'; tipo = 'erro'; }
+    else if (r.fundo > 0 && r.fundo < 0.8 && !r.semFuro) { msg = 'Fundo com menos de 0,8 mm: fica frágil e pode nem ser impresso.'; tipo = 'erro'; }
+    aviso.hidden = !msg; aviso.className = 'aviso ' + tipo; aviso.textContent = msg || '';
+    if (desafios) desafios.verificar();
+  }
+
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Marque <strong>Agrupar</strong> para o furo cavar o sólido.', teste: function () { return agrupar.checked; } },
+    { texto: 'Veja o problema: o furo começa no chão, então o "copo" não tem fundo. <strong>Levante o furo 3 mm</strong> para ter um fundo de 3 mm.',
+      teste: function () { return agrupar.checked && r.fundo === 3 && !r.semFuro && r.topo !== 'fechado'; } },
+    { texto: 'Agora o furo termina exatamente no topo? Isso pode deixar uma película. Garanta que o furo <strong>passe do topo</strong> (topo aberto).',
+      teste: function () { return agrupar.checked && r.topo === 'aberto' && r.fundo === 3; } },
+    { texto: 'Faça um copo com <strong>parede de 2 mm</strong> e fundo de 2 mm, aberto em cima.',
+      teste: function () { return agrupar.checked && r.parede === 2 && r.fundo === 2 && r.topo === 'aberto'; } },
+    { texto: 'Faça um <strong>cofrinho fechado</strong>: oco por dentro, com fundo de 2 mm e tampa de 2 mm (o furo não chega ao topo).',
+      teste: function () { return agrupar.checked && r.fundo === 2 && r.topo === 'fechado' && r.tampa === 2 && r.parede >= 1; } }
+  ], 'Parabéns! Você domina sólidos e furos. Agora faça o dado com bolinhas gravadas no Tinkercad.');
+  atualizar();
+})();
+</script>
+</body>
+</html>

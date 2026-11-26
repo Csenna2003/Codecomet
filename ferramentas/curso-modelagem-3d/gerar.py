@@ -22,6 +22,9 @@ CURSO = {
                  'Medidas, folgas e encaixes, fatiamento e solução de problemas de impressão, projetos que resolvem problemas reais '
                  'e um projeto final com portfólio. A partir de 11 anos, também para adultos.',
     'nivel': 'INICIANTE',
+    # Suba a versão quando mudar a organização das aulas: o admin vê "Atualizar para a versão nova"
+    # nos cursos já importados que ainda não têm alunos. (v2: roteiro padrão das aulas e simuladores.)
+    'versao': 2,
     # carga horária = soma da duração das aulas, arredondada
     'carga_horaria': round(sum(a['duracao_min'] for m in MODULOS for a in m['aulas']) / 60),
     'modulos': MODULOS,

@@ -66,7 +66,8 @@ cabecalho('Editar curso');
         <label>Texto da aula<textarea name="conteudo" rows="4"></textarea></label>
         <p class="pequeno suave">Formatação: “## ” no início da linha faz um subtítulo, “- ” faz uma lista, “[[Dica]] texto” faz um quadro de destaque e **texto** fica em negrito. Deixe uma linha em branco entre os parágrafos.</p>
         <label>Link do vídeo (YouTube ou Vimeo)<input name="video_url" type="url"></label>
-        <label>Link do projeto no simulador (tinkercad.com/things/… ou wokwi.com/projects/…)<input name="simulador_url" type="url"></label>
+        <label>Simulador: link do Tinkercad ou Wokwi, ou um simulador da plataforma<input name="simulador_url" list="sims-internos" inputmode="url" value="" placeholder="https://www.tinkercad.com/things/... ou simuladores/..."></label>
+    <datalist id="sims-internos"><?php foreach (simuladores_internos() as $arq => $tit): ?><option value="<?= e($arq) ?>"><?= e($tit) ?></option><?php endforeach ?></datalist>
         <fieldset class="pilha"><legend>Só para quiz</legend>
           <label>Perguntas — separe com uma linha em branco; marque a opção correta com * e as outras com -
             <textarea name="quiz" rows="5" placeholder="Qual pino liga o LED?&#10;* GPIO16&#10;- GPIO34"></textarea></label>

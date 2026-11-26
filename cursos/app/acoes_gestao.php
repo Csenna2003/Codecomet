@@ -164,7 +164,7 @@ function acao_criar_aula(): void
     if ($tipo === 'VIDEO' && !($video && embed_video($video))) $falha('Aula em vídeo precisa de um link do YouTube ou do Vimeo.');
     if ($video && !embed_video($video)) $falha('Link de vídeo não reconhecido (use YouTube ou Vimeo).');
     if ($tipo === 'SIMULADOR' && !$sim) $falha('Aula de simulador precisa do link do projeto.');
-    if ($sim && !embed_simulador($sim)) $falha('Link de simulador não reconhecido. Use tinkercad.com/things/... ou wokwi.com/projects/...');
+    if ($sim && !embed_simulador($sim)) $falha('Link de simulador não reconhecido. Use tinkercad.com/things/..., wokwi.com/projects/... ou um simulador da plataforma (simuladores/...).');
 
     $quiz = $tipo === 'QUIZ' ? parse_quiz((string) ($_POST['quiz'] ?? '')) : [];
     if ($tipo === 'QUIZ' && !$quiz) $falha('Quiz sem perguntas válidas. Marque a opção correta com * e as demais com -.');

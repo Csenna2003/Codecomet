@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folgas e encaixes</title>
+<link rel="stylesheet" href="comum.css">
+</head>
+<body>
+<div class="sim">
+  <div class="palco" style="height:420px">
+    <canvas id="tela" aria-label="Corte de um pino dentro de um furo, com a folga aumentada"></canvas>
+    <span class="dica-palco">Vista de cima, em corte. A folga está desenhada 20 vezes maior para dar para ver.</span>
+  </div>
+  <div class="painel">
+    <div class="caixa">
+      <h2>No modelo (mm)</h2>
+      <div class="campo"><label for="pino">Diâmetro do pino</label><input type="number" id="pino" min="2" max="20" step="0.1" value="10"><input type="range"></div>
+      <div class="campo"><label for="furo">Diâmetro do furo</label><input type="number" id="furo" min="2" max="21" step="0.1" value="10"><input type="range"></div>
+    </div>
+    <div class="caixa">
+      <h2>A impressora</h2>
+      <div class="campo"><label for="enc">Furos saem menores em (mm)</label><input type="number" id="enc" min="0" max="0.6" step="0.1" value="0.2"><input type="range"></div>
+      <div class="campo"><label for="cre">Pinos saem maiores em (mm)</label><input type="number" id="cre" min="0" max="0.3" step="0.1" value="0.1"><input type="range"></div>
+    </div>
+    <div class="caixa">
+      <h2>Depois de imprimir</h2>
+      <ul class="medidas" id="medidas"></ul>
+      <p style="margin:8px 0 0">Encaixe: <span class="selo" id="selo"></span></p>
+    </div>
+    <div class="caixa">
+      <h2>Desafios</h2>
+      <ol class="desafios" id="desafios"></ol>
+    </div>
+  </div>
+</div>
+<script src="comum.js"></script>
+<script>
+(function () {
+  var c = {}, r = {}, desafios, larg = 600, alt = 420;
+  ['pino', 'furo', 'enc', 'cre'].forEach(function (id) { c[id] = Sim.campo(id, atualizar); });
+  var ctx = Sim.canvas(document.getElementById('tela'), function (w, h) { larg = w; alt = h; desenhar(); });
+  var TIPOS = [
+    { ate: -1e-9, nome: 'não entra', cls: 'erro', cor: '#c0392b' },
+    { ate: 0.1, nome: 'justo (pressão)', cls: 'ok', cor: '#12743b' },
+    { ate: 0.25, nome: 'desliza', cls: 'ok', cor: '#0070b8' },
+    { ate: 0.5, nome: 'solto (gira)', cls: 'alerta', cor: '#8a5a00' },
+    { ate: 1e9, nome: 'muito solto (balança)', cls: 'erro', cor: '#c0392b' }
+  ];
+  function arred(v) { return Math.round(v * 100) / 100; }
+  function calcular() {
+    var pino = arred(c.pino.valor() + c.cre.valor()), furo = arred(c.furo.valor() - c.enc.valor());
+    var folga = arred((furo - pino) / 2);
+    var tipo = TIPOS.filter(function (t) { return folga <= t.ate; })[0];
+    return { pinoReal: pino, furoReal: furo, folga: folga, tipo: tipo };
+  }
+  function desenhar() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, larg, alt); ctx.fillStyle = '#fbfdff'; ctx.fillRect(0, 0, larg, alt);
+    var cx = larg / 2, cy = alt / 2 + 10, base = Math.min(larg, alt) * 0.25;
+    // o pino tem tamanho fixo no desenho; a folga (ou a sobra) é mostrada 20× maior
+    var rp = base, rf = base + r.folga * 20 * 6; // 1 mm de folga = 120 px (20× maior que a escala do pino)
+    ctx.fillStyle = '#c9d2dc'; ctx.fillRect(cx - base * 1.7, cy - base * 1.45, base * 3.4, base * 2.9);   // placa
+    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(cx, cy, Math.max(4, rf), 0, 2 * Math.PI); ctx.fill(); // furo
+    ctx.fillStyle = r.folga < 0 ? 'rgba(192,57,43,.85)' : '#2b8fd6';
+    ctx.beginPath(); ctx.arc(cx, cy, rp, 0, 2 * Math.PI); ctx.fill();                                    // pino
+    if (r.folga < 0) { ctx.strokeStyle = '#1b2333'; ctx.setLineDash([6, 4]); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, Math.max(4, rf), 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.fillStyle = '#1b2333'; ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('pino Ø ' + Sim.num(r.pinoReal, 2), cx, cy + 5);
+    ctx.fillText(r.folga < 0 ? 'o pino é ' + Sim.num(-r.folga * 2, 2) + ' mm maior que o furo' : 'folga de ' + Sim.num(r.folga, 2) + ' mm de cada lado',
+                 cx, 26);
+    ctx.textAlign = 'start';
+  }
+  function atualizar() {
+    r = calcular();
+    var ul = document.getElementById('medidas'); ul.innerHTML = '';
+    [['Pino impresso', Sim.mm(r.pinoReal, 2)], ['Furo impresso', Sim.mm(r.furoReal, 2)], ['Folga de cada lado', Sim.mm(r.folga, 2)]].forEach(function (l) {
+      var li = document.createElement('li'); li.innerHTML = '<span>' + l[0] + '</span><strong>' + l[1] + '</strong>'; ul.appendChild(li);
+    });
+    var selo = document.getElementById('selo'); selo.textContent = r.tipo.nome; selo.className = 'selo ' + r.tipo.cls;
+    desenhar();
+    if (desafios) desafios.verificar();
+  }
+  function e(v, alvo) { return Math.abs(v - alvo) < 1e-6; }
+  desafios = Sim.desafios('desafios', [
+    { texto: 'Pino de 10 mm num furo de 10 mm, como no modelo: veja que <strong>não entra</strong>. Mantenha assim e observe as medidas impressas.',
+      teste: function () { return e(c.pino.valor(), 10) && e(c.furo.valor(), 10) && r.tipo.nome === 'não entra'; } },
+    { texto: 'Ajuste <strong>só o furo</strong> para o pino de 10 mm <strong>deslizar</strong>.',
+      teste: function () { return e(c.pino.valor(), 10) && e(c.enc.valor(), 0.2) && e(c.cre.valor(), 0.1) && r.tipo.nome === 'desliza'; } },
+    { texto: 'Encaixe de <strong>pressão (justo)</strong> para um pino de <strong>8 mm</strong>.',
+      teste: function () { return e(c.pino.valor(), 8) && e(c.enc.valor(), 0.2) && r.tipo.nome === 'justo (pressão)'; } },
+    { texto: 'Dobradiça: pino de <strong>3 mm</strong> que <strong>gira solto</strong>.',
+      teste: function () { return e(c.pino.valor(), 3) && e(c.enc.valor(), 0.2) && r.tipo.nome === 'solto (gira)'; } },
+    { texto: 'Outra impressora deixa os furos <strong>0,4 mm menores</strong>. Refaça o encaixe <strong>deslizante</strong> do pino de 10 mm.',
+      teste: function () { return e(c.pino.valor(), 10) && e(c.enc.valor(), 0.4) && r.tipo.nome === 'desliza'; } }
+  ], 'Parabéns! Use estas folgas nos seus encaixes e confirme imprimindo um teste.');
+  atualizar();
+})();
+</script>
+</body>
+</html>
