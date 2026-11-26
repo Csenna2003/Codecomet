@@ -87,8 +87,9 @@ function importar_pacote(string $arquivo): string
             q('INSERT INTO modulos (id, curso_id, ordem, titulo) VALUES (?,?,?,?)', [$modId, $cursoId, $mi + 1, $m['titulo']]);
             foreach ($m['aulas'] as $ai => $a) {
                 $aulaId = novo_id();
-                q('INSERT INTO aulas (id, modulo_id, ordem, titulo, tipo, conteudo, simulador_url, obrigatoria, duracao_min) VALUES (?,?,?,?,?,?,?,?,?)',
+                q('INSERT INTO aulas (id, modulo_id, ordem, titulo, tipo, conteudo, simulador_url, quiz, obrigatoria, duracao_min) VALUES (?,?,?,?,?,?,?,?,?,?)',
                     [$aulaId, $modId, $ai + 1, mb_substr($a['titulo'], 0, 160), $a['tipo'], $a['conteudo'], $a['simulador_url'] ?? null,
+                        !empty($a['quiz']) ? json_encode($a['quiz'], JSON_UNESCAPED_UNICODE) : null,
                         ($a['obrigatoria'] ?? true) ? 1 : 0, (int) ($a['duracao_min'] ?? 0)]);
                 if (!empty($a['notas'])) q('INSERT INTO aula_notas (aula_id, texto) VALUES (?,?)', [$aulaId, $a['notas']]);
                 if (!empty($a['exercicio'])) {

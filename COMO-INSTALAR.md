@@ -91,16 +91,18 @@ Clique no nome do aluno no painel da escola, nas correções ou nas aulas partic
 e-mail em **Administração**. Mostra cada curso aula por aula (com a data de conclusão), as entregas e notas,
 os certificados e todas as aulas particulares. O aluno vê o próprio em **Meu painel → Meu acompanhamento**.
 
-## Seus cursos prontos (Robótica, Programação e Formação Maker)
+## Seus cursos prontos (Robótica, Programação, Formação Maker e Modelagem 3D)
 
-Em **Administração → Cursos prontos da Adoro Robótica** aparecem os 3 cursos montados a partir das suas
-apostilas do Google Drive:
+Em **Administração → Cursos prontos da Adoro Robótica** aparecem os cursos prontos. Os três primeiros foram montados a partir das suas
+apostilas do Google Drive; o de Modelagem 3D foi escrito para a plataforma, seguindo a sequência
+do seu material (Tinkercad e depois Fusion 360):
 
 | Curso | Módulos | Aulas | Carga |
 |---|---|---|---|
 | Robótica e Programação (versão remota) | 6 | 102 | 96h |
 | Curso de Programação | 6 | 78 | 72h |
 | Formação Maker (Currículo de 70 horas) | 6 | 60 | 70h |
+| Modelagem 3D: do Tinkercad ao Fusion 360 | 6 | 51 | 54h |
 
 Clique em **Importar curso**. Ele entra como **rascunho**, com preço zero: revise, defina o preço e o
 status **Publicado** em **Editar conteúdo**. Cada módulo termina com um projeto que o aluno entrega e o

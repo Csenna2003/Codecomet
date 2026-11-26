@@ -1,0 +1,761 @@
+{
+ "slug": "modelagem-3d",
+ "titulo": "Modelagem 3D: do Tinkercad ao Fusion 360",
+ "descricao": "Curso completo de modelagem e impressão 3D: do primeiro cubo no Tinkercad ao CAD paramétrico no Fusion 360. Medidas, folgas e encaixes, fatiamento e solução de problemas de impressão, projetos que resolvem problemas reais e um projeto final com portfólio. A partir de 11 anos, também para adultos.",
+ "nivel": "INICIANTE",
+ "carga_horaria": 54,
+ "modulos": [
+  {
+   "titulo": "Primeiros passos no Tinkercad",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao curso",
+     "tipo": "TEXTO",
+     "conteudo": "Neste curso você vai aprender a transformar ideias em objetos de verdade. Primeiro você desenha a peça no computador (modelagem 3D); depois a impressora 3D constrói essa peça, camada por camada.\n\n## Como o curso funciona\n\n- **6 módulos**, do primeiro cubo no Tinkercad até peças profissionais no Fusion 360.\n\n- Cada módulo termina com um **projeto** que você envia aqui na plataforma (link do Tinkercad, fotos ou o arquivo STL) e o professor corrige.\n\n- Os **quizzes** conferem se os conceitos ficaram claros. É preciso acertar 70% para seguir.\n\n- No fim, o **projeto final** e o **certificado**.\n\n## O que você precisa\n\n- Um computador com internet (Windows, Mac, Linux ou Chromebook). Celular e tablet servem para estudar o texto, mas não para modelar.\n\n- Um **mouse com roda**. Dá para usar o touchpad, mas o mouse deixa tudo muito mais fácil.\n\n- Uma conta gratuita no Tinkercad (vamos criar na próxima aula).\n\n- Um caderno ou arquivo para o **diário de bordo**: ideias, esboços, medidas e o que deu certo ou errado.\n\n- Uma régua. A partir do Módulo 2, um **paquímetro** ajuda muito (os digitais são baratos).\n\n[[Dica]] Não precisa ter impressora 3D em casa. Você pode imprimir na escola, num espaço maker ou num serviço de impressão. O que você aprende aqui vale para qualquer impressora.\n\n## Combinados\n\n- Salve sempre: dê nomes claros aos projetos (ex.: `chaveiro-ana-v2`).\n\n- Errou? Ótimo: anote no diário de bordo o que aconteceu e o que você mudou. É assim que engenheiros e designers trabalham.\n\n- Respeite a autoria: se usar um modelo de outra pessoa como base, diga de onde veio.",
+     "notas": "**Preparação:** Confira se cada aluno tem e-mail para criar a conta no Tinkercad. Alunos menores de 13 anos entram pela **conta da turma** (Tinkercad Classrooms) com o código da turma, sem e-mail; crie a turma antes da aula.\n\n**O que observar:**\n\n- Quem não tem mouse: combine com a família ou empreste um da escola; o touchpad atrasa muito o ritmo nas primeiras aulas.\n\n- Apresente o diário de bordo como parte da nota (ele entra nos critérios dos projetos).\n\n**Adaptação:**\n\n- Adultos: mostre exemplos de uso profissional (peças de reposição, protótipos, odontologia, arquitetura) para conectar com o interesse deles.",
+     "duracao_min": 15
+    },
+    {
+     "titulo": "O que é modelagem 3D e onde ela aparece",
+     "tipo": "TEXTO",
+     "conteudo": "**Modelagem 3D** é criar, no computador, a forma de um objeto em três dimensões: largura (X), profundidade (Y) e altura (Z). O arquivo resultante pode virar uma imagem, uma animação, um jogo... ou uma peça impressa.\n\n## Onde a modelagem 3D está\n\n- **Indústria:** cada parafuso, capa de celular e peça de carro foi modelada antes de ser fabricada.\n\n- **Saúde:** próteses e aparelhos ortodônticos sob medida.\n\n- **Arquitetura:** maquetes e projetos de casas e cidades.\n\n- **Games e cinema:** personagens e cenários.\n\n- **Robótica:** chassis, suportes de sensores e garras feitos sob medida para o robô.\n\n## Dois jeitos de modelar\n\n- **Modelagem por sólidos (blocos):** você junta e recorta formas prontas (cubos, cilindros, esferas). É o jeito do **Tinkercad**: rápido e ótimo para começar.\n\n- **Modelagem paramétrica:** você desenha um esboço com medidas e regras e transforma em sólido. Mudou uma medida? O modelo inteiro se ajusta. É o jeito do **Fusion 360**, do Onshape e do SolidWorks, usados na indústria. Vamos chegar lá no Módulo 5.\n\n## Do modelo à peça\n\n1. **Modelar** a peça no computador.\n\n2. **Exportar** um arquivo de malha (STL ou 3MF).\n\n3. **Fatiar:** um programa (fatiador) corta o modelo em camadas e gera as instruções para a impressora.\n\n4. **Imprimir:** a impressora derrete plástico e desenha camada sobre camada.\n\n5. **Testar e melhorar:** medir, encaixar, usar... e voltar ao passo 1 se precisar.\n\n[[Pergunta para pensar]] Olhe ao seu redor e escolha um objeto de plástico. Que formas simples (cubos, cilindros, esferas) você usaria para construí-lo?\n\n[[Você entrega]] Nada para enviar hoje. Anote no diário de bordo três objetos da sua casa que você gostaria de modelar e por quê.",
+     "notas": "**Preparação:** Leve (ou mostre em vídeo) uma peça impressa e o arquivo dela aberto no computador, para os alunos ligarem as duas coisas.\n\n**O que observar:**\n\n- Alunos que confundem modelagem 3D com impressão 3D: reforce que modelar é desenhar; imprimir é fabricar.\n\n- Na pergunta para pensar, valorize decomposições criativas (uma caneca = cilindro − cilindro + \"rosquinha\" da alça).\n\n**Respostas esperadas:**\n\n- Formas simples: caixa, cilindro, esfera, cone, toro (rosquinha), cunha.",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "Criando a conta e conhecendo o Tinkercad",
+     "tipo": "TEXTO",
+     "conteudo": "O **Tinkercad** é gratuito, funciona no navegador (não precisa instalar nada) e salva tudo sozinho na nuvem. Acesse https://www.tinkercad.com.\n\n## Criando a conta\n\n1. Clique em **Inscrever-se** (ou **Sign up**).\n\n2. Alunos com o professor: escolha **Estudante** e entre com o **código da turma** que o professor passou. Não precisa de e-mail.\n\n3. Quem estuda sozinho: crie uma conta pessoal (com o e-mail de um responsável, se tiver menos de 13 anos).\n\n4. No painel, clique em **Criar → Design 3D**.\n\n## A tela do Tinkercad\n\n- **Plano de trabalho (workplane):** a grade azul onde você constrói. Cada quadradinho vale 1 mm.\n\n- **Painel de formas** (à direita): caixa, cilindro, esfera, telhado, cone, texto e muitas outras. É só arrastar para o plano.\n\n- **Cubo de visualização** (canto superior esquerdo): clique nas faces (FRENTE, CIMA...) para girar a vista.\n\n- **Barra de ferramentas** (em cima): agrupar, alinhar, espelhar, copiar, desfazer.\n\n- **Inspetor de forma:** quando você seleciona um objeto, aparece uma caixinha para escolher **Sólido** ou **Furo** e a cor.\n\n## Mexendo na câmera (o mais importante hoje)\n\n- **Girar a vista:** botão direito do mouse pressionado + arrastar.\n\n- **Afastar e aproximar:** roda do mouse.\n\n- **Arrastar a vista para o lado:** roda pressionada (ou Shift + botão direito) + arrastar.\n\n- **Centralizar no que está selecionado:** tecla `F`.\n\n- **Voltar para a vista inicial:** o ícone de casinha.\n\n[[Desafio]] Arraste uma caixa, um cilindro e uma esfera para o plano. Gire a câmera até ver os três por baixo. Depois volte para a vista inicial.\n\n[[Atenção]] O Tinkercad salva sozinho, mas só enquanto você está conectado. Antes de fechar, espere aparecer \"Todas as alterações salvas\".",
+     "notas": "**Preparação:** Crie a turma no Tinkercad Classrooms e tenha o código projetado na tela. Teste o acesso no computador da escola (bloqueios de rede às vezes impedem o Tinkercad).\n\n**O que observar:**\n\n- Quem gira a peça em vez da câmera: explique a diferença (arrastar com o botão esquerdo **move a peça**).\n\n- Quem \"perdeu\" o projeto: a casinha e a tecla F resolvem quase sempre.\n\n**Adaptação:**\n\n- Turma de 10 a 12 anos: faça a navegação como jogo (\"quem acha primeiro a esfera escondida atrás da caixa\").",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Mover, girar e redimensionar com precisão",
+     "tipo": "TEXTO",
+     "conteudo": "Agora vamos controlar as formas: posição, tamanho e rotação, com medidas exatas.\n\n## Mover\n\n- Arraste a forma com o botão esquerdo para movê-la no plano.\n\n- Use as **setas do teclado** para mover de 1 em 1 mm (o valor da **grade de encaixe**, no canto inferior direito). Com **Shift**, move de 10 em 10.\n\n- A **seta preta** em cima da forma levanta ou abaixa a peça (eixo Z). Ou use **Ctrl + seta para cima/baixo**.\n\n- Tecla `D`: \"solta\" a peça de volta no plano de trabalho.\n\n## Redimensionar\n\n- Os quadradinhos brancos nos cantos mudam largura e profundidade; o de cima muda a altura.\n\n- Clique em um quadradinho e **digite a medida** na caixa que aparece. É assim que trabalhamos com precisão.\n\n- Com **Shift** pressionado, a forma cresce mantendo as proporções.\n\n## Girar\n\n- As setas curvas giram a peça em cada eixo.\n\n- Com o mouse perto do centro do anel, o giro anda de 1° em 1°; afastando o mouse para fora do anel, ele salta em passos maiores. O jeito mais preciso é **digitar o ângulo** na caixinha que aparece.\n\n## Grade de encaixe\n\nNo canto inferior direito, **Grade de encaixe** define de quanto em quanto as peças andam: 1 mm é bom para começar; 0,1 mm para ajustes finos.\n\n[[Desafio]] Monte uma **mesa**: tampo de 60 × 40 × 4 mm apoiado em quatro pernas de 4 × 4 × 40 mm, uma em cada canto, todas exatamente alinhadas com a borda do tampo.\n\n[[Dica]] Errou? `Ctrl + Z` desfaz. `Ctrl + D` duplica a peça selecionada (ótimo para as quatro pernas).",
+     "notas": "**Preparação:** Projete um modelo da mesa pronta para os alunos compararem.\n\n**O que observar:**\n\n- Pernas \"flutuando\" ou enterradas no tampo: mostre a medida de altura e o uso da tecla D.\n\n- Quem acerta \"no olho\": peça que confira com as medidas digitadas. Precisão é o tema do curso.\n\n**Respostas esperadas:**\n\n- Tampo elevado a 40 mm do plano; pernas com 40 mm de altura apoiadas no plano, encostando por baixo do tampo.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Sólidos e furos: construindo e recortando",
+     "tipo": "TEXTO",
+     "conteudo": "Toda forma no Tinkercad pode ser **Sólido** (material) ou **Furo** (espaço vazio). Quando você **agrupa** um sólido com um furo, o furo \"cava\" o sólido. É assim que se fazem buracos, encaixes, letras gravadas e peças ocas.\n\n## Passo a passo: um copo\n\n1. Arraste um **cilindro** e deixe com 50 × 50 × 70 mm.\n\n2. Arraste outro cilindro, mude para **Furo** no inspetor e deixe com 44 × 44 × 70 mm.\n\n3. Levante o furo 3 mm (para sobrar o fundo do copo).\n\n4. Selecione os dois e use **Alinhar** (tecla `L`): clique nos pontos do meio para centralizar nos eixos X e Y.\n\n5. Selecione os dois e **Agrupar** (`Ctrl + G`). Pronto: um copo com parede de 3 mm e fundo de 3 mm.\n\n## Regras importantes\n\n- O furo só funciona **depois de agrupar** com o sólido.\n\n- Um furo que atravessa a peça inteira precisa ser **um pouco maior** que ela (passe 1 mm para cada lado). Se ficar exatamente na mesma medida, pode sobrar uma \"película\" finíssima.\n\n- Para desfazer um grupo: `Ctrl + Shift + G`.\n\n- Grupos podem entrar em outros grupos. Organize: agrupe o que forma uma parte da peça.\n\n## Formas que ajudam\n\n- **Tubo:** um cilindro já oco, com espessura de parede ajustável.\n\n- **Texto:** escreva palavras e use como sólido (relevo) ou furo (gravado).\n\n- **Formas básicas com parâmetros:** ao selecionar uma forma, o inspetor mostra opções como raio, número de lados e arredondamento.\n\n[[Desafio]] Faça um **dado**: um cubo de 20 mm com bordas arredondadas (parâmetro \"Raio\" da caixa) e as bolinhas gravadas com pequenas esferas-furo de 4 mm.\n\n[[Pergunta para pensar]] Por que o fundo do copo precisa de uma espessura? O que aconteceria na impressão se o fundo tivesse 0,2 mm?",
+     "notas": "**Preparação:** Tenha um dado impresso para mostrar as bolinhas gravadas.\n\n**O que observar:**\n\n- Furos que \"não funcionam\": quase sempre falta agrupar.\n\n- Bolinhas que atravessam o dado: ajuste a altura das esferas-furo para cavar só 1 a 2 mm.\n\n**Respostas esperadas:**\n\n- Fundo fino demais fica frágil, pode vazar e muitas vezes nem é impresso (é menor que uma camada).",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Alinhar, espelhar, duplicar e organizar",
+     "tipo": "TEXTO",
+     "conteudo": "Peças bem feitas são simétricas e organizadas. Estas ferramentas economizam tempo e evitam erros de \"quase alinhado\".\n\n## Alinhar (`L`)\n\nSelecione as peças e aperte `L`. Aparecem bolinhas nos três eixos: clique na do meio para centralizar, nas pontas para alinhar pelas bordas. A peça que você clicar primeiro com a ferramenta ativa vira a **referência** (ela não se move).\n\n## Espelhar (`M`)\n\nInverte a peça em um eixo. Útil para fazer o lado direito igual ao esquerdo: duplique e espelhe.\n\n## Duplicar e repetir (`Ctrl + D`)\n\nDuplique uma peça, mova e gire a cópia. Se você duplicar de novo **logo em seguida**, o Tinkercad repete o mesmo movimento. Assim dá para fazer furos em fileira ou dentes em círculo rapidamente.\n\n## Plano de trabalho (`W`)\n\nAperte `W` e clique numa face de uma peça: o plano de trabalho passa para essa face. Assim fica fácil colocar algo em cima ou na lateral de uma peça inclinada. Para voltar, `W` e clique fora.\n\n## Régua (`R`)\n\nColoque a régua num canto da peça para ver e editar distâncias exatas entre objetos.\n\n[[Desafio]] Faça uma **engrenagem simples**: um cilindro de 40 mm com 12 dentes (caixinhas de 4 × 6 mm) distribuídos ao redor. Use duplicar + girar 30° e repetir. Por fim, um furo central de 5 mm.\n\n[[Dica]] Para girar a cópia em torno do centro da engrenagem, agrupe o dente com um cilindro \"auxiliar\" do tamanho da engrenagem, gire o grupo e depois desagrupe e apague o auxiliar. Ou use a forma pronta \"engrenagem\" e compare.",
+     "notas": "**Preparação:** Mostre a repetição do Ctrl+D ao vivo: é o momento \"uau\" da aula.\n\n**O que observar:**\n\n- Dentes fora de centro: revise a ideia do centro de rotação do grupo.\n\n- Quem usa a forma pronta \"engrenagem\": aceite, mas peça para explicar quantos dentes e qual o ângulo entre eles.\n\n**Respostas esperadas:**\n\n- 360° ÷ 12 dentes = 30° entre dentes.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Quiz: primeiros passos no Tinkercad",
+     "tipo": "QUIZ",
+     "conteudo": "Responda às perguntas sobre o que vimos neste módulo. É preciso acertar 70% para seguir. Pode refazer quantas vezes quiser.",
+     "notas": "**Preparação:** Use o resultado para formar duplas: quem foi bem ajuda quem errou a parte de furos.\n\n**O que observar:**\n\n- Erros na pergunta de furos indicam que é preciso repetir o exercício do copo.",
+     "duracao_min": 15,
+     "quiz": [
+      {
+       "pergunta": "No Tinkercad, como se faz um buraco numa peça?",
+       "opcoes": [
+        "Coloca uma forma do tipo Furo e agrupa com o sólido",
+        "Apaga parte da peça com a borracha",
+        "Diminui o tamanho da peça"
+       ],
+       "correta": 0
+      },
+      {
+       "pergunta": "Quanto vale cada quadradinho do plano de trabalho, com a grade padrão?",
+       "opcoes": [
+        "1 cm",
+        "1 mm",
+        "1 polegada"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Qual tecla alinha peças selecionadas?",
+       "opcoes": [
+        "A",
+        "L",
+        "G"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Um furo que atravessa a peça deve ser...",
+       "opcoes": [
+        "Exatamente do tamanho da peça",
+        "Um pouco maior que a peça, passando dos dois lados",
+        "Menor que a peça"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Para girar a VISTA (câmera), sem mexer na peça, você usa...",
+       "opcoes": [
+        "Botão esquerdo + arrastar",
+        "Botão direito + arrastar",
+        "A tecla Delete"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Uma engrenagem com 10 dentes iguais tem quantos graus entre um dente e o próximo?",
+       "opcoes": [
+        "10°",
+        "36°",
+        "45°"
+       ],
+       "correta": 1
+      }
+     ]
+    },
+    {
+     "titulo": "Projeto do Módulo 1: chaveiro personalizado",
+     "tipo": "EXERCICIO",
+     "conteudo": "Hora de juntar tudo num objeto seu: um **chaveiro com o seu nome** (ou apelido, ou símbolo) pronto para imprimir.\n\n## Requisitos\n\n- Base com no máximo **60 × 30 mm** e entre **3 e 5 mm** de espessura.\n\n- Texto em relevo (sólido, saindo 1 a 2 mm da base) **ou** gravado (furo, entrando 1 mm).\n\n- Um furo para a argola com pelo menos **4 mm** de diâmetro e **3 mm** de material em volta dele.\n\n- Bordas arredondadas ou um contorno criativo (não vale só um retângulo).\n\n- Tudo agrupado numa peça só, apoiada no plano de trabalho.\n\n## Passos sugeridos\n\n1. Esboce no diário de bordo, com as medidas.\n\n2. Modele a base e o furo da argola.\n\n3. Adicione o texto (forma \"Texto\"), escolha a fonte e ajuste o tamanho. Letras com traço de pelo menos 1,5 mm imprimem bem.\n\n4. Alinhe tudo e agrupe.\n\n5. Confira as medidas com a régua (`R`).\n\n6. Compartilhe: deixe o design **público** (nas propriedades do design) e copie o link, ou exporte o **STL** (botão **Exportar**).\n\n[[Dica]] Letras muito finas ou fontes cursivas podem não sair na impressão. Prefira fontes grossas.",
+     "notas": "**Preparação:** Imprima alguns chaveiros-exemplo (um bom e um com letras finas demais) para mostrar a diferença.\n\n**O que observar:**\n\n- Furo da argola colado na borda: é o erro mais comum e quebra na primeira semana de uso.\n\n- Texto que não toca a base: confira a altura do texto em relação à base.\n\n**Adaptação:**\n\n- Mais avançados: chaveiro em duas cores (pausa na impressão para trocar o filamento, ou impressora multicor).\n\n- Mais novos: use a forma pronta de texto e uma base com o parâmetro de raio para arredondar.",
+     "duracao_min": 120,
+     "exercicio": {
+      "enunciado": "Envie o seu chaveiro: cole o **link do projeto no Tinkercad** (deixe o design como público ou \"qualquer pessoa com o link\") **ou** anexe o arquivo **STL** e uma imagem da tela. Se já imprimiu, mande também uma foto da peça. No recado, conte qual foi a parte mais difícil.",
+      "rubrica": [
+       "Medidas: base até 60 × 30 mm e espessura entre 3 e 5 mm",
+       "Texto legível, com traço de pelo menos 1,5 mm, em relevo ou gravado",
+       "Furo da argola de pelo menos 4 mm com 3 mm de material em volta",
+       "Peça única, agrupada e apoiada no plano de trabalho",
+       "Capricho e criatividade no contorno"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    }
+   ]
+  },
+  {
+   "titulo": "Medidas e precisão",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 2",
+     "tipo": "TEXTO",
+     "conteudo": "Uma peça bonita que não encaixa não serve para nada. Neste módulo você aprende a **medir objetos reais**, a desenhar com cotas e a prever **folgas**, para que suas peças encaixem de primeira (ou quase).\n\n## O que você vai aprender\n\n- Usar régua e paquímetro e anotar medidas.\n\n- Ler e fazer um desenho técnico simples (vistas e cotas).\n\n- Posicionar peças com precisão de décimos de milímetro no Tinkercad.\n\n- Calcular folgas para encaixes, tampas e furos.\n\n- Respeitar espessuras mínimas para a peça não quebrar.\n\n## Projeto do módulo\n\n**Organizador sob medida:** um porta-objetos feito com as medidas reais de coisas que você usa (canetas, pen drive, fone, celular).\n\n[[Materiais]] Régua, paquímetro (de preferência digital), diário de bordo e os objetos que você quer organizar.",
+     "notas": "",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Medindo objetos reais: régua e paquímetro",
+     "tipo": "TEXTO",
+     "conteudo": "Para modelar uma peça que se encaixa em algo de verdade, você precisa das medidas desse algo. A régua resolve medidas grandes; para precisão de décimos de milímetro, usamos o **paquímetro**.\n\n## Partes do paquímetro\n\n- **Bicos externos** (os grandes, embaixo): medem a parte de fora (espessura de uma caneta).\n\n- **Orelhas internas** (as pequenas, em cima): medem a parte de dentro (diâmetro de um furo).\n\n- **Haste de profundidade** (a lingueta que sai do fim): mede a profundidade de um buraco.\n\n- **Visor** (no digital): mostra a medida. Aperte **ZERO** com os bicos fechados antes de medir.\n\n## Como medir bem\n\n1. Feche os bicos e zere.\n\n2. Encoste os bicos no objeto **sem apertar**: apertar deforma peças macias e muda a medida.\n\n3. Meça **três vezes** em pontos diferentes e anote a maior (objetos reais não são perfeitos).\n\n4. Anote no diário com unidade: `caneta: 11,4 mm de diâmetro`.\n\n[[Atenção]] As pontas do paquímetro são afiadas. Guarde fechado e nunca use como ferramenta para riscar ou abrir coisas.\n\n## Sem paquímetro?\n\nDá para medir com régua, com menos precisão: meça com a régua encostada e some 0,5 mm de margem. Para diâmetros, enrole um papel no objeto, marque a volta e divida o comprimento por 3,14.\n\n[[Desafio]] Meça cinco objetos que você quer guardar no seu organizador (comprimento, largura, altura ou diâmetro). Faça uma tabela no diário de bordo.",
+     "notas": "**Preparação:** Leve paquímetros suficientes para duplas e objetos variados (pilha AA, tampa de garrafa, moeda, caneta, pen drive).\n\n**O que observar:**\n\n- Alunos lendo a medida sem zerar.\n\n- Quem aperta demais objetos de borracha.\n\n**Respostas esperadas:**\n\n- Pilha AA: cerca de 14,5 mm de diâmetro e 50,5 mm de comprimento. Moeda de R$ 1: 27 mm de diâmetro.\n\n**Adaptação:**\n\n- Mais novos: comece pela régua e use o paquímetro só em dupla com o professor.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Desenho técnico: vistas e cotas",
+     "tipo": "TEXTO",
+     "conteudo": "Antes de modelar, desenhe. Um esboço com medidas evita retrabalho e ajuda a explicar a ideia para outras pessoas. Na indústria isso se chama **desenho técnico**.\n\n## As três vistas principais\n\n- **Vista de frente:** o objeto visto de frente (mostra largura e altura).\n\n- **Vista de cima:** visto de cima (largura e profundidade).\n\n- **Vista lateral:** visto de lado (profundidade e altura).\n\nDesenhe as três alinhadas: a vista de cima fica acima da de frente; a lateral, ao lado da de frente. Assim uma medida \"passa\" de uma vista para a outra.\n\n## Cotas\n\nCota é a medida escrita no desenho: uma linha com setas nas pontas e o número no meio, em milímetros (não precisa escrever \"mm\" em cada cota se você avisar no desenho).\n\n- Cote cada medida **uma vez só**.\n\n- Diâmetros levam o símbolo **Ø** (Ø 8 = furo de 8 mm).\n\n- Furos: indique o diâmetro e a posição do centro.\n\n## No Tinkercad\n\nUse o **cubo de visualização** para ver a peça exatamente de frente, de cima e de lado. A régua (`R`) mostra as distâncias como cotas.\n\n[[Desafio]] Faça o desenho técnico (três vistas com cotas) de uma caixa de fósforos ou de uma borracha. Depois modele a peça só olhando para o seu desenho.",
+     "notas": "**Preparação:** Projete um exemplo de desenho em três vistas e mostre o mesmo objeto no Tinkercad girando o cubo de visualização.\n\n**O que observar:**\n\n- Vistas desalinhadas ou trocadas: use a regra \"o que está em cima no desenho é o que se vê de cima\".\n\n- Cotas repetidas e cotas faltando.\n\n**Adaptação:**\n\n- Mais novos: só vista de frente e de cima, em papel quadriculado (1 quadradinho = 5 mm).",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Posicionando com precisão no Tinkercad",
+     "tipo": "TEXTO",
+     "conteudo": "Com as medidas em mãos, é hora de colocar cada coisa no lugar certo, ao décimo de milímetro.\n\n## Ferramentas de precisão\n\n- **Grade de encaixe** (canto inferior direito): mude para 0,5 mm ou 0,1 mm quando precisar de ajuste fino.\n\n- **Digitar medidas:** clique nos quadradinhos da forma e escreva o tamanho exato.\n\n- **Régua (`R`):** coloque num canto e edite as distâncias de qualquer peça até a régua.\n\n- **Alinhar (`L`)** com uma peça de referência.\n\n- **Plano de trabalho (`W`)** para construir sobre faces inclinadas.\n\n## Exemplo: suporte para três canetas\n\n1. Caixa base de 60 × 20 × 25 mm.\n\n2. Três cilindros-furo de **12 mm** (caneta de 11,4 mm + folga, veremos na próxima aula) e 22 mm de altura.\n\n3. Coloque a régua no canto da base e posicione os centros a 10, 30 e 50 mm da borda.\n\n4. Levante os furos 3 mm (fundo) e agrupe.\n\n## Organizando o projeto\n\n- Dê nome ao design (clique no nome aleatório no canto superior esquerdo).\n\n- Use cores diferentes para partes diferentes enquanto modela; a cor não importa para a impressão.\n\n- Agrupe por partes (base, tampa) para mover com facilidade.\n\n[[Desafio]] Modele uma régua de 100 mm com marcações a cada 10 mm (furos de 0,6 mm de profundidade). Imprima e compare com uma régua de verdade. Quanto ela errou?",
+     "notas": "**Preparação:** A régua impressa é um ótimo teste de calibração da impressora da escola.\n\n**O que observar:**\n\n- Quem posiciona \"no olho\": exija o uso da régua do Tinkercad.\n\n- Grade de encaixe esquecida em 0,1 mm deixa tudo lento: mostre quando usar cada uma.\n\n**Respostas esperadas:**\n\n- Impressoras bem calibradas erram menos de 0,3 mm em 100 mm.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Folgas e encaixes",
+     "tipo": "TEXTO",
+     "conteudo": "A impressora 3D não é perfeitamente exata: o plástico se espalha um pouco e encolhe ao esfriar. Por isso, **duas peças com a mesma medida não encaixam**. Um pino de 10 mm não entra num furo de 10 mm. É preciso deixar uma **folga**.\n\n## Folgas que funcionam (impressora FDM comum)\n\n- **Encaixe justo (pressão):** 0,1 a 0,2 mm de folga de cada lado. Fica firme, não sai sozinho.\n\n- **Encaixe deslizante (tampa, gaveta):** 0,2 a 0,3 mm de cada lado.\n\n- **Encaixe solto (peça que gira, dobradiça):** 0,4 a 0,5 mm de cada lado.\n\n- **Objeto real dentro da peça** (pilha, caneta): 0,5 a 1 mm a mais no total.\n\n[[Regra]] \"De cada lado\" quer dizer que um furo para um pino de 10 mm com folga de 0,2 mm de cada lado deve ter **10,4 mm**.\n\n## Furos pequenos saem menores\n\nFuros verticais com menos de 10 mm costumam sair **0,2 a 0,4 mm menores** do que o modelo. Por isso, para parafusos, some 0,3 mm ao diâmetro (parafuso M3 → furo de 3,3 mm). Furos na horizontal também ficam um pouco ovais.\n\n## Teste antes de imprimir a peça grande\n\nAntes de imprimir uma peça de 3 horas, imprima um **teste de folga** de 10 minutos: um pino e vários furos com folgas diferentes. O que encaixar melhor vira a sua folga padrão para aquela impressora. Faremos isso no projeto do Módulo 3.\n\n[[Desafio]] Modele uma caixinha de 40 × 40 × 20 mm com parede de 2 mm e uma tampa que encaixa por dentro (com uma \"saia\" de 3 mm de altura). Calcule a medida da saia para um encaixe deslizante.\n\n[[Pergunta para pensar]] Por que uma peça que encaixa perfeitamente na impressora da escola pode ficar apertada na impressora da sua casa?",
+     "notas": "**Preparação:** Imprima antes um pino de 10 mm e furos de 10,0 / 10,2 / 10,4 / 10,6 mm para os alunos testarem com as mãos.\n\n**O que observar:**\n\n- Quem soma a folga só uma vez (no total) em vez de dos dois lados.\n\n- Tampas que não fecham porque a parede da tampa ficou da mesma medida interna da caixa.\n\n**Respostas esperadas:**\n\n- Caixa 40 × 40 com parede 2 mm: vão interno 36 × 36 mm. Saia da tampa para deslizar: 35,4 a 35,6 mm.\n\n- Cada impressora (bico, filamento, temperatura, calibração) tem uma pequena diferença; por isso cada uma tem sua folga ideal.",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Paredes, espessuras e detalhes pequenos",
+     "tipo": "TEXTO",
+     "conteudo": "A impressora desenha com um bico, normalmente de **0,4 mm**. Isso define o menor detalhe que ela consegue fazer.\n\n## Espessuras mínimas\n\n- **Parede vertical:** mínimo de 0,8 mm (duas passadas do bico). Para peças que fazem força, 1,6 a 2,4 mm.\n\n- **Pino ou haste:** pelo menos 2 mm; abaixo de 5 mm, quebram com facilidade.\n\n- **Fundo e tampo:** mínimo de 0,8 a 1 mm (quatro ou cinco camadas de 0,2 mm).\n\n- **Texto em relevo:** traço de pelo menos 1 a 1,5 mm e 0,6 mm de altura.\n\n- **Furos:** abaixo de 2 mm costumam fechar ou sair irregulares; se precisar, faça o furo depois com uma broca.\n\n[[Regra]] Faça a espessura das paredes um **múltiplo da largura da linha** (0,8 / 1,2 / 1,6 / 2,0 mm). O fatiador preenche melhor e a peça fica mais forte.\n\n## Cantos e resistência\n\nCantos vivos concentram força e racham. Arredondar o encontro de duas paredes (um \"filete\") deixa a peça muito mais resistente. No Tinkercad, use o parâmetro **Raio** da caixa ou formas arredondadas.\n\n[[Desafio]] Abra o seu modelo da aula anterior e confira: alguma parede está com menos de 1,6 mm? Algum pino com menos de 3 mm? Corrija e anote no diário de bordo o que mudou (isso já é uma **versão 2**).",
+     "notas": "**Preparação:** Mostre uma peça com parede de 0,4 mm quebrando na mão e outra com 2 mm.\n\n**O que observar:**\n\n- Alunos que querem detalhes minúsculos (olhos, letras pequenas): explique o limite do bico e proponha aumentar a escala.",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "Quiz: medidas e precisão",
+     "tipo": "QUIZ",
+     "conteudo": "Confira o que você aprendeu sobre medidas, folgas e espessuras.",
+     "notas": "",
+     "duracao_min": 15,
+     "quiz": [
+      {
+       "pergunta": "Para medir o diâmetro de um furo com o paquímetro, você usa...",
+       "opcoes": [
+        "Os bicos externos",
+        "As orelhas internas",
+        "A haste de profundidade"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Você quer um pino de 8 mm deslizando num furo, com folga de 0,25 mm de cada lado. O furo deve ter:",
+       "opcoes": [
+        "8,00 mm",
+        "8,25 mm",
+        "8,50 mm"
+       ],
+       "correta": 2
+      },
+      {
+       "pergunta": "Qual é a espessura mínima recomendada para uma parede vertical com bico de 0,4 mm?",
+       "opcoes": [
+        "0,4 mm",
+        "0,8 mm",
+        "0,1 mm"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Furos verticais pequenos, na impressão, costumam sair...",
+       "opcoes": [
+        "Um pouco menores que no modelo",
+        "Exatamente do tamanho do modelo",
+        "Muito maiores que no modelo"
+       ],
+       "correta": 0
+      },
+      {
+       "pergunta": "Numa folha de desenho técnico, Ø 6 significa:",
+       "opcoes": [
+        "Raio de 6 mm",
+        "Diâmetro de 6 mm",
+        "Ângulo de 6 graus"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Por que arredondar os cantos internos de uma peça?",
+       "opcoes": [
+        "Só para ficar bonita",
+        "Para a peça ficar mais resistente",
+        "Para imprimir mais rápido"
+       ],
+       "correta": 1
+      }
+     ]
+    },
+    {
+     "titulo": "Projeto do Módulo 2: organizador sob medida",
+     "tipo": "EXERCICIO",
+     "conteudo": "Crie um **organizador** para objetos que você usa todo dia (material escolar, ferramentas, fones, pen drives, peças de robótica), feito com as medidas reais deles.\n\n## Requisitos\n\n- Pelo menos **três objetos diferentes**, cada um com o seu lugar.\n\n- Medidas tiradas dos objetos reais e anotadas numa tabela no diário de bordo.\n\n- Folgas calculadas e indicadas (ex.: caneta Ø 11,4 → furo Ø 12,4).\n\n- Paredes de no mínimo **1,6 mm** e fundo de no mínimo **1,2 mm**.\n\n- Desenho técnico com três vistas e as cotas principais (pode ser foto do caderno).\n\n- Tamanho máximo de **150 × 150 × 100 mm** (cabe na maioria das impressoras).\n\n## Dicas\n\n- Comece pelo objeto maior e organize os outros em volta.\n\n- Deixe espaço para os dedos pegarem os objetos (rebaixos ou cortes nas bordas).\n\n- Imprimir tudo levaria muitas horas? Imprima só um \"pedaço de teste\" com o furo mais difícil.",
+     "notas": "**Preparação:** Peça que tragam os objetos de casa na aula anterior. Separe tempo de impressão para os melhores projetos (ou para os pedaços de teste).\n\n**O que observar:**\n\n- Organizadores enormes: lembre do limite e do tempo de impressão.\n\n- Falta de espaço para os dedos é a reclamação número 1 de quem usa.",
+     "duracao_min": 150,
+     "exercicio": {
+      "enunciado": "Envie o seu organizador: o **link do Tinkercad** ou o **STL**, mais uma **foto do desenho técnico** e da **tabela de medidas** do diário de bordo. Se imprimiu, mande uma foto com os objetos dentro. No recado, conte qual folga você usou e se funcionou.",
+      "rubrica": [
+       "Usa medidas reais de pelo menos três objetos, registradas em tabela",
+       "Folgas calculadas e coerentes com o tipo de encaixe",
+       "Paredes e fundo dentro das espessuras mínimas",
+       "Desenho técnico com três vistas e cotas",
+       "Funcionalidade e acabamento (fácil de usar, bem organizado)"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    }
+   ]
+  },
+  {
+   "titulo": "Da tela à impressora",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 3",
+     "tipo": "TEXTO",
+     "conteudo": "Modelo pronto. E agora? Neste módulo você entende como a impressora 3D funciona, qual material escolher, como preparar o arquivo no **fatiador** e como resolver os problemas mais comuns.\n\n## O que você vai aprender\n\n- Como funciona uma impressora FDM (a mais comum).\n\n- Diferenças entre PLA, PETG, TPU e ABS, e os cuidados de segurança.\n\n- Exportar STL e 3MF e conferir o arquivo.\n\n- Configurar camadas, paredes, preenchimento e suportes no fatiador.\n\n- Escolher a melhor posição da peça na mesa.\n\n- Diagnosticar e resolver falhas de impressão.\n\n## Projeto do módulo\n\n**Peça de teste de folgas:** você vai modelar, fatiar e imprimir uma peça que mostra qual folga funciona na sua impressora. A partir dela, seus encaixes vão sair certos.\n\n[[Segurança]] A ponta da impressora passa de 200 °C e a mesa de 60 °C. Nunca toque no bico, não coloque a mão perto dele com a máquina ligada e sempre tenha um adulto ou o professor por perto.",
+     "notas": "",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Como funciona a impressora 3D",
+     "tipo": "TEXTO",
+     "conteudo": "A maioria das impressoras 3D de escola e de casa é **FDM** (modelagem por deposição de material fundido): ela puxa um fio de plástico (o **filamento**), derrete esse fio num bico quente e desenha a peça, uma camada fina por vez, de baixo para cima.\n\n## Partes principais\n\n- **Carretel de filamento:** normalmente de 1,75 mm de espessura.\n\n- **Extrusora:** engrenagens que empurram o filamento.\n\n- **Hotend e bico:** aquecem o plástico (190 a 260 °C) e soltam um fio fino, em geral de 0,4 mm.\n\n- **Mesa (cama):** onde a peça é construída. Costuma ser aquecida para a primeira camada grudar.\n\n- **Motores e eixos X, Y, Z:** movem o bico e a mesa com precisão.\n\n- **Ventoinha da peça:** esfria cada camada logo depois de feita.\n\n## Camada por camada\n\nUma camada típica tem **0,2 mm** de altura. Uma peça de 2 cm de altura tem 100 camadas! Camadas mais finas (0,12 mm) deixam a peça mais lisa, mas demoram mais. Mais grossas (0,28 mm), imprimem rápido mas com degraus visíveis.\n\n## Outras tecnologias\n\n- **Resina (SLA/MSLA):** endurece resina líquida com luz. Detalhes incríveis (miniaturas, odontologia), mas a resina exige luvas, ventilação e pós-processamento.\n\n- **Pó (SLS):** usada na indústria, funde pó com laser. Peças fortes e sem suportes.\n\n[[Pergunta para pensar]] Se a impressora constrói de baixo para cima, o que acontece quando o modelo tem uma parte \"no ar\", como os braços abertos de um boneco?",
+     "notas": "**Preparação:** Se possível, abra a impressora da escola e mostre cada parte. Um vídeo em câmera lenta da primeira camada ajuda muito.\n\n**O que observar:**\n\n- Curiosidade sobre \"imprimir qualquer coisa\": aproveite para discutir limites (tamanho, tempo, material).\n\n**Respostas esperadas:**\n\n- Partes no ar caem ou ficam feias: precisam de suportes ou de mudar a posição da peça (veremos nas próximas aulas).",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Materiais e segurança",
+     "tipo": "TEXTO",
+     "conteudo": "Cada filamento tem um uso ideal. Para começar, o **PLA** resolve quase tudo.\n\n## Os filamentos mais comuns\n\n- **PLA:** o mais fácil. Imprime a 190–220 °C com a mesa a 50–60 °C, quase não tem cheiro e é feito de fonte vegetal. Amolece acima de uns 55 °C: não deixe peças de PLA dentro do carro no sol.\n\n- **PETG:** mais resistente a impacto, calor (até ~75 °C) e umidade. Imprime a 230–250 °C com mesa a 70–85 °C. Bom para peças que vão ao ar livre e suportes que fazem força.\n\n- **TPU (flexível):** borrachudo, para capinhas, pneus de robô e amortecedores. Imprime devagar, a 210–230 °C.\n\n- **ABS / ASA:** resistentes ao calor, mas soltam fumaça com cheiro forte e encolhem muito. Só com impressora fechada e ambiente ventilado, e **não** são para sala de aula comum.\n\n[[Segurança]] Imprima em local ventilado, mantenha cabelo comprido preso, não deixe a impressora funcionando sozinha por horas sem ninguém em casa ou na escola, e espere a peça esfriar antes de tirar da mesa.\n\n## Cuidando do filamento\n\nFilamento absorve umidade do ar e passa a imprimir com bolhas e fios. Guarde em saco fechado com sílica e, se precisar, seque no secador de filamento.\n\n## Sustentabilidade\n\nPeças que falharam e suportes podem ir para reciclagem de plástico específica. Melhor ainda: imprima **testes pequenos** antes da peça grande para errar menos.\n\n[[Desafio]] Para cada objeto abaixo, escolha o melhor material e justifique no diário de bordo: um pneu para robô; um suporte de vaso para a varanda; um chaveiro; uma peça que fica perto do motor quente de um robô.",
+     "notas": "**Preparação:** Mostre amostras de PLA, PETG e TPU para os alunos sentirem a diferença.\n\n**O que observar:**\n\n- Faixas de temperatura variam por marca: o rótulo do carretel manda.\n\n**Respostas esperadas:**\n\n- Pneu: TPU. Varanda: PETG. Chaveiro: PLA. Perto do motor: PETG (ou ABS/ASA em ambiente adequado).",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "Exportando o modelo: STL e 3MF",
+     "tipo": "TEXTO",
+     "conteudo": "A impressora não lê o arquivo do Tinkercad. É preciso **exportar** o modelo para um formato de malha.\n\n## Formatos\n\n- **STL:** o mais conhecido. Guarda só a forma, como milhares de triângulos. Não guarda unidade (assume milímetros), cor nem configuração.\n\n- **3MF:** mais moderno. Guarda unidade, cores, várias peças e até as configurações de impressão. Prefira quando o fatiador aceitar.\n\n- **OBJ:** comum em animação e jogos, também aceito por muitos fatiadores.\n\n## Exportando no Tinkercad\n\n1. Selecione o que quer exportar (ou nada, para exportar tudo).\n\n2. Clique em **Exportar** e escolha **.STL** ou **.OBJ** na seção \"Para impressão 3D\".\n\n3. Salve com um nome claro: `organizador-v2.stl`.\n\n## Antes de exportar, confira\n\n- A peça está **apoiada no plano** (tecla `D`)? Peças flutuando confundem o fatiador.\n\n- Está tudo **agrupado**? Furos não agrupados viram peças sólidas no arquivo!\n\n- O tamanho está certo? Confira as medidas gerais.\n\n- Não há peças \"esquecidas\" escondidas dentro de outras?\n\n## Malha com defeito\n\nÀs vezes o arquivo vem com buracos ou faces invertidas, principalmente de modelos baixados da internet. A maioria dos fatiadores avisa e oferece **reparar**. Modelos feitos no Tinkercad quase nunca têm esse problema.\n\n[[Desafio]] Exporte o seu chaveiro do Módulo 1 em STL e abra num visualizador (o próprio Windows tem o Visualizador 3D; ou arraste o arquivo para o fatiador). Ele está com o tamanho certo?",
+     "notas": "**Preparação:** Tenha um STL com defeito (furo não agrupado) para mostrar o erro mais comum.\n\n**O que observar:**\n\n- Arquivos exportados com 10 vezes o tamanho ou um décimo: alguém mudou a unidade. Confira em milímetros.",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "O fatiador: camadas, paredes e preenchimento",
+     "tipo": "TEXTO",
+     "conteudo": "O **fatiador** (slicer) transforma o modelo em instruções para a impressora (o arquivo **G-code**): por onde o bico passa, quanto plástico solta, em que temperatura. Os mais usados são **Bambu Studio**, **PrusaSlicer**, **OrcaSlicer** e **Ultimaker Cura**, todos gratuitos. Use o que a impressora da sua escola indicar; os conceitos são os mesmos.\n\n## Configurações principais\n\n- **Altura de camada:** 0,2 mm é o padrão equilibrado. 0,12 mm para detalhes; 0,28 mm para rascunhos rápidos.\n\n- **Paredes (perímetros):** quantas voltas o bico dá no contorno. 2 a 3 é o normal; 4 ou mais para peças que fazem força. **As paredes dão mais resistência do que o preenchimento.**\n\n- **Camadas de topo e de fundo:** quantas camadas sólidas em cima e embaixo. Uns 0,8 a 1 mm de espessura (4 ou 5 camadas de 0,2 mm).\n\n- **Preenchimento (infill):** o \"recheio\" da peça, em porcentagem. 10 a 15% para peças decorativas; 20 a 30% para peças comuns; 40% ou mais só para peças que precisam de muita força.\n\n- **Padrão do preenchimento:** grade, giroide, colmeia... Giroide é forte em todas as direções.\n\n- **Velocidade e temperatura:** comece pelos perfis prontos do material e da impressora.\n\n## Leia a estimativa\n\nDepois de fatiar, o programa mostra **tempo** e **quantidade de filamento** (em gramas ou metros). Use isso para decidir: dá para diminuir o preenchimento? Imprimir menor para testar?\n\n## Prévia por camadas\n\nSempre olhe a **pré-visualização**, camada por camada, antes de mandar imprimir. É ali que você vê partes no ar, paredes finas que sumiram e textos que não saíram.\n\n[[Desafio]] Fatie o mesmo modelo com 10%, 20% e 40% de preenchimento e com 2 e 4 paredes. Anote o tempo e o peso de cada combinação numa tabela. O que mais pesa no tempo?",
+     "notas": "**Preparação:** Instale o fatiador da impressora da escola com o perfil já configurado e salve um perfil \"aula\" para todos usarem.\n\n**O que observar:**\n\n- Alunos que colocam 100% de preenchimento \"para ficar forte\": mostre o tempo e explique que paredes valem mais.\n\n- Quem pula a prévia: torne obrigatório mostrar a prévia antes de imprimir.\n\n**Respostas esperadas:**\n\n- Preenchimento alto aumenta muito o tempo e o peso; mais paredes aumentam pouco e dão mais resistência.",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Suportes e a melhor posição da peça",
+     "tipo": "TEXTO",
+     "conteudo": "A impressora não imprime no ar. Partes muito inclinadas ou \"penduradas\" precisam de **suporte**: uma estrutura temporária que você remove depois. Mas suporte gasta material, tempo e deixa marcas. Melhor ainda é **evitar** que ele seja necessário.\n\n## A regra dos 45°\n\nCada camada pode avançar um pouco além da camada de baixo. Até uns **45°** de inclinação (em relação à vertical), a peça imprime bem sem suporte. Mais que isso, a camada fica sem apoio e cai.\n\n- **Ponte:** uma ligação horizontal entre dois apoios (como a parte de cima de uma porta). Imprime bem sem suporte em vãos curtos, até uns 20 a 30 mm.\n\n- **Balanço:** uma parte presa só de um lado. Acima de 45°, precisa de suporte.\n\n- **Furos horizontais:** saem bem até uns 8 a 10 mm; maiores ficam com o \"teto\" caído. Um truque é fazer o furo em formato de gota, com a ponta para cima.\n\n## Escolhendo a posição\n\n- Coloque a **maior face plana** para baixo: gruda melhor e precisa de menos suporte.\n\n- Lembre que a peça é **mais fraca entre camadas**: se um gancho vai fazer força, deite-o para que as camadas fiquem ao longo do gancho, não atravessadas.\n\n- A face de cima e as laterais ficam mais bonitas que a face apoiada no suporte.\n\n- Às vezes vale **dividir a peça em duas** e colar ou encaixar depois.\n\n## Projetando para não precisar de suporte\n\n- Troque cantos de 90° no \"teto\" por chanfros de 45°.\n\n- Use cones ou degraus inclinados em vez de saliências retas.\n\n- Pense na posição de impressão **enquanto modela**, não depois.\n\n[[Desafio]] Modele uma letra **T** de 30 mm. Fatie em pé e deitada. Em qual posição ela precisa de suporte? Qual seria mais forte se você pendurasse algo nos braços do T?",
+     "notas": "**Preparação:** Imprima antes um \"teste de balanço\" (rampa de 20° a 70°) para mostrar até onde a impressora vai sem suporte.\n\n**O que observar:**\n\n- Alunos que ativam suporte em tudo: mostre o tempo a mais e as marcas na peça.\n\n**Respostas esperadas:**\n\n- T em pé: os braços são balanço de 90° e precisam de suporte. Deitado: nenhum suporte, e os braços ficam mais fortes porque as camadas correm ao longo deles.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Primeira camada e problemas comuns",
+     "tipo": "TEXTO",
+     "conteudo": "Quase todo problema de impressão começa na **primeira camada**. Se ela grudar bem e ficar uniforme, 80% do trabalho está feito.\n\n## Primeira camada boa\n\n- Mesa **nivelada** e na distância certa do bico (muitas impressoras fazem isso sozinhas).\n\n- Mesa **limpa**: gordura dos dedos impede a aderência. Limpe com álcool isopropílico.\n\n- Linhas levemente \"amassadas\", unidas umas às outras, sem falhas nem riscos.\n\n## Problemas e soluções\n\n- **Peça soltou da mesa no meio:** limpe a mesa, aumente a temperatura da mesa, use **brim** (uma aba fina em volta da peça) e confira o nivelamento.\n\n- **Cantos levantando (warping):** comum em peças grandes e em ABS. Brim, mesa mais quente, sem corrente de ar.\n\n- **Fios de teia entre partes (stringing):** filamento úmido ou temperatura alta. Seque o filamento, baixe 5 °C, aumente a retração.\n\n- **Camadas deslocadas (\"degrau\" no meio da peça):** algo bateu no bico ou correia frouxa. Verifique se a peça está entortando para cima.\n\n- **Falhas e buracos nas paredes (subextrusão):** bico entupido, filamento enroscado no carretel ou temperatura baixa.\n\n- **Medidas erradas:** confira a escala no fatiador e lembre das folgas (Módulo 2).\n\n- **\"Espaguete\":** a peça soltou e a impressora continuou no ar. Pare a impressão e volte ao primeiro item.\n\n[[Atenção]] Ao tirar a peça, espere a mesa esfriar e use a espátula sempre **afastando da mão**. Mesa flexível: é só dobrar.\n\n## Pós-processamento\n\n- Remova suportes com alicate de bico e calma.\n\n- Lixe com lixas d'água (de 220 a 600) para acabamento liso.\n\n- Furos apertados: passe uma broca do tamanho certo, girando com a mão.\n\n[[Desafio]] Monte no diário de bordo um \"guia de defeitos\" com fotos (suas ou da turma) de três problemas e de como foram resolvidos.",
+     "notas": "**Preparação:** Guarde as impressões que falharam ao longo do ano: são o melhor material para esta aula.\n\n**O que observar:**\n\n- Alunos que querem mexer nas configurações avançadas da impressora: só com acompanhamento.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Quiz: da tela à impressora",
+     "tipo": "QUIZ",
+     "conteudo": "Vamos conferir os conceitos de impressão 3D: fatiador, paredes e preenchimento, suportes, materiais e primeira camada. É preciso acertar 70% para seguir; se errar, revise a aula indicada e tente de novo.",
+     "notas": "",
+     "duracao_min": 15,
+     "quiz": [
+      {
+       "pergunta": "O que o fatiador faz?",
+       "opcoes": [
+        "Desenha o modelo 3D",
+        "Transforma o modelo em camadas e instruções para a impressora",
+        "Derrete o filamento"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "O que mais aumenta a resistência de uma peça, com menos aumento de tempo?",
+       "opcoes": [
+        "Mais paredes (perímetros)",
+        "Preenchimento de 100%",
+        "Camadas mais finas"
+       ],
+       "correta": 0
+      },
+      {
+       "pergunta": "Até qual inclinação, aproximadamente, uma parte imprime bem sem suporte?",
+       "opcoes": [
+        "15°",
+        "45°",
+        "80°"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Qual filamento é o mais indicado para começar e para a sala de aula?",
+       "opcoes": [
+        "ABS",
+        "PLA",
+        "Resina"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "A peça soltou da mesa no meio da impressão. Qual é a primeira coisa a verificar?",
+       "opcoes": [
+        "A cor do filamento",
+        "Limpeza e nivelamento da mesa (primeira camada)",
+        "A velocidade da internet"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Um gancho vai segurar peso. Como imprimir para ele ficar mais forte?",
+       "opcoes": [
+        "Com as camadas atravessando o gancho",
+        "Deitado, com as camadas ao longo do gancho",
+        "Tanto faz"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Qual formato de arquivo guarda unidade, cores e várias peças?",
+       "opcoes": [
+        "STL",
+        "3MF",
+        "JPG"
+       ],
+       "correta": 1
+      }
+     ]
+    },
+    {
+     "titulo": "Projeto do Módulo 3: teste de folgas da sua impressora",
+     "tipo": "EXERCICIO",
+     "conteudo": "Você vai descobrir **qual folga funciona** na impressora que você usa. Esse número vai acompanhar você em todos os próximos projetos.\n\n## O que modelar\n\n- Uma **placa** de uns 70 × 15 × 5 mm com **cinco furos** de diâmetros 10,0 / 10,2 / 10,4 / 10,6 / 10,8 mm, e o valor gravado ao lado de cada furo.\n\n- Um **pino** separado de 10,0 mm de diâmetro e 15 mm de altura, com um chanfro na ponta para facilitar a entrada.\n\n## O que fazer\n\n1. Modele a placa e o pino seguindo as espessuras mínimas.\n\n2. Exporte e fatie com 0,2 mm de camada, 3 paredes e 20% de preenchimento.\n\n3. Confira a prévia camada por camada e anote o tempo estimado.\n\n4. Imprima (ou peça para o professor imprimir).\n\n5. Teste o pino em cada furo e classifique: não entra / justo / desliza / solto.\n\n6. Meça o pino e os furos impressos com o paquímetro e compare com o modelo.\n\n[[Você entrega]] A tabela de resultados é o mais importante: ela vira a sua folga padrão.",
+     "notas": "**Preparação:** Organize uma fila de impressão: a placa leva uns 20 a 30 minutos. Se a escola não tiver impressora, imprima as peças da turma e entregue na aula seguinte.\n\n**O que observar:**\n\n- Quem só olha \"encaixou ou não\": exija as medidas com paquímetro.\n\n- Resultados diferentes entre alunos na mesma impressora: ótima conversa sobre variação e repetição de testes.",
+     "duracao_min": 120,
+     "exercicio": {
+      "enunciado": "Envie o **link do Tinkercad** ou o **STL**, uma **captura da prévia do fatiador** com o tempo estimado, uma **foto da peça impressa** com o pino encaixado e a **tabela de resultados** (furo do modelo, medida real, como encaixou). No recado, diga qual folga você vai usar daqui para frente para encaixe justo e para encaixe deslizante.",
+      "rubrica": [
+       "Placa e pino modelados com as medidas pedidas e os valores gravados",
+       "Fatiamento correto (camada, paredes, preenchimento) e prévia conferida",
+       "Peça impressa e testada",
+       "Tabela comparando modelo e medida real",
+       "Conclusão clara sobre a folga para encaixe justo e deslizante"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    }
+   ]
+  },
+  {
+   "titulo": "Projetar para resolver problemas",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 4",
+     "tipo": "TEXTO",
+     "conteudo": "Você já sabe modelar, medir e imprimir. Agora vem a parte mais interessante: **inventar peças úteis**. Neste módulo você aprende a partir de um problema real, levantar requisitos, criar peças com várias partes e melhorar o projeto a cada versão.\n\n## O que você vai aprender\n\n- Transformar um problema em requisitos de projeto.\n\n- Modelar peças funcionais que aguentam uso.\n\n- Criar montagens: dobradiças, encaixes e peças que giram.\n\n- Usar texto, logotipos e imagens (SVG) nos modelos.\n\n- Iterar: testar, medir, anotar e melhorar.\n\n## Projeto do módulo\n\n**Peça que resolve:** uma peça que resolve um problema de verdade na sua casa, na escola ou num robô, com pelo menos duas versões documentadas.",
+     "notas": "",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Do problema aos requisitos",
+     "tipo": "TEXTO",
+     "conteudo": "Designers não começam pela forma: começam pelo **problema**. Uma boa peça nasce de uma boa pergunta.\n\n## O ciclo de projeto\n\n1. **Entender o problema:** observe, pergunte a quem usa, meça.\n\n2. **Listar requisitos:** o que a peça **precisa** fazer, com números.\n\n3. **Gerar ideias:** pelo menos três esboços diferentes, rápidos.\n\n4. **Escolher e modelar** a ideia mais promissora.\n\n5. **Prototipar e testar:** imprimir uma versão (ou um pedaço dela).\n\n6. **Melhorar** e voltar ao passo 4. Cada volta é uma **versão**.\n\n## Requisitos bons são medíveis\n\n- Ruim: \"um suporte de celular firme\".\n\n- Bom: \"segura um celular de até 80 mm de largura e 10 mm de espessura, inclinado a 60°, sem tombar quando eu toco na tela\".\n\n## Perguntas para levantar requisitos\n\n- Quem vai usar? Onde? Por quanto tempo?\n\n- Que objetos a peça toca? Quais são as medidas deles?\n\n- Ela faz força? Fica no sol, na água, perto de calor?\n\n- Qual o tamanho máximo que cabe na impressora? Quanto tempo de impressão é aceitável?\n\n- Como ela vai ser presa: encaixe, parafuso, fita dupla-face, ímã?\n\n[[Desafio]] Escolha três pequenos problemas da sua casa ou da escola (fio que cai atrás da mesa, controle remoto que some, tampa de pote quebrada, sensor do robô sem suporte). Para cada um, escreva três requisitos medíveis.",
+     "notas": "**Preparação:** Traga exemplos de \"peças que resolvem\" reais (clipe de cabo, gancho, suporte de sensor) e peça para a turma adivinhar os requisitos.\n\n**O que observar:**\n\n- Requisitos vagos (\"bonito\", \"forte\"): peça números.\n\n- Alunos que pulam direto para o Tinkercad: exija os três esboços antes.\n\n**Adaptação:**\n\n- Para turmas de robótica, proponha problemas do próprio robô: suporte de sensor ultrassônico, porta-pilhas, para-choque.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Peças funcionais: o suporte de celular",
+     "tipo": "TEXTO",
+     "conteudo": "Vamos modelar uma peça funcional do início ao fim: um **suporte de celular** para mesa. É um ótimo exercício porque envolve medida, ângulo, equilíbrio e resistência.\n\n## Requisitos\n\n- Celular de até 80 mm de largura e 10 mm de espessura (meça o seu).\n\n- Inclinação de 60 a 70°.\n\n- Não tomba quando você toca na tela.\n\n- Deixa o cabo do carregador passar.\n\n## Construção sugerida no Tinkercad\n\n1. **Base:** caixa de 90 × 80 × 5 mm com raio de 2 mm nas bordas.\n\n2. **Encosto:** caixa de 90 × 5 × 90 mm, girada 25° para trás (60 a 70° em relação à mesa), apoiada na base.\n\n3. **Batente:** a \"prateleira\" onde o celular apoia: caixa de 90 × 14 × 12 mm na frente do encosto, com um rebaixo de 11 mm (10 mm do celular + 1 mm de folga).\n\n4. **Passagem do cabo:** um furo de 12 × 8 mm no batente, no centro.\n\n5. **Reforço:** uma cunha (forma \"Cunha\") atrás do encosto, ligando-o à base. Ela evita que o encosto quebre na emenda.\n\n6. Agrupe e confira a peça de lado: o celular cai para trás? Aumente a base.\n\n## Resistência na prática\n\n- O ponto mais fraco é onde o encosto encontra a base. Reforce com cunha e arredonde a emenda.\n\n- Pense na posição de impressão: deitada de lado, as camadas correm ao longo do encosto e ele fica bem mais forte.\n\n- Paredes de 3 mm já são bem rígidas em PLA.\n\n[[Pergunta para pensar]] Por que um suporte com base curta tomba quando você toca na tela? O que tem a ver com o \"centro de gravidade\"?",
+     "notas": "**Preparação:** Peça que os alunos tragam o celular (ou usem uma caixinha do mesmo tamanho) para conferir as medidas.\n\n**O que observar:**\n\n- Encosto girado em torno do ponto errado e \"flutuando\": mostre como usar a tecla D e o alinhamento.\n\n- Suporte que tomba: discuta a base de apoio e o centro de gravidade.\n\n**Respostas esperadas:**\n\n- Se a linha vertical que passa pelo centro de gravidade cair fora da base de apoio, o suporte tomba. Base mais longa ou mais pesada resolve.",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Montagens: encaixes, dobradiças e peças que giram",
+     "tipo": "TEXTO",
+     "conteudo": "Muitos objetos têm **várias peças** que se encaixam ou se movem. Com folgas certas, dá para imprimir dobradiças, tampas de rosca e até engrenagens que funcionam.\n\n## Tipos de união\n\n- **Encaixe por pressão:** pino e furo com folga justa (Módulo 2).\n\n- **Encaixe de \"clique\" (snap-fit):** uma lingueta flexível com um dentinho que trava. A lingueta precisa ser comprida e fina o suficiente para dobrar sem quebrar (comprimento pelo menos 5 vezes a espessura).\n\n- **Parafuso:** furo com 0,3 mm a mais que o parafuso e espaço para a cabeça. Para M3, furo de 3,3 mm.\n\n- **Ímã:** um rebaixo com o tamanho do ímã + 0,2 mm; cole com cola instantânea.\n\n- **Dobradiça impressa:** um pino que passa por \"orelhas\" das duas peças, com folga solta (0,4 a 0,5 mm).\n\n## Projetando em partes no Tinkercad\n\n1. Modele as peças **montadas**, na posição de uso, para conferir se tudo encaixa.\n\n2. Use cores diferentes para cada peça.\n\n3. Crie as folgas: duplique o pino, transforme em furo, aumente a cópia em 2 × a folga e agrupe com a peça de fora.\n\n4. Para imprimir, **separe** as peças e deite cada uma na melhor posição.\n\n## Peças impressas já montadas\n\nCom folga de 0,4 a 0,5 mm entre as partes, dá para imprimir uma dobradiça ou uma corrente **já montada**, sem separar. É o famoso \"print-in-place\". Se a folga for pequena demais, as peças grudam.\n\n[[Desafio]] Modele uma caixinha com tampa de **dobradiça**: duas orelhas na caixa, uma na tampa e um pino que atravessa as três. Teste a folga que você descobriu no Módulo 3.",
+     "notas": "**Preparação:** Tenha uma dobradiça print-in-place impressa para mostrar. Peças de exemplo ajudam muito a entender folgas entre partes.\n\n**O que observar:**\n\n- Folgas entre peças esquecidas: as partes saem fundidas.\n\n- Linguetas de snap-fit curtas e grossas quebram na primeira vez.\n\n**Adaptação:**\n\n- Mais avançados: engrenagens que giram num eixo (use a forma pronta e a folga solta).",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Texto, logotipos e imagens (SVG)",
+     "tipo": "TEXTO",
+     "conteudo": "Personalizar é uma das maiores vantagens da impressão 3D: nomes, logotipos, símbolos.\n\n## Texto\n\n- A forma **Texto** do Tinkercad tem várias fontes. Prefira as mais grossas (Sans, Serif em negrito).\n\n- Para texto em relevo: traço de pelo menos 1 mm e 0,6 a 1 mm de altura.\n\n- Texto gravado (furo) de 0,6 a 1 mm de profundidade fica bem legível e não precisa de suporte.\n\n- Texto na lateral (vertical) sai melhor que texto \"de cabeça para baixo\" na face apoiada na mesa.\n\n## Importando imagens SVG\n\nO Tinkercad importa arquivos **SVG** (desenho vetorial) e transforma em forma 3D. Assim dá para usar o logotipo da escola, um desenho seu ou um ícone.\n\n1. Faça ou consiga o desenho em SVG (Inkscape, que é gratuito, converte imagens em vetor).\n\n2. No Tinkercad: **Importar** e escolha o arquivo SVG.\n\n3. Ajuste o tamanho e a altura; use como sólido ou furo.\n\n[[Atenção]] Só use logotipos e personagens com permissão. Marcas e personagens famosos têm dono: para uso pessoal tudo bem, mas não para vender.\n\n[[Desafio]] Crie uma plaquinha de porta (ou de mesa) com o seu nome e um símbolo importado em SVG.",
+     "notas": "**Preparação:** Prepare dois ou três SVGs simples (logotipo da escola, por exemplo) para quem não conseguir criar o seu.\n\n**O que observar:**\n\n- SVGs com muitos detalhes finos: simplifique ou aumente o tamanho.\n\n- Discuta direitos autorais de forma prática: pode usar para você, não para vender.",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "Iteração: testar, medir e melhorar",
+     "tipo": "TEXTO",
+     "conteudo": "Ninguém acerta de primeira, nem os profissionais. O segredo é errar **rápido e barato**, aprender e melhorar. Cada ciclo se chama **iteração** e gera uma nova **versão**.\n\n## Testes rápidos\n\n- Imprima só a parte difícil (um encaixe, um furo) em vez da peça inteira.\n\n- Use camada de 0,28 mm e pouco preenchimento nos testes.\n\n- Imprima menor quando estiver testando só a forma (mas nunca quando testar encaixes!).\n\n## Diário de versões\n\nPara cada versão, anote no diário de bordo:\n\n- Número da versão e data (v1, v2, v3...).\n\n- O que você mudou e **por quê**.\n\n- Resultado do teste: medidas, fotos, o que funcionou e o que não.\n\n- A próxima mudança que você vai fazer.\n\n## Salvando versões no Tinkercad\n\nAntes de mudar algo grande, **duplique o design** no painel (menu da engrenagem → Duplicar) e renomeie: `suporte-v2`. Assim você sempre pode voltar para a versão anterior.\n\n[[Pergunta para pensar]] Pense numa peça sua que não funcionou de primeira. O que você aprendeu com o erro que não teria aprendido se tivesse dado certo?",
+     "notas": "**Preparação:** Mostre um exemplo real de diário de versões (seu ou de um aluno de outra turma).\n\n**O que observar:**\n\n- Alunos que apagam a versão antiga: insista em duplicar.\n\n- Diário só com fotos: peça também o \"por quê\" de cada mudança.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Quiz: projetar para resolver problemas",
+     "tipo": "QUIZ",
+     "conteudo": "Confira os conceitos de projeto e montagem: requisitos medíveis, folgas para parafusos e dobradiças, testes rápidos e importação de imagens. É preciso acertar 70% para seguir.",
+     "notas": "",
+     "duracao_min": 15,
+     "quiz": [
+      {
+       "pergunta": "Qual destes é um requisito bem escrito?",
+       "opcoes": [
+        "O suporte deve ser bonito",
+        "O suporte deve segurar um celular de até 80 mm de largura a 60°",
+        "O suporte deve ser forte"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Para um parafuso M3 passar livre, o furo deve ter cerca de:",
+       "opcoes": [
+        "2,7 mm",
+        "3,0 mm",
+        "3,3 mm"
+       ],
+       "correta": 2
+      },
+      {
+       "pergunta": "Uma dobradiça impressa já montada precisa de uma folga entre as partes de cerca de:",
+       "opcoes": [
+        "0,05 mm",
+        "0,4 a 0,5 mm",
+        "3 mm"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Para testar se um encaixe funciona, o melhor é...",
+       "opcoes": [
+        "Imprimir a peça inteira em tamanho reduzido",
+        "Imprimir só a parte do encaixe, no tamanho real",
+        "Não testar"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Que formato de imagem o Tinkercad importa para virar forma 3D?",
+       "opcoes": [
+        "SVG",
+        "MP3",
+        "DOCX"
+       ],
+       "correta": 0
+      },
+      {
+       "pergunta": "Por que o suporte de celular precisa de reforço na emenda entre encosto e base?",
+       "opcoes": [
+        "Porque é o ponto que mais sofre força",
+        "Para gastar mais plástico",
+        "Por causa da cor"
+       ],
+       "correta": 0
+      }
+     ]
+    },
+    {
+     "titulo": "Projeto do Módulo 4: peça que resolve",
+     "tipo": "EXERCICIO",
+     "conteudo": "Escolha um **problema real** e projete uma peça para resolvê-lo. Pode ser na sua casa, na escola ou no robô da equipe.\n\n## Exemplos\n\n- Organizador de cabos para a mesa.\n\n- Suporte para o sensor ultrassônico do robô.\n\n- Gancho para mochila embaixo da carteira.\n\n- Peça de reposição (puxador, tampa de pilha, pé de móvel).\n\n- Adaptador para uma pessoa com dificuldade de segurar talheres ou lápis.\n\n## O que entregar\n\n- O **problema** em poucas linhas e uma foto da situação.\n\n- **Três requisitos medíveis** e as medidas que você tirou.\n\n- **Três esboços** de ideias diferentes.\n\n- Pelo menos **duas versões** do modelo, com o que mudou e por quê.\n\n- O modelo final (link ou STL) e, se possível, a foto da peça impressa em uso.",
+     "notas": "**Preparação:** Reserve uma aula para \"feira de problemas\": cada aluno apresenta o problema escolhido e os colegas sugerem requisitos.\n\n**O que observar:**\n\n- Problemas grandes demais (um móvel inteiro): ajude a recortar uma parte.\n\n- Projetos sem segunda versão: a iteração vale nota; incentive a testar um pedaço.\n\n**Adaptação:**\n\n- Turmas de robótica: todos podem resolver problemas do mesmo robô e montar uma \"biblioteca de peças\" da equipe.",
+     "duracao_min": 180,
+     "exercicio": {
+      "enunciado": "Envie o **link do Tinkercad** ou o **STL** da versão final e **fotos** do diário de bordo (problema, requisitos, esboços e registro das versões). Se imprimiu, envie a foto da peça resolvendo o problema. No recado, conte o que mudou da v1 para a v2.",
+      "rubrica": [
+       "Problema real, bem explicado, com três requisitos medíveis",
+       "Três esboços de ideias diferentes antes de modelar",
+       "Pelo menos duas versões documentadas, com o motivo das mudanças",
+       "Modelo funcional: medidas, folgas, espessuras e posição de impressão pensadas",
+       "Diário de bordo organizado e capricho na apresentação"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    }
+   ]
+  },
+  {
+   "titulo": "CAD paramétrico com Fusion 360",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 5 e instalação",
+     "tipo": "TEXTO",
+     "conteudo": "Até aqui você modelou juntando blocos. Agora vai trabalhar como engenheiros e designers de produto: com **CAD paramétrico**. Você desenha um **esboço** com medidas e regras, transforma em sólido e, se mudar uma medida, o modelo inteiro se atualiza.\n\n## Por que mudar de ferramenta?\n\n- Medidas exatas e **editáveis a qualquer momento** (a \"linha do tempo\" guarda cada passo).\n\n- Formas que o Tinkercad não faz bem: curvas suaves, peças torneadas, arredondamentos perfeitos.\n\n- Peças com **parâmetros**: mudou a largura do celular, o suporte inteiro se ajusta.\n\n- É o tipo de software usado na indústria; aprender aqui abre portas.\n\n## Qual programa usar\n\n- **Autodesk Fusion (Fusion 360):** o que usamos nas aulas. Gratuito para **estudantes e professores** (licença educacional) e para **uso pessoal não comercial**. Funciona em **Windows e Mac**. As regras de idade e de licença estão no site da Autodesk; alunos mais novos usam a conta da escola ou de um responsável.\n\n- **Onshape:** funciona **no navegador** (inclusive Chromebook e tablet) e tem plano gratuito para educação. Os conceitos são os mesmos: esboço, restrições, extrusão, parâmetros. Se o seu computador não roda o Fusion, use o Onshape e siga as aulas com os nomes equivalentes.\n\n## Instalando o Fusion\n\n1. Acesse o site da Autodesk, procure **Fusion para educação** (ou para uso pessoal) e crie a conta.\n\n2. Baixe e instale. O primeiro acesso demora um pouco.\n\n3. Em **Preferências → Geral**, confira as unidades em **milímetros**.\n\n4. Abra um novo design e explore sem medo: tudo pode ser desfeito na linha do tempo.\n\n[[Dica]] O Fusion salva na nuvem. Organize seus projetos em pastas (uma por módulo) desde o começo.",
+     "notas": "**Preparação:** Instale e teste o Fusion nos computadores da escola com antecedência (a instalação é grande e pede permissões de administrador). Tenha o Onshape como plano B para máquinas fracas ou Chromebooks.\n\n**O que observar:**\n\n- Contas e licenças: resolva antes da aula; não gaste a aula inteira com cadastro.\n\n**Adaptação:**\n\n- Turmas mais novas (11 a 12 anos): avalie se vale fazer este módulo inteiro no Onshape ou estender o Tinkercad com os desafios avançados.",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "A tela do Fusion e a navegação",
+     "tipo": "TEXTO",
+     "conteudo": "A tela do Fusion tem mais botões, mas a lógica é simples. Vamos conhecer as áreas principais.\n\n## Áreas da tela\n\n- **Barra de ferramentas:** organizada em abas (SÓLIDO, SUPERFÍCIE, CHAPA METÁLICA...). Vamos usar quase só **SÓLIDO**.\n\n- **Navegador** (à esquerda): lista corpos, esboços, componentes e planos. Clique no olho para mostrar/ocultar.\n\n- **ViewCube** (canto superior direito): clique nas faces para ver de frente, de cima, de lado.\n\n- **Linha do tempo** (embaixo): cada operação vira um ícone. Clique duas vezes num ícone para editar aquela etapa; arraste a barra para \"voltar no tempo\".\n\n## Navegação\n\n- **Girar (orbitar):** Shift + roda do mouse pressionada.\n\n- **Arrastar a vista:** roda do mouse pressionada.\n\n- **Zoom:** girar a roda.\n\n- **Enquadrar tudo:** ícone \"Ajustar\" na barra de navegação, embaixo.\n\n## Atalhos que você vai usar sempre\n\n- `L` linha · `R` retângulo · `C` círculo · `D` cota (dimensão) · `E` extrusão · `H` furo · `F` filete · `J` junta.\n\n- `S` abre uma caixa de pesquisa: digite o nome de qualquer ferramenta.\n\n[[Desafio]] Abra um dos modelos de exemplo do Fusion (painel de dados → Amostras) e use a linha do tempo para ver, passo a passo, como ele foi construído.",
+     "notas": "**Preparação:** Mostre a linha do tempo de um modelo pronto: é o conceito que mais diferencia do Tinkercad.\n\n**O que observar:**\n\n- Alunos acostumados com o Tinkercad tentam arrastar peças para modelar: reforce o fluxo esboço → recurso.",
+     "duracao_min": 45
+    },
+    {
+     "titulo": "Esboços com cotas e restrições",
+     "tipo": "TEXTO",
+     "conteudo": "Todo modelo no Fusion começa por um **esboço 2D** desenhado num plano. A qualidade do esboço define a qualidade da peça.\n\n## Criando um esboço\n\n1. Clique em **Criar esboço** e escolha um plano (o de baixo, XY, para peças que vão \"deitadas\").\n\n2. Desenhe com **Linha** (`L`), **Retângulo** (`R`), **Círculo** (`C`). Não se preocupe com a medida ao desenhar.\n\n3. Use **Cota** (`D`): clique numa linha ou entre dois elementos e digite a medida.\n\n4. Clique em **Concluir esboço**.\n\n## Restrições: as regras do desenho\n\nRestrições dizem como as linhas se relacionam, para o desenho não \"desmontar\" quando você muda uma medida:\n\n- **Horizontal / Vertical:** a linha fica alinhada a um eixo.\n\n- **Coincidente:** um ponto fica preso em outro ponto ou linha.\n\n- **Paralela / Perpendicular:** linhas mantêm o ângulo entre si.\n\n- **Igual:** duas linhas ou círculos têm o mesmo tamanho.\n\n- **Tangente:** uma curva encosta suavemente numa linha.\n\n- **Concêntrico:** círculos com o mesmo centro.\n\n- **Ponto médio** e **Simétrico:** posicionam em relação ao meio.\n\n[[Regra]] Linhas **azuis** ainda podem se mexer; linhas **pretas** estão totalmente definidas. Um bom esboço fica todo preto: nada solto, nada sobrando.\n\n## Boas práticas\n\n- Prenda o esboço na **origem** (o ponto central): fica mais fácil posicionar e espelhar depois.\n\n- Prefira poucas cotas e mais restrições (iguais, simétricas).\n\n- Esboços simples: é melhor fazer vários recursos simples do que um esboço gigante.\n\n[[Desafio]] Desenhe o perfil de uma chave de boca simples: um retângulo de 80 × 12 mm com um círculo de 24 mm em cada ponta e uma abertura hexagonal (polígono de 6 lados de 10 mm entre faces) em uma das pontas. Deixe o esboço todo preto.",
+     "notas": "**Preparação:** Faça o desafio ao vivo, errando de propósito (esboço azul que deforma ao mudar uma cota) para mostrar a importância das restrições.\n\n**O que observar:**\n\n- Esboços com cotas em excesso: o Fusion avisa e pergunta se quer uma cota \"dirigida\" (só leitura).\n\n- Alunos que desenham no plano errado: mostre como editar o plano do esboço na linha do tempo.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Extrusão, cortes e furos",
+     "tipo": "TEXTO",
+     "conteudo": "**Extrusão** (`E`) é dar espessura a um esboço: um retângulo vira uma placa; um círculo, um cilindro. É o recurso mais usado no CAD.\n\n## Operações da extrusão\n\n- **Novo corpo:** cria um sólido separado.\n\n- **Unir:** soma ao sólido existente.\n\n- **Cortar:** remove material (como o furo do Tinkercad).\n\n- **Interseção:** fica só a parte em comum.\n\n## Opções úteis\n\n- **Distância** ou **Até um objeto/face**.\n\n- **Simétrica:** cresce para os dois lados do esboço.\n\n- **Através de tudo** (no corte): atravessa a peça inteira, mesmo se ela mudar de tamanho depois.\n\n- **Ângulo de inclinação:** faz paredes levemente inclinadas (ótimo para evitar suportes).\n\n## Esboço em cima de uma face\n\nClique em **Criar esboço** e selecione uma **face** da peça: o novo esboço fica nela. Assim você constrói camada por camada de detalhes.\n\n## Ferramenta Furo (`H`)\n\nCria furos simples, escareados (para parafuso de cabeça chata) ou com rebaixo (para a cabeça ficar embutida), já com profundidade e diâmetro. Lembre das folgas: parafuso M3 → furo de 3,3 mm.\n\n[[Desafio]] Termine a chave do exercício anterior: extrude 5 mm, corte a abertura hexagonal e faça um furo de 6 mm na outra ponta para pendurar.",
+     "notas": "**Preparação:** Mostre a diferença entre \"cortar com distância fixa\" e \"através de tudo\" mudando a espessura da peça depois.\n\n**O que observar:**\n\n- Extrusões que criam corpos separados sem querer (opção \"Novo corpo\"): ensine a conferir a operação antes de OK.",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Revolução, filetes, cascas e padrões",
+     "tipo": "TEXTO",
+     "conteudo": "Com mais alguns recursos você faz quase qualquer peça.\n\n## Revolução\n\nGira um esboço em volta de um eixo, como um torno. Perfeito para copos, vasos, botões, rodas e pinos. Desenhe **meio perfil** encostado numa linha de eixo e use **Revolução**.\n\n## Filete e chanfro\n\n- **Filete** (`F`): arredonda arestas. Deixa a peça mais confortável e muito mais resistente nos cantos internos.\n\n- **Chanfro:** corta a aresta em ângulo. Chanfros de 45° na parte de baixo de furos e saliências evitam suportes e ajudam encaixes a entrar.\n\n## Casca (shell)\n\nTransforma um sólido maciço numa peça oca com parede de espessura escolhida, removendo a face que você selecionar. Uma caixa vira um copo em um clique.\n\n## Padrões e espelho\n\n- **Padrão retangular:** repete um recurso em linhas e colunas (furos de uma grade, aletas).\n\n- **Padrão circular:** repete em volta de um eixo (furos em círculo, raios de roda, dentes).\n\n- **Espelhar:** copia recursos ou corpos para o outro lado de um plano. Modele metade e espelhe.\n\n[[Desafio]] Faça uma **roda para robô**: revolução de um perfil com 60 mm de diâmetro e 20 mm de largura, cubo central com o furo no formato do eixo do motor (o motor amarelo TT tem eixo com dois lados achatados), seis furos de alívio em padrão circular e filetes nas bordas.\n\n[[Dica]] Meça o eixo do seu motor com o paquímetro antes de modelar o furo e lembre da folga justa.",
+     "notas": "**Preparação:** Tenha um motor TT (ou o motor do kit de robótica da escola) para medir o eixo.\n\n**O que observar:**\n\n- Revolução com perfil cruzando o eixo dá erro: o meio perfil precisa ficar todo de um lado.\n\n- Filetes que falham: geralmente o raio é maior que a parede; diminua.\n\n**Respostas esperadas:**\n\n- Eixo do motor TT: cerca de 5,4 mm de diâmetro com dois achatados e uns 3,7 mm entre eles (confirme medindo o seu; varia entre fabricantes).",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Parâmetros: o poder do paramétrico",
+     "tipo": "TEXTO",
+     "conteudo": "Agora vem a mágica: **parâmetros** são variáveis com nome (como `largura` ou `folga`) que você usa nas cotas. Mudou o parâmetro, o modelo inteiro se ajusta.\n\n## Criando parâmetros\n\n1. Menu **Modificar → Alterar parâmetros**.\n\n2. Clique em **+** em \"Parâmetros do usuário\" e crie, por exemplo: `largura = 60 mm`, `altura = 40 mm`, `parede = 2 mm`, `folga = 0,2 mm`.\n\n3. Nas cotas e extrusões, em vez de digitar um número, digite o **nome**: `largura`, ou uma conta: `largura - 2 * parede`.\n\n4. Volte em **Alterar parâmetros**, mude `largura` para 80 e veja tudo se atualizar.\n\n## Quando usar parâmetros\n\n- Medidas que dependem de um objeto real (o celular, a pilha, o sensor).\n\n- Folgas: com `folga` como parâmetro, você ajusta todos os encaixes de uma vez para outra impressora.\n\n- Peças que vão ter versões em vários tamanhos.\n\n[[Regra]] Dê nomes claros, em minúsculas e sem espaços: `largura_celular`, `diametro_eixo`. Escreva comentários no campo ao lado.\n\n[[Desafio]] Modele uma caixa paramétrica simples (largura, profundidade, altura e parede como parâmetros) e gere três tamanhos diferentes só mudando os parâmetros. Salve uma captura de cada.",
+     "notas": "**Preparação:** Este é o conceito-chave do módulo. Faça uma demonstração com uma peça bem conhecida (o suporte de celular do Módulo 4) mudando a largura do celular.\n\n**O que observar:**\n\n- Cotas digitadas como número em vez do nome do parâmetro: a peça não se atualiza.\n\n- Erros de unidade nas contas (somar mm com graus).",
+     "duracao_min": 75
+    },
+    {
+     "titulo": "Componentes, juntas e exportação",
+     "tipo": "TEXTO",
+     "conteudo": "Projetos reais têm várias peças. No Fusion, cada peça deve ser um **componente**, e os movimentos entre elas são definidos por **juntas**.\n\n## Corpos e componentes\n\n- **Corpo:** um sólido. **Componente:** uma peça com seus corpos, esboços e posição própria.\n\n- Regra prática: **uma peça impressa = um componente**. Crie com **Montar → Novo componente** (ou clique com o botão direito no corpo → Criar componentes a partir de corpos).\n\n## Juntas (`J`)\n\nLigam componentes e definem como eles se movem: **rígida** (presos), **revolução** (dobradiça, roda), **deslizante** (gaveta). Depois, arraste a peça para ver o movimento e conferir se nada bate.\n\n## Conferindo interferências\n\nEm **Inspecionar → Interferência**, o Fusion mostra se duas peças estão ocupando o mesmo lugar. Folga zero vira peça grudada na impressão!\n\n## Exportando para imprimir\n\n1. Clique com o botão direito no componente ou corpo → **Salvar como malha**.\n\n2. Formato **3MF** (ou STL), unidade em **milímetros**.\n\n3. Abra no fatiador e siga o que você aprendeu no Módulo 3.\n\n[[Desafio]] Monte a caixa paramétrica da aula anterior com uma tampa como componente separado, ligada por junta deslizante. Use o parâmetro `folga` no encaixe e confira a interferência.",
+     "notas": "**Preparação:** Mostre uma montagem com junta de revolução (uma roda no eixo) se movendo: os alunos adoram.\n\n**O que observar:**\n\n- Tudo modelado como um corpo só: as peças não podem ser exportadas separadas.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Quiz: CAD paramétrico",
+     "tipo": "QUIZ",
+     "conteudo": "Confira os conceitos de CAD paramétrico no Fusion 360 (valem também para o Onshape): esboços definidos, recursos, parâmetros, linha do tempo e juntas. É preciso acertar 70% para seguir.",
+     "notas": "",
+     "duracao_min": 15,
+     "quiz": [
+      {
+       "pergunta": "No Fusion, uma linha de esboço preta significa que ela está...",
+       "opcoes": [
+        "Selecionada",
+        "Totalmente definida (cotas e restrições)",
+        "Com erro"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Qual recurso gira um perfil em volta de um eixo, como um torno?",
+       "opcoes": [
+        "Extrusão",
+        "Revolução",
+        "Casca"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Qual a principal vantagem de usar parâmetros?",
+       "opcoes": [
+        "Mudar uma medida e o modelo inteiro se ajustar",
+        "Deixar a peça colorida",
+        "Imprimir mais rápido"
+       ],
+       "correta": 0
+      },
+      {
+       "pergunta": "Para remover material atravessando a peça inteira, mesmo se ela mudar de espessura depois, você usa a extrusão com...",
+       "opcoes": [
+        "Distância fixa",
+        "Cortar e \"Através de tudo\"",
+        "Novo corpo"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Onde você edita uma etapa antiga do modelo?",
+       "opcoes": [
+        "Na linha do tempo",
+        "No ViewCube",
+        "Na lixeira"
+       ],
+       "correta": 0
+      },
+      {
+       "pergunta": "Qual tipo de junta usar numa roda que gira no eixo?",
+       "opcoes": [
+        "Rígida",
+        "Revolução",
+        "Deslizante"
+       ],
+       "correta": 1
+      },
+      {
+       "pergunta": "Qual recurso transforma um bloco maciço numa caixa oca com parede de 2 mm?",
+       "opcoes": [
+        "Casca (shell)",
+        "Filete",
+        "Padrão circular"
+       ],
+       "correta": 0
+      }
+     ]
+    },
+    {
+     "titulo": "Projeto do Módulo 5: caixa paramétrica com tampa",
+     "tipo": "EXERCICIO",
+     "conteudo": "Projete no Fusion (ou no Onshape) uma **caixa com tampa** totalmente paramétrica, para guardar algo que você escolher (cartões, peças de robótica, fones, pilhas).\n\n## Requisitos\n\n- Parâmetros de usuário para pelo menos: largura interna, profundidade interna, altura, espessura da parede e **folga**.\n\n- Tampa como **componente separado**, com encaixe (deslizante, de pressão ou com dobradiça).\n\n- Pelo menos um **filete** ou **chanfro** pensado para resistência ou para evitar suporte.\n\n- Pelo menos um **padrão** (furos de ventilação, divisórias, texto repetido...).\n\n- Esboços totalmente definidos (pretos).\n\n- Prova de que é paramétrica: capturas de **dois tamanhos diferentes** gerados só mudando os parâmetros.",
+     "notas": "**Preparação:** Mostre como gerar o link público no Fusion (Compartilhar → Link público) e no Onshape (documento público).\n\n**O que observar:**\n\n- Caixas que \"quebram\" ao mudar o parâmetro: quase sempre um esboço não estava totalmente definido.",
+     "duracao_min": 180,
+     "exercicio": {
+      "enunciado": "Envie o **link público do projeto** no Fusion ou no Onshape (ou o arquivo **3MF/STL** das duas peças), uma **captura da tabela de parâmetros** e capturas dos **dois tamanhos**. Se imprimiu, mande a foto da caixa fechada e aberta. No recado, conte qual folga você usou e por quê.",
+      "rubrica": [
+       "Parâmetros de usuário bem nomeados controlando o modelo",
+       "Tampa como componente separado, com encaixe e folga parametrizada",
+       "Uso correto de filete/chanfro e de padrão",
+       "Esboços totalmente definidos e linha do tempo organizada",
+       "Dois tamanhos gerados apenas mudando parâmetros"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    }
+   ]
+  },
+  {
+   "titulo": "Projeto final: do problema ao portfólio",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao projeto final",
+     "tipo": "TEXTO",
+     "conteudo": "Chegou a hora de mostrar tudo o que você aprendeu num projeto seu, do começo ao fim: problema, requisitos, esboços, modelo paramétrico, impressão, testes, versões e apresentação.\n\n## Como vai funcionar\n\n1. **Escolha do problema** e requisitos.\n\n2. **Ideias e plano:** esboços, cronograma e lista de peças.\n\n3. **Modelagem da versão 1.**\n\n4. **Impressão e teste da v1.**\n\n5. **Versão 2:** melhorias a partir dos testes.\n\n6. **Documentação e portfólio.**\n\n7. **Entrega e apresentação.**\n\n## Regras do projeto final\n\n- Individual ou em dupla (combine com o professor).\n\n- Pelo menos **duas peças** que trabalham juntas **ou** uma peça com recursos avançados (parâmetros, revolução, padrões).\n\n- Modelado no **Fusion 360 ou Onshape** (o Tinkercad pode ser usado em partes simples).\n\n- Pelo menos **duas versões** testadas.\n\n- Diário de bordo completo.\n\n[[Dica]] Escolha algo que você realmente queira usar. Projetos com propósito ficam muito melhores.",
+     "notas": "",
+     "duracao_min": 15
+    },
+    {
+     "titulo": "Escolhendo o problema e os requisitos",
+     "tipo": "TEXTO",
+     "conteudo": "Um bom projeto final é **pequeno o suficiente para terminar** e **interessante o suficiente para você se orgulhar**.\n\n## Ideias de projeto\n\n- Um acessório para o robô da equipe (garra, suporte de sensores, para-choque com chave de fim de curso).\n\n- Um produto para uma pessoa da sua família (adaptador, organizador, suporte).\n\n- Um jogo de tabuleiro com peças impressas.\n\n- Uma luminária com encaixe para fita de LED.\n\n- Uma peça de reposição de algo que quebrou em casa.\n\n- Um objeto para a escola (porta-recados, suporte de tablet para a sala).\n\n## Teste do \"tamanho certo\"\n\n- Dá para modelar em umas 4 a 6 horas?\n\n- Cada peça imprime em menos de 4 horas?\n\n- Você consegue testar se funcionou?\n\n## Ficha do projeto\n\nPreencha no diário de bordo:\n\n- **Nome do projeto.**\n\n- **Problema:** quem tem, quando acontece, por que importa.\n\n- **Requisitos:** pelo menos cinco, todos medíveis.\n\n- **Restrições:** tamanho máximo, material, tempo de impressão, custo.\n\n- **Como vou testar:** o que precisa acontecer para eu dizer que funcionou.\n\n[[Você entrega]] Mostre a ficha ao professor antes de começar a modelar. Ele pode sugerir ajustes no tamanho do desafio.",
+     "notas": "**Preparação:** Faça uma rodada rápida de apresentação das fichas (1 minuto cada) e ajude a recortar projetos grandes demais.\n\n**O que observar:**\n\n- Projetos ambiciosos demais (um drone inteiro): proponha uma parte.\n\n- Projetos fáceis demais para o aluno: peça um requisito a mais (parâmetro, montagem com junta).",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Ideias, esboços e plano de trabalho",
+     "tipo": "TEXTO",
+     "conteudo": "Antes de abrir o Fusion, pense no papel. Esboços rápidos são a forma mais barata de testar ideias.\n\n## Três ideias, uma escolha\n\n1. Faça **três esboços diferentes** (não três variações da mesma ideia).\n\n2. Para cada um, anote prós e contras: imprime sem suporte? Quantas peças? É fácil de montar?\n\n3. Escolha uma ideia (ou misture o melhor de cada) e justifique.\n\n## Desenho técnico\n\nFaça o desenho da ideia escolhida com as três vistas e as medidas principais, como no Módulo 2. Separe as peças e indique onde ficam os encaixes e as folgas.\n\n## Plano de trabalho\n\n- Liste as peças e a ordem de modelagem.\n\n- Defina os **parâmetros** principais (medidas dos objetos reais, folga).\n\n- Marque datas: v1 pronta, impressão, v2, entrega.\n\n- Preveja um **teste rápido** para a parte mais arriscada (o encaixe mais difícil, por exemplo).\n\n[[Pergunta para pensar]] Qual é a parte do seu projeto que tem mais chance de dar errado? Como você pode testá-la logo no começo?",
+     "notas": "**Preparação:** Exija os três esboços antes da modelagem; é o momento em que os alunos mais pulam etapas.\n\n**O que observar:**\n\n- Esboços muito parecidos entre si: peça uma ideia \"maluca\" diferente.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Modelando a versão 1",
+     "tipo": "TEXTO",
+     "conteudo": "Hora de modelar. Use tudo o que aprendeu: esboços totalmente definidos, parâmetros, componentes, folgas e a posição de impressão em mente.\n\n## Checklist durante a modelagem\n\n- Parâmetros criados para as medidas principais e para a folga.\n\n- Cada peça impressa é um **componente**.\n\n- Encaixes com a folga que você descobriu no teste do Módulo 3.\n\n- Paredes de pelo menos 1,6 mm (2 a 3 mm onde há força).\n\n- Cantos internos com filete; partes inclinadas pensadas para evitar suporte.\n\n- Juntas para conferir movimentos e **Inspecionar → Interferência**.\n\n## Organização\n\n- Nomeie componentes, esboços e parâmetros.\n\n- Salve marcos importantes como versões (o Fusion guarda o histórico de versões do arquivo).\n\n- Tire capturas de tela do progresso para o portfólio.\n\n[[Dica]] Travou numa forma difícil? Simplifique. Uma solução simples que funciona vale mais do que uma complicada que não sai da tela.",
+     "notas": "**Preparação:** Circule pela sala conferindo o checklist com cada aluno. É a aula com mais dúvidas técnicas.\n\n**O que observar:**\n\n- Esboços azuis que vão quebrar na hora de mudar parâmetros.\n\n- Montagens sem componentes.",
+     "duracao_min": 120
+    },
+    {
+     "titulo": "Imprimindo e testando a versão 1",
+     "tipo": "TEXTO",
+     "conteudo": "Do arquivo para as mãos. Agora você descobre o que funciona de verdade.\n\n## Antes de imprimir\n\n- Exporte cada componente em 3MF ou STL.\n\n- No fatiador, escolha a posição de cada peça (resistência, suportes, acabamento).\n\n- Confira a prévia camada por camada e o tempo estimado.\n\n- Peça grande? Imprima antes só a parte arriscada.\n\n## Testando\n\n- Os encaixes entram? Ficam firmes ou soltos demais?\n\n- Meça com o paquímetro: as medidas batem com o modelo?\n\n- A peça cumpre os **requisitos** da sua ficha? Teste um por um.\n\n- Peça para outra pessoa usar sem explicar nada. O que ela faz de diferente do que você esperava?\n\n## Registre tudo\n\nFotos, medidas e o resultado de cada requisito (passou / não passou / quase). Esses dados decidem o que muda na versão 2.\n\n[[Segurança]] Peças que vão segurar peso ou ficar perto de crianças pequenas precisam ser testadas com cuidado: nada de pendurar coisas pesadas sobre pessoas ou usar peças pequenas que possam ser engolidas.",
+     "notas": "**Preparação:** Organize a fila de impressão com antecedência; peças que falharem precisam de tempo para reimpressão.\n\n**O que observar:**\n\n- Alunos frustrados com a v1: lembre que a v1 existe para ser melhorada; ela faz parte da nota pelo registro, não pela perfeição.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Versão 2: melhorando com base nos testes",
+     "tipo": "TEXTO",
+     "conteudo": "Com os resultados dos testes, você decide o que mudar. É aqui que um bom projeto vira um ótimo projeto.\n\n## Priorize\n\n1. Primeiro, o que impede a peça de **funcionar** (encaixe que não entra, parte que quebra).\n\n2. Depois, o que atrapalha o **uso** (difícil de montar, de pegar, de limpar).\n\n3. Por último, a **aparência** (acabamento, detalhes, personalização).\n\n## Mudando com parâmetros\n\nSe você fez bem o modelo paramétrico, muitas melhorias são só mudar um número: a folga, a espessura, o tamanho. Aproveite e note como isso economiza tempo.\n\n## Documente a versão 2\n\n- O que mudou, por quê e como ficou o teste.\n\n- Fotos lado a lado da v1 e da v2.\n\n- O que ainda melhoraria numa v3 (não precisa fazer, mas pense).\n\n[[Pergunta para pensar]] Se você fosse fabricar 100 unidades do seu projeto, o que mudaria para imprimir mais rápido e gastar menos material?",
+     "notas": "**Preparação:** Valorize as mudanças justificadas por teste. Uma v2 com uma única melhoria bem explicada vale mais do que várias mudanças sem motivo.\n\n**O que observar:**\n\n- Alunos que querem recomeçar do zero: ajude a aproveitar o que já funciona.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Documentação e portfólio",
+     "tipo": "TEXTO",
+     "conteudo": "Um projeto bem documentado mostra **como você pensa**, não só o resultado. Esse material pode virar parte do seu portfólio para feiras, olimpíadas, cursos técnicos e até entrevistas de estágio.\n\n## O que vai no portfólio\n\n- **Capa:** nome do projeto, seu nome, data e uma foto bonita da peça.\n\n- **Problema e requisitos.**\n\n- **Processo:** esboços, desenho técnico, capturas do CAD (com a tabela de parâmetros).\n\n- **Versões:** v1 e v2 com fotos, testes e o que mudou.\n\n- **Resultado:** a peça em uso.\n\n- **Aprendizados:** o que deu certo, o que você faria diferente.\n\n- **Arquivos:** link do projeto ou dos arquivos 3MF/STL.\n\n## Boas fotos de peças\n\n- Fundo liso (uma folha branca ou cinza) e luz natural.\n\n- Uma foto da peça sozinha e outra em uso.\n\n- Coloque uma régua ou moeda ao lado para mostrar o tamanho.\n\n## Compartilhando\n\nSe quiser, publique seu modelo em sites como Printables ou Thingiverse, com uma licença que diga como outras pessoas podem usar (por exemplo, Creative Commons). Combine com seus responsáveis antes de publicar.\n\n[[Você entrega]] Monte o portfólio como PDF ou apresentação (Google Apresentações, Canva, PowerPoint). Ele faz parte da entrega final.",
+     "notas": "**Preparação:** Mostre exemplos de portfólios de design de produto e de feiras de ciências.\n\n**O que observar:**\n\n- Portfólios só com fotos finais: peça o processo.\n\n- Fotos escuras ou com fundo bagunçado.",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Projeto final: entrega",
+     "tipo": "EXERCICIO",
+     "conteudo": "Reúna tudo e envie o seu projeto final para avaliação.\n\n## Checklist de entrega\n\n- Link público do projeto (Fusion ou Onshape) ou arquivos 3MF/STL das peças.\n\n- Portfólio em PDF (ou link da apresentação).\n\n- Fotos da v1, da v2 e da peça em uso.\n\n- Tabela de parâmetros e a ficha com os requisitos e o resultado de cada um.\n\n[[Dica]] Releia os critérios de avaliação abaixo antes de enviar e confira se o seu portfólio mostra cada um deles.",
+     "notas": "**Preparação:** Corrija com a rubrica e devolva comentários específicos: o aluno pode reenviar com ajustes antes da mostra.\n\n**O que observar:**\n\n- Entregas sem portfólio: peça antes de aprovar, pois ele é parte do certificado.",
+     "duracao_min": 60,
+     "exercicio": {
+      "enunciado": "Envie o seu projeto final: cole o **link do projeto** (ou anexe os arquivos 3MF/STL) e anexe o **portfólio em PDF** e as **fotos** da v1, da v2 e da peça em uso. No recado, escreva em poucas linhas o problema que você resolveu e a principal mudança da v1 para a v2.",
+      "rubrica": [
+       "Problema real com requisitos medíveis e verificados nos testes",
+       "Modelo paramétrico bem construído (esboços definidos, parâmetros, componentes e juntas)",
+       "Decisões de impressão justificadas (posição, folgas, espessuras, suportes)",
+       "Duas versões documentadas, com mudanças baseadas em testes",
+       "Portfólio claro e completo, com processo, resultado e aprendizados",
+       "Funcionamento e acabamento da peça final"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Mostra, apresentação e autoavaliação",
+     "tipo": "TEXTO",
+     "conteudo": "Encerramos com uma **mostra**: cada pessoa apresenta seu projeto em até 3 minutos, como num lançamento de produto.\n\n## Roteiro de apresentação (3 minutos)\n\n1. **O problema** (30 s): para quem e por quê.\n\n2. **A solução** (60 s): mostre a peça funcionando.\n\n3. **O processo** (60 s): uma decisão difícil e o que você mudou da v1 para a v2.\n\n4. **O que aprendeu** (30 s).\n\n## Feedback entre colegas\n\nAo assistir, anote para cada colega: **uma coisa que funcionou muito bem** e **uma sugestão** para a próxima versão.\n\n## Autoavaliação\n\nNo diário de bordo, responda:\n\n- Qual foi a habilidade em que você mais evoluiu no curso?\n\n- Qual erro mais ensinou você?\n\n- Que projeto você quer fazer agora que sabe modelar?\n\n[[Dica]] Depois da aprovação do projeto final, o seu **certificado** fica disponível em \"Meu painel\". Parabéns!",
+     "notas": "**Preparação:** Convide familiares ou outra turma para a mostra. Uma votação de \"peça mais útil\" e \"melhor processo\" anima a turma.\n\n**O que observar:**\n\n- Alunos tímidos: permita gravar a apresentação em vídeo.",
+     "duracao_min": 90
+    }
+   ]
+  }
+ ]
+}

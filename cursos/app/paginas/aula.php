@@ -114,7 +114,7 @@ cabecalho($aula['titulo']);
         <label><?= e($rotuloLink[$tipoEnt]) ?><input name="link" type="url" placeholder="https://" <?= $tipoEnt === 'LINK_SIMULADOR' ? 'required' : '' ?>></label>
         <label><?= e($rotuloArquivos) ?>
           <input type="file" name="arquivos[]" multiple data-reduzir-fotos data-max="<?= ARQ_MAX_QTD ?>" data-limite="<?= limite_arquivo() ?>"
-            accept="image/*,.pdf,.ino,.py,.txt,.c,.cpp,.h,.sb3,.zip" <?= $tipoEnt === 'ARQUIVO' ? 'required' : '' ?>>
+            accept="image/*,.pdf,.stl,.3mf,.ino,.py,.txt,.c,.cpp,.h,.sb3,.zip" <?= $tipoEnt === 'ARQUIVO' ? 'required' : '' ?>>
           <span class="pequeno suave">Até <?= ARQ_MAX_QTD ?> arquivos. No celular dá para tirar a foto na hora. As fotos são reduzidas automaticamente; outros arquivos até <?= e(tamanho_legivel(limite_arquivo())) ?> cada.</span>
           <span class="pequeno" data-fotos-status aria-live="polite"></span></label>
         <label><?= $ex['tipo_entrega'] === 'CODIGO' ? 'Código do programa' : 'Código do programa (opcional, mas recomendado)' ?>

@@ -8,6 +8,7 @@ const ARQ_LADO_MAX = 1600;
 const ARQ_IMAGENS = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', 'gif' => 'image/gif'];
 const ARQ_OUTROS = [
     'pdf' => 'application/pdf', 'zip' => 'application/zip', 'sb3' => 'application/octet-stream',
+    'stl' => 'model/stl', '3mf' => 'model/3mf',
     'ino' => 'text/plain', 'py' => 'text/plain', 'txt' => 'text/plain', 'c' => 'text/plain', 'cpp' => 'text/plain', 'h' => 'text/plain',
 ];
 
@@ -72,15 +73,31 @@ function receber_arquivos(string $campo)
         } elseif (isset(ARQ_OUTROS[$ext])) {
             $ini = (string) file_get_contents($tmp, false, null, 0, 4);
             if ($ext === 'pdf' && $ini !== '%PDF') return "\"$nome\" não é um PDF válido.";
-            if (in_array($ext, ['zip', 'sb3'], true) && substr($ini, 0, 2) !== 'PK') return "\"$nome\" não é um arquivo válido.";
+            if (in_array($ext, ['zip', 'sb3', '3mf'], true) && substr($ini, 0, 2) !== 'PK') return "\"$nome\" não é um arquivo válido.";
+            if ($ext === 'stl' && !stl_valido($tmp, $tam)) return "\"$nome\" não é um arquivo STL válido.";
             $mime = ARQ_OUTROS[$ext];
         } else {
-            return "Tipo de arquivo não aceito: \"$nome\". Envie fotos (JPG, PNG), PDF, código (.ino, .py, .txt), projeto do Scratch (.sb3) ou .zip.";
+            return "Tipo de arquivo não aceito: \"$nome\". Envie fotos (JPG, PNG), PDF, modelo 3D (.stl, .3mf), código (.ino, .py, .txt), projeto do Scratch (.sb3) ou .zip.";
         }
         $itens[] = ['tmp' => $tmp, 'nome' => $nome, 'ext' => $ext, 'mime' => $mime, 'tamanho' => $tam];
     }
     if (count($itens) > ARQ_MAX_QTD) return 'Envie no máximo ' . ARQ_MAX_QTD . ' arquivos por entrega.';
     return $itens;
+}
+
+/** STL binário (cabeçalho de 80 bytes + nº de triângulos × 50 bytes) ou STL em texto ("solid ... facet"). */
+function stl_valido(string $arquivo, int $tamanho): bool
+{
+    $h = fopen($arquivo, 'rb');
+    if (!$h) return false;
+    $inicio = (string) fread($h, 84);
+    $amostra = $inicio . (string) fread($h, 916);
+    fclose($h);
+    if (strlen($inicio) === 84) {
+        $n = unpack('V', substr($inicio, 80, 4))[1];
+        if ($n > 0 && 84 + $n * 50 === $tamanho) return true;
+    }
+    return (bool) preg_match('/^\s*solid\b/i', $amostra) && stripos($amostra, 'facet') !== false;
 }
 
 /**
