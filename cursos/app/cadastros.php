@@ -174,6 +174,7 @@ function acao_salvar_meus_dados(): void
     $f = fn(string $m) => voltar('erro', $m, 'meus_dados');
     $nome = post('nome');
     $email = strtolower(post('email'));
+    if ($email === '' && !tem_email_real($u['email'])) $email = $u['email'];
     if (mb_strlen($nome) < 2) $f('Informe seu nome completo.');
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $f('E-mail inválido.');
     if (!email_livre($email, $u['id'])) $f('Este e-mail já é usado por outra conta.');
@@ -198,6 +199,7 @@ function acao_alterar_senha(): void
     if (strlen($nova) < 8) voltar('erro', 'A nova senha precisa ter pelo menos 8 caracteres.', 'meus_dados');
     // Muda a versão (derruba as outras sessões) e mantém esta aberta.
     q('UPDATE usuarios SET senha_hash = ?, senha_versao = senha_versao + 1 WHERE id = ?', [password_hash($nova, PASSWORD_DEFAULT), $u['id']]);
+    q('DELETE FROM senhas_provisorias WHERE usuario_id = ?', [$u['id']]);
     entrar_como(um('SELECT * FROM usuarios WHERE id = ?', [$u['id']]));
     voltar('ok', 'Senha alterada. Outros aparelhos conectados precisarão entrar de novo.', 'meus_dados');
 }
@@ -213,6 +215,7 @@ function acao_salvar_aluno(): void
     $f = fn(string $m) => voltar('erro', $m, 'editar_aluno', ['id' => $id]);
     $nome = post('nome');
     $email = strtolower(post('email'));
+    if ($email === '' && !tem_email_real($al['email'])) $email = $al['email'];
     if (mb_strlen($nome) < 2) $f('Informe o nome.');
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $f('E-mail inválido.');
     if (!email_livre($email, $id)) $f('Este e-mail já é usado por outra conta.');

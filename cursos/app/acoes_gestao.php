@@ -61,10 +61,19 @@ function acao_criar_org(): void
     if ($nome === '') voltar('erro', 'Informe o nome da escola.', 'admin');
     $id = novo_id();
     q('INSERT INTO organizacoes (id, nome, documento, criado_em) VALUES (?,?,?,?)', [$id, $nome, post('documento') ?: null, agora()]);
+    auditar($admin['id'], $id, 'escola.criada', 'Organizacao', $id);
+    $respNome = post('resp_nome');
+    if ($respNome !== '') {
+        // Acesso da coordenação criado na hora, com login e senha provisória.
+        $_POST['org_id'] = $id;
+        $_POST['papel'] = 'COORDENADOR';
+        $_POST['pessoas'] = $respNome . (post('resp_email') !== '' ? '; ' . post('resp_email') : '');
+        $_POST['turma_id'] = $_POST['curso_id'] = '';
+        acao_criar_acessos();
+    }
     // Código de uso único para quem vai administrar a escola.
     $codigo = codigo_aleatorio(8);
     q("INSERT INTO convites (id, codigo, org_id, papel, max_usos, criado_em) VALUES (?,?,?,'ADMIN_ORG',1,?)", [novo_id(), $codigo, $id, agora()]);
-    auditar($admin['id'], $id, 'escola.criada', 'Organizacao', $id);
     voltar('ok', "Escola criada. Envie ao responsável o código de administrador: $codigo", 'admin');
 }
 

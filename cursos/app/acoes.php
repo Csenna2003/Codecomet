@@ -76,14 +76,15 @@ function acao_cadastrar(): void
 
 function acao_entrar(): void
 {
-    $email = strtolower(post('email'));
+    // Aceita e-mail ou nome de usuário (contas de aluno sem e-mail).
+    $email = email_de_login(post('email'));
     $senha = (string) ($_POST['senha'] ?? '');
     if (login_bloqueado($email)) voltar('erro', 'Muitas tentativas. Aguarde 15 minutos ou peça um link de nova senha ao seu professor.', 'entrar');
     $u = um('SELECT * FROM usuarios WHERE email = ?', [$email]);
     // Mesma mensagem para e-mail inexistente e senha errada.
     if (!$u || !password_verify($senha, $u['senha_hash'])) {
         registrar_falha_login($email);
-        voltar('erro', 'E-mail ou senha incorretos.', 'entrar');
+        voltar('erro', 'Login ou senha incorretos.', 'entrar');
     }
     limpar_falhas_login($email);
     entrar_como($u);
@@ -178,6 +179,7 @@ function acao_redefinir_senha(): void
     if (!$ok) voltar('erro', 'Este link de nova senha não vale mais. Peça outro.', 'entrar');
     // Aumentar a versão derruba as sessões abertas com a senha antiga.
     q('UPDATE usuarios SET senha_hash = ?, senha_versao = senha_versao + 1 WHERE id = ?', [password_hash($senha, PASSWORD_DEFAULT), $r['usuario_id']]);
+    q('DELETE FROM senhas_provisorias WHERE usuario_id = ?', [$r['usuario_id']]);
     limpar_falhas_login((string) valor('SELECT email FROM usuarios WHERE id = ?', [$r['usuario_id']]));
     voltar('ok', 'Senha alterada. Entre com a nova senha.', 'entrar');
 }

@@ -19,6 +19,9 @@ cabecalho('Meu painel');
 ?>
 <div class="linha"><h1>Olá, <?= e(explode(' ', $u['nome'])[0]) ?>!</h1><span class="acoes"><a class="btn sec mini" href="<?= e(url('aluno')) ?>">Meu acompanhamento</a><a class="btn sec mini" href="<?= e(url('meus_dados')) ?>">Meus dados</a><?php if (eh_professor_cadastrado($u)): ?><a class="btn sec mini" href="<?= e(url('perfil_professor')) ?>">Meu perfil de professor</a><?php endif ?></span></div>
 
+<?php if (valor('SELECT 1 FROM senhas_provisorias WHERE usuario_id = ?', [$u['id']])): ?>
+  <p class="aviso alerta">Você está usando uma senha provisória. <a href="<?= e(url('meus_dados')) ?>">Troque agora por uma senha sua</a>.</p>
+<?php endif ?>
 <?php foreach ($ajustes as $e): ?>
   <p class="aviso alerta">Seu professor pediu um ajuste em <strong><?= e($e['titulo']) ?></strong>. <a href="<?= e(url('aula', ['id' => $e['aula_id']])) ?>">Ver o comentário e reenviar</a></p>
 <?php endforeach ?>

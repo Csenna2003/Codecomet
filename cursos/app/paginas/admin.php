@@ -73,9 +73,16 @@ if ($pacotes): ?>
     <?php foreach ($lics as $l): ?><p class="pequeno">Licença: <?= e($l['titulo']) ?> — <?= (int) $l['vagas_total'] ?> vagas</p><?php endforeach ?>
   </div>
 <?php endforeach ?>
-<?= abrir_form('criar_org', 'cartao campos') ?>
-  <label>Nome da nova escola<input name="nome" required></label>
-  <label>CNPJ (opcional)<input name="documento"></label>
+<?= abrir_form('criar_org', 'cartao pilha') ?>
+  <div class="campos">
+    <label>Nome da nova escola<input name="nome" required></label>
+    <label>CNPJ (opcional)<input name="documento"></label>
+  </div>
+  <div class="campos">
+    <label>Responsável da escola (para criar o acesso)<input name="resp_nome" placeholder="Nome da coordenação"></label>
+    <label>E-mail do responsável (opcional)<input name="resp_email" type="email"></label>
+  </div>
+  <p class="pequeno suave">Com o nome do responsável, criamos o acesso da coordenação na hora (login e senha). Sem ele, a escola recebe um código de administrador para usar ao criar a conta.</p>
   <div><button class="btn sec">Criar escola</button></div>
 </form>
 

@@ -4,7 +4,7 @@ cabecalho('Entrar', true);
 ?>
 <h1>Entrar</h1>
 <?= abrir_form('entrar') ?>
-  <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+  <label>E-mail ou usuário<input name="email" autocomplete="username" autocapitalize="none" value="<?= e(get('login')) ?>" required></label>
   <label>Senha<input name="senha" type="password" autocomplete="current-password" required></label>
   <button class="btn">Entrar</button>
 </form>

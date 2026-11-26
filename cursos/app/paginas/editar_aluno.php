@@ -22,6 +22,10 @@ cabecalho('Cadastro do aluno');
 ?>
 <p class="pequeno"><a href="<?= e(url('admin_alunos')) ?>">← Alunos</a> · <a href="<?= e(url('aluno', ['id' => $al['id']])) ?>">Ver acompanhamento</a></p>
 <h1>Cadastro: <?= e($al['nome']) ?></h1>
+<div class="linha cartao">
+  <span>Login: <code><?= e(login_de($al['email'])) ?></code><?= valor('SELECT 1 FROM senhas_provisorias WHERE usuario_id = ?', [$al['id']]) ? ' <span class="etiqueta alerta">senha provisória</span>' : '' ?></span>
+  <?= botao_acao('nova_senha_provisoria', 'Gerar nova senha provisória', ['usuario_id' => $al['id']], 'btn mini sec', 'Gerar uma nova senha? A senha atual deixa de funcionar.') ?>
+</div>
 <p class="suave pequeno">Cadastrado em <?= e(data_br($al['criado_em'])) ?><?= $d ? ' · atualizado em ' . e(data_br($d['atualizado_em'])) : '' ?></p>
 
 <h2>Matrículas</h2>
@@ -67,7 +71,7 @@ cabecalho('Cadastro do aluno');
   <h3>Dados do aluno</h3>
   <div class="campos">
     <label>Nome completo<input name="nome" value="<?= e($al['nome']) ?>" required></label>
-    <label>E-mail (login)<input name="email" type="email" value="<?= e($al['email']) ?>" required></label>
+    <label>E-mail<?= tem_email_real($al['email']) ? '' : ' (opcional: hoje entra com o usuário)' ?><input name="email" type="email" value="<?= e(tem_email_real($al['email']) ? $al['email'] : '') ?>" <?= tem_email_real($al['email']) ? 'required' : '' ?>></label>
     <label>Telefone / WhatsApp<input name="telefone" type="tel" value="<?= $v('telefone') ?>"></label>
     <label>Data de nascimento<input name="nascimento" type="date" value="<?= e($al['nascimento'] ?? '') ?>"></label>
     <label>CPF do aluno<input name="cpf" inputmode="numeric" value="<?= e(formatar_doc($d['cpf'] ?? '')) ?>"></label>

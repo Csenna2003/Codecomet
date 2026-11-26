@@ -110,6 +110,21 @@ professor corrige pela rubrica da apostila. O "Guia do professor" de cada aula a
 Ao criar ou editar aulas, o texto aceita formatação simples: `## ` faz subtítulo, `- ` faz lista,
 `[[Dica]] texto` faz um quadro de destaque e `**texto**` fica em negrito.
 
+## Criar os acessos dos alunos e das escolas (login e senha)
+
+**Alunos:** Administração → **Alunos** → **Criar acessos**. Escreva um nome por linha (ou “Nome; e-mail”),
+escolha, se quiser, a escola, a turma e o curso, e clique em **Criar acessos**. Aparece a tela com o link,
+o login e a senha provisória de cada um, com botões para **enviar pelo WhatsApp**, **imprimir cartões**,
+**baixar planilha** e **copiar tudo**. As senhas só aparecem nessa tela: envie ou imprima na hora.
+
+- Quem não tem e-mail entra com um **usuário** (ex.: `ana.souza`), ótimo para crianças.
+- No primeiro acesso aparece um aviso para o aluno trocar a senha provisória por uma dele.
+- Esqueceu a senha? No cadastro do aluno, **Gerar nova senha provisória** (a anterior deixa de valer).
+
+**Escolas:** ao criar a escola em Administração, preencha **Responsável da escola**: o acesso da coordenação
+é criado na hora, com login e senha. A coordenação também cria os acessos dos próprios alunos e professores
+no painel **Escola → Criar acessos** e gera nova senha com o botão **Nova senha** ao lado de cada aluno.
+
 ## Matricular alunos
 
 Há quatro jeitos de um aluno entrar num curso:

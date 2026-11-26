@@ -20,7 +20,7 @@ function remetente_email(): string
 function enviar_email(string $para, string $assunto, string $texto, ?string $rotuloBotao = null, ?string $link = null): bool
 {
     $para = trim(str_replace(["\r", "\n"], '', $para));
-    if (!filter_var($para, FILTER_VALIDATE_EMAIL)) return false;
+    if (!filter_var($para, FILTER_VALIDATE_EMAIL) || str_ends_with($para, SEM_EMAIL)) return false;
     $site = nome_site();
     $de = remetente_email();
     $fronteira = 'b' . bin2hex(random_bytes(8));

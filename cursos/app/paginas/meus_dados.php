@@ -8,7 +8,11 @@ cabecalho('Meus dados');
 <?= abrir_form('salvar_meus_dados') ?>
   <div class="campos">
     <label>Nome completo<input name="nome" value="<?= e($u['nome']) ?>" required></label>
-    <label>E-mail<input name="email" type="email" value="<?= e($u['email']) ?>" required></label>
+    <?php if (tem_email_real($u['email'])): ?>
+      <label>E-mail<input name="email" type="email" value="<?= e($u['email']) ?>" required></label>
+    <?php else: ?>
+      <label><span>E-mail (opcional; hoje você entra com o usuário <strong><?= e(login_de($u['email'])) ?></strong>)</span><input name="email" type="email" placeholder="seu@email.com"></label>
+    <?php endif ?>
     <label>Telefone / WhatsApp<input name="telefone" type="tel" value="<?= e($d['telefone'] ?? '') ?>"></label>
     <label>Data de nascimento<input name="nascimento" type="date" value="<?= e($u['nascimento'] ?? '') ?>"></label>
   </div>

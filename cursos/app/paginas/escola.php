@@ -63,6 +63,20 @@ cabecalho('Escola');
 </div>
 
 <h2>Alunos e progresso (<?= count($alunos) ?>)</h2>
+<details class="cartao" >
+  <summary>Criar acessos (login e senha) — um ou vários de uma vez</summary>
+  <?= abrir_form('criar_acessos', 'pilha', ['org_id' => $orgId]) ?>
+    <label>Nomes, um por linha. Para quem tem e-mail, use “Nome; e-mail”.
+      <textarea name="pessoas" rows="6" required placeholder="Ana Beatriz Souza&#10;Pedro Henrique Lima; pedro@email.com"></textarea></label>
+    <p class="pequeno suave">Quem não tiver e-mail recebe um usuário (ex.: ana.souza). Todos recebem uma senha provisória, que aparece na tela seguinte para você enviar ou imprimir.</p>
+    <div class="campos">
+      <label>Tipo de acesso<select name="papel"><option value="ALUNO">Aluno</option><option value="PROFESSOR">Professor</option></select></label>
+      <label>Turma (opcional)<select name="turma_id"><option value="">Sem turma</option><?php foreach ($turmas as $t): ?><option value="<?= e($t['id']) ?>"><?= e($t['nome']) ?></option><?php endforeach ?></select></label>
+    </div>
+    <label>WhatsApp para enviar o acesso (opcional, quando for uma pessoa só)<input name="telefone" type="tel" placeholder="(12) 99999-8888"></label>
+    <div><button class="btn">Criar acessos</button></div>
+  </form>
+</details>
 <?php if (!$alunos): ?>
   <p class="suave">Nenhum aluno ainda. Crie um código de convite abaixo e distribua para a turma.</p>
 <?php else: ?>
@@ -71,7 +85,7 @@ cabecalho('Escola');
     <tbody>
     <?php foreach ($alunos as $m): ?>
       <tr>
-        <td><a href="<?= e(url('aluno', ['id' => $m['usuario_id']])) ?>"><?= e($m['nome']) ?></a><br><span class="suave pequeno"><?= e($m['email']) ?></span></td>
+        <td><a href="<?= e(url('aluno', ['id' => $m['usuario_id']])) ?>"><?= e($m['nome']) ?></a><br><span class="suave pequeno"><?= e(login_de($m['email'])) ?></span></td>
         <td><?= e(implode(', ', $turmaDe[$m['usuario_id']] ?? []) ?: '—') ?></td>
         <?php foreach ($licencas as $l): $x = $info[$l['id']]; $uid = $m['usuario_id']; ?>
           <td><?php if (isset($x['certs'][$uid])): ?><span class="etiqueta ok">Certificado</span>
@@ -79,7 +93,7 @@ cabecalho('Escola');
               <?php else: ?><span class="etiqueta alerta">Sem vaga</span><?php endif ?></td>
         <?php endforeach ?>
         <td><div class="acoes">
-          <?= botao_acao('gerar_link_senha', 'Nova senha', $campoOrg + ['usuario_id' => $m['usuario_id']], 'btn mini sec') ?>
+          <?= botao_acao('nova_senha_provisoria', 'Nova senha', $campoOrg + ['usuario_id' => $m['usuario_id']], 'btn mini sec', 'Gerar uma nova senha provisória para ' . $m['nome'] . '? A senha atual deixa de funcionar.') ?>
           <?= botao_acao('remover_membro', 'Remover', $campoOrg + ['usuario_id' => $m['usuario_id']], 'btn mini perigo', 'Remover ' . $m['nome'] . ' da escola? O histórico e os certificados serão mantidos.') ?>
         </div></td>
       </tr>
@@ -125,10 +139,10 @@ cabecalho('Escola');
 <h2>Equipe</h2>
 <?php foreach ($equipe as $m): ?>
   <div class="linha" style="margin-bottom:.5rem">
-    <span><?= e($m['nome']) ?> — <?= e(ROTULO_PAPEL[$m['papel']]) ?> <span class="suave pequeno">(<?= e($m['email']) ?>)</span></span>
+    <span><?= e($m['nome']) ?> — <?= e(ROTULO_PAPEL[$m['papel']]) ?> <span class="suave pequeno">(<?= e(login_de($m['email'])) ?>)</span></span>
     <?php if ($m['usuario_id'] !== $u['id']): ?>
       <span class="acoes">
-        <?php if ($m['papel'] === 'PROFESSOR'): ?><?= botao_acao('gerar_link_senha', 'Nova senha', $campoOrg + ['usuario_id' => $m['usuario_id']], 'btn mini sec') ?><?php endif ?>
+        <?php if ($m['papel'] === 'PROFESSOR'): ?><?= botao_acao('nova_senha_provisoria', 'Nova senha', $campoOrg + ['usuario_id' => $m['usuario_id']], 'btn mini sec', 'Gerar uma nova senha provisória para ' . $m['nome'] . '?') ?><?php endif ?>
         <?= botao_acao('remover_membro', 'Remover', $campoOrg + ['usuario_id' => $m['usuario_id']], 'btn mini perigo', 'Remover ' . $m['nome'] . ' da escola?') ?>
       </span>
     <?php endif ?>
