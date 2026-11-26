@@ -40,7 +40,7 @@ cabecalho($aula['titulo']);
   <h1><?= e($aula['titulo']) ?></h1>
   <span><span class="etiqueta"><?= e(ROTULO_TIPO_AULA[$aula['tipo']]) ?></span> <?php if (!empty($meu['concluida'])): ?><span class="etiqueta ok">Concluída</span><?php endif ?></span>
 </div>
-<?php if (!$aluno): ?><p class="aviso alerta">Visualização da equipe: o progresso não é registrado.</p><?php endif ?>
+<?php if (!$aluno): ?><p class="aviso alerta">Visualização da equipe: o progresso não é registrado.<?php if (eh_admin($u)): ?> <a href="<?= e(url('editar_aula', ['id' => $aula['id']])) ?>">Editar esta aula</a><?php endif ?></p><?php endif ?>
 
 <?php if ($video): ?>
   <iframe class="quadro video" src="<?= e($video) ?>" title="<?= e($aula['titulo']) ?>" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>

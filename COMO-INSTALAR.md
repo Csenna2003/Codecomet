@@ -107,8 +107,38 @@ status **Publicado** em **Editar conteúdo**. Cada módulo termina com um projet
 professor corrige pela rubrica da apostila. O "Guia do professor" de cada aula aparece em
 **Notas do professor**, só para a equipe.
 
-Ao criar ou editar aulas, o texto aceita formatação simples: `## ` faz subtítulo, `- ` faz lista,
-`[[Dica]] texto` faz um quadro de destaque e `**texto**` fica em negrito.
+## Editar aulas pela tela
+
+Em **Administração → curso → Editar conteúdo**, cada aula tem os botões **Editar**, **↑ ↓** (mudar a
+ordem) e **Excluir**. Os módulos também têm **↑ ↓**, **Renomear módulo** e, quando estão vazios,
+**Excluir módulo**.
+
+Em **Editar** você muda título, tipo, duração, módulo (a aula vai para o fim do módulo escolhido),
+texto, links de vídeo e simulador, perguntas do quiz, enunciado e critérios do exercício e as notas do
+professor. **Salvar e ver a aula** mostra como o aluno vai ver. Quando você abre uma aula como
+administrador, o aviso no topo tem o link **Editar esta aula**.
+
+O texto aceita formatação simples: `## ` faz subtítulo, `- ` faz lista, `1. ` lista numerada,
+`[[Dica]] texto` faz um quadro de destaque, `**texto**` fica em negrito e um bloco entre linhas com
+três crases vira código. No quiz, separe as perguntas com uma linha em branco e marque a resposta
+certa com `*` e as outras com `-`.
+
+Se um exercício já tem entregas de alunos, o tipo da aula fica travado (para não perder as entregas).
+
+## Aplicativo no celular e no computador
+
+A plataforma também funciona como aplicativo, sem loja e sem custo. No painel do aluno aparece
+**Instale o aplicativo**:
+
+- **Android e computador (Chrome ou Edge):** botão **Instalar aplicativo**. O ícone da Adoro Robótica
+  vai para a tela inicial e abre em tela cheia.
+- **iPhone e iPad (Safari):** tocar em **Compartilhar** (quadrado com seta) e em
+  **Adicionar à Tela de Início**.
+
+O aplicativo é a mesma plataforma: tudo que você muda no site aparece no aplicativo na hora, sem
+atualizar nada. Sem internet, ele mostra um aviso em vez de uma tela de erro. Para estar na Google Play
+(US$ 25, uma vez) ou na App Store (US$ 99 por ano) seria preciso uma conta de desenvolvedor; dá para
+fazer depois, usando esta mesma versão.
 
 ## Criar os acessos dos alunos e das escolas (login e senha)
 
@@ -198,4 +228,3 @@ Você confere no extrato e clica em **Confirmar recebimento**; o curso libera na
 
 - Confirmação automática do Pix e cartão de crédito (exigiriam contratar um serviço de cobrança)
 - Upload de arquivos nas entregas (o aluno envia link do simulador, código ou link de vídeo)
-- Editar ou reordenar aulas já criadas (dá para criar e excluir)

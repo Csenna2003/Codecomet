@@ -60,6 +60,30 @@
     });
   });
 
+  // Aplicativo: registra o service worker e mostra o botão "Instalar aplicativo".
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
+  var instalar = document.querySelector('[data-instalar]');
+  var dicaIos = document.querySelector('[data-instalar-ios]');
+  var jaInstalado = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  var pedido = null;
+  if (instalar && !jaInstalado) {
+    window.addEventListener('beforeinstallprompt', function (ev) {
+      ev.preventDefault(); pedido = ev;
+      instalar.closest('[data-app]').hidden = false;
+    });
+    instalar.addEventListener('click', function () {
+      if (!pedido) return;
+      pedido.prompt();
+      pedido.userChoice.then(function () { instalar.closest('[data-app]').hidden = true; pedido = null; });
+    });
+    // iPhone/iPad não têm o botão: mostra o passo a passo do Safari.
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent) && dicaIos) {
+      dicaIos.closest('[data-app]').hidden = false; dicaIos.hidden = false; instalar.hidden = true;
+    }
+  }
+
   // QR Code do Pix, desenhado no próprio navegador (assets/qrcode.js).
   document.querySelectorAll('[data-qr]').forEach(function (el) {
     if (typeof qrcode !== 'function') return;

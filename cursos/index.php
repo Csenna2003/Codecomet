@@ -16,6 +16,7 @@ require __DIR__ . '/app/email.php';
 require __DIR__ . '/app/cadastros.php';
 require __DIR__ . '/app/conteudo.php';
 require __DIR__ . '/app/acessos.php';
+require __DIR__ . '/app/edicao.php';
 require __DIR__ . '/app/esquema.php';
 
 header('X-Frame-Options: SAMEORIGIN');
@@ -47,7 +48,7 @@ const ROTAS = [
     'inicio', 'entrar', 'cadastro', 'painel', 'curso', 'aula', 'pedido', 'certificado', 'redefinir',
     'professor', 'entrega', 'escola', 'admin', 'admin_curso', 'admin_pedidos',
     'aluno', 'particulares', 'particular_aula', 'confirmar', 'admin_particulares', 'esqueci',
-    'acessos_criados', 'meus_dados', 'editar_aluno', 'editar_escola', 'admin_alunos', 'professores', 'perfil_professor',
+    'acessos_criados', 'editar_aula', 'meus_dados', 'editar_aluno', 'editar_escola', 'admin_alunos', 'professores', 'perfil_professor',
 ];
 
 try {

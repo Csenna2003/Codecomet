@@ -12,11 +12,16 @@ function cabecalho(string $titulo, bool $estreito = false): void
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($titulo === '' ? $site : "$titulo — $site") ?></title>
-<link rel="stylesheet" href="assets/estilo.css?v=6">
+<link rel="stylesheet" href="assets/estilo.css?v=8">
 <link rel="icon" href="assets/icone-32.png" sizes="32x32">
 <link rel="icon" href="assets/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/icone-180.png">
 <meta name="theme-color" content="#0070b8">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Adoro Robótica">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
 <header class="topo">
@@ -50,7 +55,7 @@ function rodape(): void
 {
     ?>
 </main>
-<script src="assets/app.js?v=3" defer></script>
+<script src="assets/app.js?v=4" defer></script>
 </body>
 </html>
 <?php

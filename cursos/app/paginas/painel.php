@@ -29,6 +29,12 @@ cabecalho('Meu painel');
   <p class="aviso alerta"><?= $p['avisou_pago_em'] ? 'Estamos conferindo o seu Pix de ' : 'Falta pagar o Pix de ' ?><strong><?= e($p['titulo']) ?></strong>. <a href="<?= e(url('pedido', ['id' => $p['id']])) ?>">Ver pagamento</a></p>
 <?php endforeach ?>
 
+<div class="cartao linha app-convite" data-app hidden>
+  <span>📱 <strong>Instale o aplicativo</strong> no seu celular ou computador para abrir os cursos com um toque.</span>
+  <button type="button" class="btn mini" data-instalar>Instalar aplicativo</button>
+  <span class="pequeno" data-instalar-ios hidden>No iPhone: toque em <strong>Compartilhar</strong> (quadrado com seta) e depois em <strong>Adicionar à Tela de Início</strong>.</span>
+</div>
+
 <h2>Meus cursos</h2>
 <?php if (!$acessos): ?>
   <p class="suave">Você ainda não está em nenhum curso. <a href="<?= e(url()) ?>">Veja os cursos</a> ou use o código da sua escola abaixo.</p>

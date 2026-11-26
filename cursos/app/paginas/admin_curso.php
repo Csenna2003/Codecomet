@@ -27,13 +27,31 @@ cabecalho('Editar curso');
 
 <?php foreach ($curso['modulos'] as $m): ?>
   <section class="cartao">
-    <h3>Módulo <?= (int) $m['ordem'] ?>: <?= e($m['titulo']) ?></h3>
+    <div class="linha">
+      <h3>Módulo <?= (int) $m['ordem'] ?>: <?= e($m['titulo']) ?></h3>
+      <div class="acoes">
+        <?= botao_acao('mover_modulo', '↑', ['modulo_id' => $m['id'], 'direcao' => 'cima'], 'btn mini sec') ?>
+        <?= botao_acao('mover_modulo', '↓', ['modulo_id' => $m['id'], 'direcao' => 'baixo'], 'btn mini sec') ?>
+        <?php if (!$m['aulas']): ?><?= botao_acao('excluir_modulo', 'Excluir módulo', ['modulo_id' => $m['id']], 'btn mini perigo', 'Excluir este módulo vazio?') ?><?php endif ?>
+      </div>
+    </div>
+    <details class="pequeno"><summary>Renomear módulo</summary>
+      <?= abrir_form('renomear_modulo', 'campos', ['modulo_id' => $m['id']]) ?>
+        <label>Nome do módulo<input name="titulo" value="<?= e($m['titulo']) ?>" required></label>
+        <div><button class="btn mini sec">Salvar nome</button></div>
+      </form>
+    </details>
     <ul class="aulas">
     <?php foreach ($m['aulas'] as $a): ?>
       <li>
         <span class="titulo"><?= (int) $a['ordem'] ?>. <a href="<?= e(url('aula', ['id' => $a['id']])) ?>"><?= e($a['titulo']) ?></a><?= $a['obrigatoria'] ? '' : ' <span class="suave pequeno">(opcional)</span>' ?></span>
         <span class="etiqueta"><?= e(ROTULO_TIPO_AULA[$a['tipo']]) ?></span>
-        <?= botao_acao('excluir_aula', 'Excluir', ['aula_id' => $a['id']], 'btn mini perigo', 'Excluir esta aula?') ?>
+        <span class="acoes">
+          <a class="btn mini" href="<?= e(url('editar_aula', ['id' => $a['id']])) ?>">Editar</a>
+          <?= botao_acao('mover_aula', '↑', ['aula_id' => $a['id'], 'direcao' => 'cima'], 'btn mini sec') ?>
+          <?= botao_acao('mover_aula', '↓', ['aula_id' => $a['id'], 'direcao' => 'baixo'], 'btn mini sec') ?>
+          <?= botao_acao('excluir_aula', 'Excluir', ['aula_id' => $a['id']], 'btn mini perigo', 'Excluir esta aula?') ?>
+        </span>
       </li>
     <?php endforeach ?>
     </ul>

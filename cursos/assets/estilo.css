@@ -163,3 +163,8 @@ pre code { background: none; padding: 0; }
   .cartao-acesso p { margin: 0 0 4px; }
   .cartao-acesso .nome { font-weight: 700; font-size: 15px; }
 }
+textarea.editor { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .88rem; line-height: 1.5; }
+.aulas .acoes { flex-wrap: nowrap; }
+@media (max-width: 560px) { .aulas li { flex-wrap: wrap; } }
+.app-convite { border-color: var(--primaria); }
+[hidden] { display: none !important; }
