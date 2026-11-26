@@ -31,17 +31,21 @@ cabecalho('Administração');
 
 <?php
 $pacotes = pacotes_de_cursos();
-$slugs = array_column(todos('SELECT slug FROM cursos'), 'slug');
+$cursoPorSlug = array_column(todos('SELECT id, slug FROM cursos'), 'id', 'slug');
 if ($pacotes): ?>
 <h2>Cursos prontos da Adoro Robótica</h2>
 <p class="suave pequeno">Cursos montados a partir das suas apostilas, com aulas, projetos com correção e notas do professor. Entram como rascunho para você revisar, definir o preço e publicar.</p>
 <div class="grade">
-<?php foreach ($pacotes as $arq => $pk): $ja = in_array($pk['slug'], $slugs, true); ?>
+<?php foreach ($pacotes as $arq => $pk): $ja = isset($cursoPorSlug[$pk['slug']]); $corr = $ja ? situacao_correcoes($cursoPorSlug[$pk['slug']], $pk['slug']) : null; ?>
   <article class="cartao">
     <h3><?= e($pk['titulo']) ?></h3>
     <p class="suave pequeno"><?= e($pk['descricao']) ?></p>
     <p class="pequeno"><?= (int) $pk['modulos'] ?> módulos · <?= (int) $pk['aulas'] ?> aulas · <?= (int) $pk['carga'] ?>h</p>
-    <div class="fim"><?= $ja ? '<span class="etiqueta ok">Já importado</span>' : botao_acao('importar_curso', 'Importar curso', ['arquivo' => $arq], 'btn mini') ?></div>
+    <?php if ($corr && $corr['pendentes']): ?>
+      <p class="pequeno aviso alerta">Há <?= count($corr['pendentes']) ?> correção(ões) de texto para este curso (trechos que ficaram faltando na conversão das apostilas). Textos que você já editou não são alterados.</p>
+    <?php endif ?>
+    <div class="fim acoes"><?= $ja ? '<span class="etiqueta ok">Já importado</span>' : botao_acao('importar_curso', 'Importar curso', ['arquivo' => $arq], 'btn mini') ?>
+      <?php if ($corr && $corr['pendentes']): ?><?= botao_acao('aplicar_correcoes', 'Atualizar textos', ['curso_id' => $cursoPorSlug[$pk['slug']]], 'btn mini', 'Corrigir ' . count($corr['pendentes']) . ' texto(s) deste curso? O progresso dos alunos, as entregas e o preço não mudam.') ?><?php endif ?></div>
   </article>
 <?php endforeach ?>
 </div>

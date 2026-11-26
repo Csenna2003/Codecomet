@@ -18,18 +18,30 @@ def linhas(txt):
     return out
 
 def trilhas(bloco):
-    """[cabeçalho A+B, texto A, cabeçalho C, texto B, texto C] -> (A, B, C)"""
-    a, b, c = [], [], []
-    fase = 0
-    for l in bloco:
-        if l.startswith('TRILHA A'): fase = 1; continue
-        if l.startswith('TRILHA C'): fase = 2; continue
-        if fase == 1: a.append(l)
-        elif fase == 2: (b if not b else c).append(l) if len(b) == 0 or len(c) > 0 or True else None
-    # na fase 2 o primeiro texto é da trilha B e o seguinte da C
-    resto = [l for l in bloco[bloco.index(next(x for x in bloco if x.startswith('TRILHA C'))) + 1:]] if any(x.startswith('TRILHA C') for x in bloco) else []
-    b = resto[:1]; c = resto[1:]
-    return ' '.join(a), ' '.join(b), ' '.join(c)
+    """Desafio por trilha -> (A, B, C).
+
+    O PDF tem duas colunas (A e B) e, abaixo, a trilha C. A exportação gera:
+      [cabeçalho A+B, texto A, cabeçalho C, texto B, texto C]
+    ou, quando A e B cabem numa linha só, os dois textos juntos:
+      [cabeçalho A+B, "texto A. Texto B.", cabeçalho C, texto C]
+    """
+    h = next((k for k, x in enumerate(bloco) if x.startswith('TRILHA C')), None)
+    if h is None or not bloco[0].startswith('TRILHA A'):
+        raise ValueError(f'Desafio por trilha fora do formato esperado: {bloco}')
+    antes, depois = bloco[1:h], bloco[h + 1:]
+    if len(depois) == 2:
+        a, b, c = ' '.join(antes), depois[0], depois[1]
+    elif len(depois) == 1:
+        junto = ' '.join(antes)
+        cortes = [m.end() for m in re.finditer(r'[.;!?] (?=[A-ZÁÉÍÓÚÂÊÔ])', junto)]
+        if len(cortes) != 1:
+            raise ValueError(f'Não dá para separar as trilhas A e B com segurança: {junto!r}')
+        a, b, c = junto[:cortes[0]].strip(), junto[cortes[0]:].strip(), depois[0]
+    else:
+        raise ValueError(f'Desafio por trilha fora do formato esperado: {bloco}')
+    if not (a and b and c):
+        raise ValueError(f'Trilha sem texto: {bloco}')
+    return a, b, c
 
 def encontro(ls):
     """Linhas de um encontro (sem o cabeçalho) -> conteúdo do aluno."""
@@ -108,11 +120,16 @@ def modulo(ls, num, notas, titulo_mod):
         while j < len(ls) and ls[j] not in ('FERRAMENTAS', 'Projeto do módulo'): mat.append(ls[j]); j += 1
     proj_t = proj_d = ''
     entreg = []
-    if 'PROJETO FINAL' in ls:
-        j = ls.index('PROJETO FINAL'); proj_t, proj_d = ls[j + 1], ls[j + 2]
+    pf = next((i for i, l in enumerate(ls) if l.startswith('PROJETO FINAL')), None)
+    if pf is not None:
+        # às vezes o título vem na mesma linha: "PROJETO FINAL Meu Jogo ou História Interativa"
+        resto = ls[pf][len('PROJETO FINAL'):].strip()
+        proj_t, proj_d = (resto, ls[pf + 1]) if resto else (ls[pf + 1], ls[pf + 2])
         if 'ENTREGÁVEIS' in ls:
             j = ls.index('ENTREGÁVEIS') + 1
             while j < len(ls) and ls[j] != 'Seus encontros': entreg.append(ls[j]); j += 1
+    if not (proj_t and proj_d and entreg):
+        raise ValueError(f'Módulo {num}: projeto final sem título, descrição ou entregáveis')
     intro = [desc, '## O que você vai aprender'] + ['- ' + o for o in obj]
     if seg: intro += ['## Combinados de segurança'] + ['- ' + s for s in seg]
     if mat: intro += ['## Materiais'] + ['- ' + m for m in mat]

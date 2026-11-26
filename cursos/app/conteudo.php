@@ -113,3 +113,65 @@ function acao_importar_curso(): void
     auditar($admin['id'], null, 'curso.importado', 'Curso', $id, ['pacote' => $arq]);
     voltar('ok', 'Curso importado como rascunho. Revise, defina o preço e publique quando quiser.', 'admin_curso', ['id' => $id]);
 }
+
+// ---------- Correções de texto dos cursos prontos (app/conteudo/correcoes/*.json) ----------
+// Cada correção troca um texto pelo outro só onde a plataforma ainda tem exatamente o texto
+// original importado. O que o administrador já editou fica como está.
+
+function correcoes_de_texto(string $slug): array
+{
+    $r = [];
+    foreach (glob(RAIZ . '/app/conteudo/correcoes/*.json') ?: [] as $arq) {
+        $d = json_decode((string) file_get_contents($arq), true);
+        foreach ($d['correcoes'] ?? [] as $c) if (($c['slug'] ?? '') === $slug) $r[] = $c;
+    }
+    return $r;
+}
+
+/** Textos do curso que as correções podem mudar: [campo => [id => texto]]. */
+function textos_do_curso(string $cursoId): array
+{
+    $sem_cr = fn(?string $t) => str_replace("\r\n", "\n", (string) $t);
+    $r = ['conteudo' => [], 'notas' => [], 'enunciado' => []];
+    foreach (todos('SELECT a.id, a.conteudo FROM aulas a JOIN modulos m ON m.id = a.modulo_id WHERE m.curso_id = ?', [$cursoId]) as $x) $r['conteudo'][$x['id']] = $sem_cr($x['conteudo']);
+    foreach (todos('SELECT n.aula_id AS id, n.texto FROM aula_notas n JOIN aulas a ON a.id = n.aula_id JOIN modulos m ON m.id = a.modulo_id WHERE m.curso_id = ?', [$cursoId]) as $x) $r['notas'][$x['id']] = $sem_cr($x['texto']);
+    foreach (todos('SELECT x.id, x.enunciado FROM exercicios x JOIN aulas a ON a.id = x.aula_id JOIN modulos m ON m.id = a.modulo_id WHERE m.curso_id = ?', [$cursoId]) as $x) $r['enunciado'][$x['id']] = $sem_cr($x['enunciado']);
+    return $r;
+}
+
+/** ['pendentes' => [[campo, id, texto novo]...], 'feitas' => n, 'editadas' => n] */
+function situacao_correcoes(string $cursoId, string $slug): array
+{
+    $textos = textos_do_curso($cursoId);
+    $pend = [];
+    $feitas = $editadas = 0;
+    foreach (correcoes_de_texto($slug) as $c) {
+        $campo = $c['campo'];
+        if (!isset($textos[$campo])) continue;
+        $id = array_search($c['antes'], $textos[$campo], true);
+        if ($id !== false) $pend[] = [$campo, (string) $id, $c['depois']];
+        elseif (in_array($c['depois'], $textos[$campo], true)) $feitas++;
+        else $editadas++;
+    }
+    return ['pendentes' => $pend, 'feitas' => $feitas, 'editadas' => $editadas];
+}
+
+function acao_aplicar_correcoes(): void
+{
+    $admin = exigir_admin();
+    $curso = um('SELECT id, slug, titulo FROM cursos WHERE id = ?', [post('curso_id')]);
+    if (!$curso) voltar('erro', 'Curso não encontrado.', 'admin');
+    $s = situacao_correcoes($curso['id'], $curso['slug']);
+    if (!$s['pendentes']) voltar('ok', 'Os textos de ' . $curso['titulo'] . ' já estão atualizados.', 'admin');
+    transacao(function () use ($s) {
+        foreach ($s['pendentes'] as [$campo, $id, $texto]) {
+            if ($campo === 'conteudo') q('UPDATE aulas SET conteudo = ? WHERE id = ?', [$texto, $id]);
+            elseif ($campo === 'notas') q('UPDATE aula_notas SET texto = ? WHERE aula_id = ?', [$texto, $id]);
+            elseif ($campo === 'enunciado') q('UPDATE exercicios SET enunciado = ? WHERE id = ?', [$texto, $id]);
+        }
+    });
+    $n = count($s['pendentes']);
+    auditar($admin['id'], null, 'curso.textos_corrigidos', 'Curso', $curso['id'], ['corrigidos' => $n, 'mantidos' => $s['editadas']]);
+    voltar('ok', "$n texto(s) de {$curso['titulo']} corrigido(s)."
+        . ($s['editadas'] ? " {$s['editadas']} texto(s) que você já tinha editado ficaram como estavam." : ''), 'admin');
+}

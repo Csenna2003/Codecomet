@@ -80,7 +80,12 @@ def converte(linhas, chave=None):
             for k in ['Preparação', 'O que observar', 'Respostas esperadas', 'Adaptação']:
                 if l.startswith(k + ' '):
                     notas.append(f'**{k}:**'); l = l[len(k) + 1:]
-            notas.append('- ' + l.lstrip('• ') if l.startswith('•') else l)
+            # linha que continua a frase anterior (quebra de linha do PDF): junta no mesmo parágrafo
+            if (notas and not l.startswith('•') and not notas[-1].startswith('**')
+                    and not re.search(r'[.!?:)]$', notas[-1])):
+                notas[-1] += ' ' + l
+            else:
+                notas.append('- ' + l.lstrip('• ') if l.startswith('•') else l)
             continue
         sec_nova = next((s for s in SECOES if l.startswith(s)), None)
         if sec_nova and len(l) < 60:

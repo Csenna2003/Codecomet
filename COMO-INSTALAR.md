@@ -107,6 +107,11 @@ status **Publicado** em **Editar conteúdo**. Cada módulo termina com um projet
 professor corrige pela rubrica da apostila. O "Guia do professor" de cada aula aparece em
 **Notas do professor**, só para a equipe.
 
+**Atualizar textos:** quando sai uma versão com correções nos cursos prontos, aparece o aviso
+"Há N correções de texto" e o botão **Atualizar textos** no cartão do curso, em **Administração → Cursos
+prontos**. Ele só troca os textos que ainda estão iguais ao que foi importado: o que você editou, o
+progresso dos alunos, as entregas e o preço não mudam.
+
 ## Editar aulas pela tela
 
 Em **Administração → curso → Editar conteúdo**, cada aula tem os botões **Editar**, **↑ ↓** (mudar a

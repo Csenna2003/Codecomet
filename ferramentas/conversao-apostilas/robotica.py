@@ -33,6 +33,8 @@ def caixa(conteudo):
 def guia_professor(txt):
     txt = txt.replace('•', '\n- ')
     for k in ['Preparação:', 'O que observar:', 'Respostas esperadas:', 'Adaptação:', 'Sinais de alerta:']:
+        # a apostila às vezes repete o rótulo no começo do parágrafo: "Sinais de alerta: Sinais de alerta: ..."
+        txt = re.sub(rf'{re.escape(k)}\s+{re.escape(k)}', k, txt)
         txt = txt.replace(k, f'\n\n**{k}**')
     return re.sub(r'\n{3,}', '\n\n', txt).strip()
 
