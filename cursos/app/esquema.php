@@ -109,7 +109,7 @@ function esquema_sql(): array
             aula_id CHAR(20) NOT NULL UNIQUE,
             enunciado TEXT NOT NULL,
             rubrica TEXT NOT NULL,
-            tipo_entrega ENUM('LINK_SIMULADOR','CODIGO','LINK_VIDEO') NOT NULL DEFAULT 'LINK_SIMULADOR',
+            tipo_entrega ENUM('LINK_SIMULADOR','CODIGO','LINK_VIDEO','ARQUIVO') NOT NULL DEFAULT 'LINK_SIMULADOR',
             nota_maxima INT NOT NULL DEFAULT 10,
             max_tentativas INT NULL,
             FOREIGN KEY (aula_id) REFERENCES aulas(id) ON DELETE CASCADE
@@ -382,5 +382,18 @@ function esquema_sql(): array
             criado_em DATETIME NOT NULL,
             KEY (org_id, criado_em)
         ) $t",
+        "CREATE TABLE IF NOT EXISTS entrega_arquivos (
+            id CHAR(20) PRIMARY KEY,
+            entrega_id CHAR(20) NOT NULL,
+            nome VARCHAR(200) NOT NULL,
+            arquivo VARCHAR(60) NOT NULL,
+            tipo VARCHAR(80) NOT NULL,
+            tamanho INT NOT NULL,
+            criado_em DATETIME NOT NULL,
+            KEY (entrega_id),
+            FOREIGN KEY (entrega_id) REFERENCES entregas(id) ON DELETE CASCADE
+        ) $t",
+        // Versão 7: novo tipo de entrega "fotos ou arquivos".
+        "ALTER TABLE exercicios MODIFY tipo_entrega ENUM('LINK_SIMULADOR','CODIGO','LINK_VIDEO','ARQUIVO') NOT NULL DEFAULT 'LINK_SIMULADOR'",
     ];
 }

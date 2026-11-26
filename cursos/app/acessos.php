@@ -124,9 +124,11 @@ function acao_criar_acessos(): void
         }
         if ($papel === 'PROFESSOR') q('INSERT IGNORE INTO professores (usuario_id, criado_em, atualizado_em) VALUES (?,?,?)', [$id, agora(), agora()]);
         if ($curso) {
+            // Aluno de escola: a matrícula fica ligada à escola, para o professor e a coordenação corrigirem e acompanharem.
+            $orgAcesso = $org && $papel === 'ALUNO' ? $org : null;
             $ac = um('SELECT id FROM acessos WHERE usuario_id = ? AND curso_id = ?', [$id, $curso['id']]);
-            if ($ac) q("UPDATE acessos SET origem = ?, status = 'ATIVO', org_id = NULL, licenca_id = NULL, inicio = ?, fim = NULL WHERE id = ?", [$origem, agora(), $ac['id']]);
-            else q("INSERT INTO acessos (id, usuario_id, curso_id, origem, status, inicio) VALUES (?,?,?,?, 'ATIVO', ?)", [novo_id(), $id, $curso['id'], $origem, agora()]);
+            if ($ac) q("UPDATE acessos SET origem = ?, status = 'ATIVO', org_id = ?, licenca_id = NULL, inicio = ?, fim = NULL WHERE id = ?", [$origem, $orgAcesso, agora(), $ac['id']]);
+            else q("INSERT INTO acessos (id, usuario_id, curso_id, org_id, origem, status, inicio) VALUES (?,?,?,?,?, 'ATIVO', ?)", [novo_id(), $id, $curso['id'], $orgAcesso, $origem, agora()]);
         }
         auditar($u['id'], $org, 'acesso.criado', 'Usuario', $id, ['papel' => $papel]);
     }

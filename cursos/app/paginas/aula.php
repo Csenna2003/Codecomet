@@ -31,7 +31,10 @@ if ($aluno && $ex) {
 $ultima = $entregas[0] ?? null;
 $esgotou = $ex && $ex['max_tentativas'] && count($entregas) >= (int) $ex['max_tentativas'];
 $podeEnviar = $aluno && $ex && (!$ultima || ($ultima['status'] === 'PRECISA_AJUSTE' && !$esgotou));
-$rotuloLink = ['LINK_SIMULADOR' => 'Link do seu projeto no Tinkercad ou no Wokwi', 'LINK_VIDEO' => 'Link do projeto ou de um vídeo mostrando funcionando (Scratch, Wokwi, Tinkercad, YouTube, Google Drive…)', 'CODIGO' => 'Link do projeto (opcional)'];
+$rotuloLink = ['LINK_SIMULADOR' => 'Link do seu projeto no Tinkercad ou no Wokwi', 'LINK_VIDEO' => 'Link do projeto ou de um vídeo mostrando funcionando (Scratch, Wokwi, Tinkercad, YouTube, Google Drive…)', 'CODIGO' => 'Link do projeto (opcional)', 'ARQUIVO' => 'Link do projeto ou de um vídeo (opcional)'];
+$arqsEntregas = arquivos_das_entregas(array_column($entregas, 'id'));
+$tipoEnt = $ex['tipo_entrega'] ?? '';
+$rotuloArquivos = ['ARQUIVO' => 'Fotos ou arquivos do projeto', 'LINK_VIDEO' => 'Fotos do projeto (se não tiver link)'][$tipoEnt] ?? 'Fotos ou arquivos (opcional)';
 
 cabecalho($aula['titulo']);
 ?>
@@ -96,6 +99,7 @@ cabecalho($aula['titulo']);
       <div class="cartao">
         <div class="linha"><strong>Tentativa <?= (int) $en['tentativa'] ?> · enviada em <?= e(data_br($en['enviado_em'])) ?></strong><span class="etiqueta <?= $cls ?>"><?= e(ROTULO_ENTREGA[$en['status']]) ?></span></div>
         <?php if ($en['link']): ?><p class="pequeno"><a href="<?= e($en['link']) ?>" target="_blank" rel="noopener noreferrer"><?= e($en['link']) ?></a></p><?php endif ?>
+        <?= mostrar_arquivos($arqsEntregas[$en['id']] ?? []) ?>
         <?php if ($rv): ?>
           <p>Nota: <strong><?= (int) $rv['nota'] ?></strong> de <?= (int) $ex['nota_maxima'] ?></p>
           <?php if ($rv['comentario'] !== ''): ?><p class="texto-aula">💬 <?= e($rv['comentario']) ?></p><?php endif ?>
@@ -105,9 +109,14 @@ cabecalho($aula['titulo']);
     <?php endforeach ?>
 
     <?php if ($podeEnviar): ?>
-      <?= abrir_form('enviar_entrega', 'pilha cartao', ['aula_id' => $aula['id']]) ?>
+      <?= abrir_form('enviar_entrega', 'pilha cartao', ['aula_id' => $aula['id']], true) ?>
         <h3><?= $ultima ? 'Reenviar com os ajustes' : 'Enviar meu projeto' ?></h3>
-        <label><?= e($rotuloLink[$ex['tipo_entrega']]) ?><input name="link" type="url" placeholder="https://" <?= $ex['tipo_entrega'] !== 'CODIGO' ? 'required' : '' ?>></label>
+        <label><?= e($rotuloLink[$tipoEnt]) ?><input name="link" type="url" placeholder="https://" <?= $tipoEnt === 'LINK_SIMULADOR' ? 'required' : '' ?>></label>
+        <label><?= e($rotuloArquivos) ?>
+          <input type="file" name="arquivos[]" multiple data-reduzir-fotos data-max="<?= ARQ_MAX_QTD ?>" data-limite="<?= limite_arquivo() ?>"
+            accept="image/*,.pdf,.ino,.py,.txt,.c,.cpp,.h,.sb3,.zip" <?= $tipoEnt === 'ARQUIVO' ? 'required' : '' ?>>
+          <span class="pequeno suave">Até <?= ARQ_MAX_QTD ?> arquivos. No celular dá para tirar a foto na hora. As fotos são reduzidas automaticamente; outros arquivos até <?= e(tamanho_legivel(limite_arquivo())) ?> cada.</span>
+          <span class="pequeno" data-fotos-status aria-live="polite"></span></label>
         <label><?= $ex['tipo_entrega'] === 'CODIGO' ? 'Código do programa' : 'Código do programa (opcional, mas recomendado)' ?>
           <textarea class="codigo" name="codigo" rows="10" <?= $ex['tipo_entrega'] === 'CODIGO' ? 'required' : '' ?>></textarea></label>
         <label>Recado para o professor (opcional)<textarea name="observacao" rows="2"></textarea></label>

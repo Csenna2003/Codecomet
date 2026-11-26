@@ -67,7 +67,7 @@ function acao_salvar_aula(): void
     $rubrica = array_values(array_filter(array_map('trim', explode("\n", str_replace("\r", '', (string) ($_POST['rubrica'] ?? '')))), 'strlen'));
     $enunciado = trim((string) ($_POST['enunciado'] ?? ''));
     if ($tipo === 'EXERCICIO' && ($enunciado === '' || !$rubrica)) $f('Exercício precisa de enunciado e de pelo menos um critério de avaliação.');
-    $tipoEntrega = in_array(post('tipo_entrega'), ['LINK_SIMULADOR', 'CODIGO', 'LINK_VIDEO'], true) ? post('tipo_entrega') : 'LINK_SIMULADOR';
+    $tipoEntrega = isset(ROTULO_TIPO_ENTREGA[post('tipo_entrega')]) ? post('tipo_entrega') : 'LINK_SIMULADOR';
     $conteudo = trim(str_replace("\r", '', (string) ($_POST['conteudo'] ?? '')));
     $notas = trim(str_replace("\r", '', (string) ($_POST['notas'] ?? '')));
     if (strlen($conteudo) > 200000 || strlen($notas) > 100000) $f('Texto muito longo.');

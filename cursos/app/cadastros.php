@@ -390,13 +390,15 @@ function acao_matricular_manual(): void
     }
     $atual = acesso_ativo($al['id'], $curso['id']);
     if ($atual && $atual['origem'] !== 'LICENCA_ESCOLA' && $atual['fim'] === $fim) $f("{$al['nome']} já está matriculado(a) neste curso.");
+    // Aluno de escola: a matrícula fica ligada à escola dele (o professor e a coordenação acompanham e corrigem).
+    $orgAluno = valor("SELECT org_id FROM membros WHERE usuario_id = ? AND papel = 'ALUNO' ORDER BY criado_em LIMIT 1", [$al['id']]) ?: null;
     $existe = um('SELECT id FROM acessos WHERE usuario_id = ? AND curso_id = ?', [$al['id'], $curso['id']]);
     if ($existe) {
-        q("UPDATE acessos SET origem = ?, status = 'ATIVO', org_id = NULL, licenca_id = NULL, pedido_id = NULL, inicio = ?, fim = ? WHERE id = ?",
-            [$origem, agora(), $fim, $existe['id']]);
+        q("UPDATE acessos SET origem = ?, status = 'ATIVO', org_id = ?, licenca_id = NULL, pedido_id = NULL, inicio = ?, fim = ? WHERE id = ?",
+            [$origem, $orgAluno, agora(), $fim, $existe['id']]);
     } else {
-        q("INSERT INTO acessos (id, usuario_id, curso_id, origem, status, inicio, fim) VALUES (?,?,?,?, 'ATIVO', ?, ?)",
-            [novo_id(), $al['id'], $curso['id'], $origem, agora(), $fim]);
+        q("INSERT INTO acessos (id, usuario_id, curso_id, org_id, origem, status, inicio, fim) VALUES (?,?,?,?,?, 'ATIVO', ?, ?)",
+            [novo_id(), $al['id'], $curso['id'], $orgAluno, $origem, agora(), $fim]);
     }
     auditar($admin['id'], null, 'matricula.manual', 'Usuario', $al['id'], ['curso' => $curso['id'], 'origem' => $origem]);
     enviar_email($al['email'], 'Você foi matriculado(a): ' . $curso['titulo'],

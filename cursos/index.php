@@ -17,6 +17,8 @@ require __DIR__ . '/app/cadastros.php';
 require __DIR__ . '/app/conteudo.php';
 require __DIR__ . '/app/acessos.php';
 require __DIR__ . '/app/edicao.php';
+require __DIR__ . '/app/arquivos.php';
+require __DIR__ . '/app/relatorio.php';
 require __DIR__ . '/app/esquema.php';
 
 header('X-Frame-Options: SAMEORIGIN');
@@ -34,7 +36,7 @@ iniciar_sessao();
  * Após enviar uma versão nova dos arquivos, cria as tabelas que faltarem.
  * Feito uma vez por sessão; os comandos só criam o que não existe.
  */
-const VERSAO_ESQUEMA = 6;
+const VERSAO_ESQUEMA = 7;
 if (($_SESSION['esquema'] ?? 0) !== VERSAO_ESQUEMA) {
     if (!valor("SHOW TABLES LIKE 'usuarios'")) {
         header('Location: instalar.php');
@@ -49,10 +51,18 @@ const ROTAS = [
     'professor', 'entrega', 'escola', 'admin', 'admin_curso', 'admin_pedidos',
     'aluno', 'particulares', 'particular_aula', 'confirmar', 'admin_particulares', 'esqueci',
     'acessos_criados', 'editar_aula', 'meus_dados', 'editar_aluno', 'editar_escola', 'admin_alunos', 'professores', 'perfil_professor',
+    'arquivo', 'relatorio',
 ];
 
 try {
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+        // Envio maior que o limite da hospedagem: o PHP descarta tudo, inclusive o formulário.
+        if (!$_POST && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+            flash('erro', 'Os arquivos passaram do limite de envio (' . tamanho_legivel(limite_arquivo()) . '). Envie menos fotos ou arquivos menores.');
+            $volta = (string) ($_SERVER['HTTP_REFERER'] ?? '');
+            header('Location: ' . (str_starts_with($volta, url_base()) ? $volta : url('painel')));
+            exit;
+        }
         verificar_csrf();
         executar_acao(post('acao'));
         ir();

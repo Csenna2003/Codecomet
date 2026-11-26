@@ -158,6 +158,7 @@ const ROTULO_NIVEL = ['INICIANTE' => 'Iniciante', 'INTERMEDIARIO' => 'Intermedi�
 const ROTULO_TIPO_AULA = ['VIDEO' => 'Vídeo', 'TEXTO' => 'Leitura', 'QUIZ' => 'Quiz', 'SIMULADOR' => 'Simulador', 'EXERCICIO' => 'Exercício'];
 const ROTULO_PAPEL = ['ALUNO' => 'Aluno', 'PROFESSOR' => 'Professor', 'COORDENADOR' => 'Coordenador', 'ADMIN_ORG' => 'Administrador da escola'];
 const ROTULO_ENTREGA = ['ENVIADA' => 'Aguardando correção', 'APROVADA' => 'Aprovada', 'PRECISA_AJUSTE' => 'Precisa de ajuste'];
+const ROTULO_TIPO_ENTREGA = ['LINK_SIMULADOR' => 'Link do Tinkercad/Wokwi', 'LINK_VIDEO' => 'Link do projeto ou de vídeo, ou fotos', 'ARQUIVO' => 'Fotos ou arquivos do projeto', 'CODIGO' => 'Código'];
 const ROTULO_STATUS_CURSO = ['RASCUNHO' => 'Rascunho', 'PUBLICADO' => 'Publicado', 'ARQUIVADO' => 'Arquivado'];
 
 // ---------- Requisição ----------

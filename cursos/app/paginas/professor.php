@@ -28,7 +28,7 @@ $tabela = function (array $itens, string $acao) { ?>
 <?php };
 cabecalho('Correções');
 ?>
-<h1>Correções</h1>
+<div class="linha"><h1>Correções</h1><?php if (pode_ver_relatorio($u)): ?><a class="btn mini" href="<?= e(url('relatorio')) ?>">📊 Relatório das turmas</a><?php endif ?></div>
 <h2>Aguardando correção (<?= count($fila) ?>)</h2>
 <?php if ($fila) $tabela($fila, 'Corrigir'); else echo '<p class="suave">Nenhuma entrega na fila. 🎉</p>'; ?>
 <h2>Corrigidas recentemente</h2>

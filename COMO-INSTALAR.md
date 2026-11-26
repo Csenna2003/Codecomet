@@ -125,6 +125,40 @@ certa com `*` e as outras com `-`.
 
 Se um exercício já tem entregas de alunos, o tipo da aula fica travado (para não perder as entregas).
 
+## Fotos e arquivos nas entregas
+
+Ao enviar um projeto, o aluno pode anexar até 4 fotos ou arquivos: fotos do robô montado (no celular
+dá para tirar a foto na hora), PDF, código (.ino, .py, .txt), projeto do Scratch (.sb3) ou .zip.
+
+- Nos projetos dos cursos prontos, o aluno manda o link **ou** as fotos.
+- Ao criar ou editar um exercício, o tipo **Fotos ou arquivos do projeto** exige pelo menos uma foto.
+- As fotos são reduzidas no próprio celular antes de enviar e de novo no servidor (no máximo 1600 px),
+  e perdem os dados escondidos da câmera, como a localização GPS.
+- Só veem as fotos o próprio aluno, o professor da turma, a coordenação da escola e você. Elas ficam
+  na pasta `cursos/arquivos/`, que não abre pelo navegador. Ao atualizar a plataforma, essa pasta não é
+  apagada.
+
+Se aparecer o aviso de que o arquivo passou do limite, aumente o limite em cPanel → **MultiPHP INI
+Editor** → `upload_max_filesize` (ex.: 12M) e `post_max_size` (ex.: 50M). O arquivo `cursos/.user.ini`
+já pede esses valores, mas algumas hospedagens ignoram.
+
+## Relatório de progresso das turmas
+
+Em **Escola → 📊 Relatório de progresso** (ou **Relatório da turma**, ao lado de cada turma), a
+coordenação escolhe a turma e o curso e vê:
+
+- quantos alunos estão no curso, o progresso médio, quantos têm certificado e a nota média nos projetos;
+- quem **precisa de atenção**: alunos que não começaram ou estão parados há 14 dias ou mais;
+- cada aluno com progresso, módulo em que está, projetos aprovados, nota média e última atividade;
+- o andamento de cada módulo e a situação de cada projeto do curso.
+
+Dá para **imprimir ou salvar em PDF** (para levar à reunião com a escola) e **baixar a planilha**.
+O professor vê o relatório das turmas dele em **Correções → 📊 Relatório das turmas**, e você vê o de
+qualquer escola em **Administração → Escolas → Relatório**.
+
+Alunos de escola matriculados por você (em **Criar acessos** com escola, ou em **Matricular**) ficam
+ligados à escola, para o professor e a coordenação corrigirem os projetos e acompanharem no relatório.
+
 ## Aplicativo no celular e no computador
 
 A plataforma também funciona como aplicativo, sem loja e sem custo. No painel do aluno aparece
@@ -227,4 +261,3 @@ Você confere no extrato e clica em **Confirmar recebimento**; o curso libera na
 ## O que ainda não existe
 
 - Confirmação automática do Pix e cartão de crédito (exigiriam contratar um serviço de cobrança)
-- Upload de arquivos nas entregas (o aluno envia link do simulador, código ou link de vídeo)

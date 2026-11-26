@@ -42,7 +42,7 @@ foreach ($licencas as $l) {
 $campoOrg = ['org_id' => $orgId];
 cabecalho('Escola');
 ?>
-<div class="linha"><h1><?= e($orgNome) ?></h1><a class="btn sec mini" href="<?= e(url('editar_escola', ['id' => $orgId])) ?>">Dados da escola</a></div>
+<div class="linha"><h1><?= e($orgNome) ?></h1><span class="acoes"><a class="btn mini" href="<?= e(url('relatorio', ['org' => $orgId])) ?>">📊 Relatório de progresso</a><a class="btn sec mini" href="<?= e(url('editar_escola', ['id' => $orgId])) ?>">Dados da escola</a></span></div>
 <?php if (count($orgs) > 1): ?>
   <p class="pequeno">Trocar de escola:
   <?php foreach ($orgs as $id => $nome) if ($id !== $orgId): ?><a href="<?= e(url('escola', ['org' => $id])) ?>" style="margin-right:.75rem"><?= e($nome) ?></a><?php endif ?>
@@ -104,7 +104,7 @@ cabecalho('Escola');
 
 <h2>Turmas</h2>
 <?php foreach ($turmas as $t): ?>
-  <p><strong><?= e($t['nome']) ?></strong><?= $t['periodo'] ? ' (' . e($t['periodo']) . ')' : '' ?> · <?= (int) $t['n_alunos'] ?> alunos · professor: <?= e($t['professor'] ?? 'não definido') ?></p>
+  <p><strong><?= e($t['nome']) ?></strong><?= $t['periodo'] ? ' (' . e($t['periodo']) . ')' : '' ?> · <?= (int) $t['n_alunos'] ?> alunos · professor: <?= e($t['professor'] ?? 'não definido') ?> · <a href="<?= e(url('relatorio', ['org' => $orgId, 'turma' => $t['id']])) ?>">Relatório da turma</a></p>
 <?php endforeach ?>
 <?= abrir_form('criar_turma', 'cartao campos', $campoOrg) ?>
   <label>Nome da turma<input name="nome" required placeholder="7º ano B"></label>

@@ -84,6 +84,50 @@
     }
   }
 
+  // Entregas com fotos: reduz no próprio aparelho antes de enviar (foto de celular tem vários MB).
+  function reduzirFoto(f) {
+    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) return Promise.resolve(f);
+    return new Promise(function (pronto) {
+      var img = new Image(), u = URL.createObjectURL(f);
+      img.onload = function () {
+        var k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+        if (k === 1 && f.size < 400000) { URL.revokeObjectURL(u); pronto(f); return; }
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+        var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
+        c.toBlob(function (b) {
+          URL.revokeObjectURL(u);
+          if (!b || b.size >= f.size) { pronto(f); return; }
+          pronto(new File([b], f.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.82);
+      };
+      img.onerror = function () { URL.revokeObjectURL(u); pronto(f); };
+      img.src = u;
+    });
+  }
+  document.querySelectorAll('input[data-reduzir-fotos]').forEach(function (inp) {
+    var status = inp.closest('label').querySelector('[data-fotos-status]');
+    var botao = inp.form.querySelector('button:not([type=button])');
+    var max = +inp.dataset.max, limite = +inp.dataset.limite;
+    var mb = function (n) { return (n / 1048576).toFixed(1).replace('.', ',') + ' MB'; };
+    function conferir() {
+      var arqs = Array.prototype.slice.call(inp.files);
+      var grande = arqs.filter(function (f) { return f.size > limite; })[0];
+      if (grande) { status.textContent = '“' + grande.name + '” tem ' + mb(grande.size) + ' e passa do limite de ' + mb(limite) + '. Escolha outro arquivo.'; inp.value = ''; return; }
+      status.textContent = arqs.length ? arqs.length + (arqs.length > 1 ? ' arquivos prontos: ' : ' arquivo pronto: ') + arqs.map(function (f) { return f.name; }).join(', ') : '';
+    }
+    inp.addEventListener('change', function () {
+      var arqs = Array.prototype.slice.call(inp.files);
+      if (arqs.length > max) { status.textContent = 'Escolha no máximo ' + max + ' arquivos.'; inp.value = ''; return; }
+      if (!window.DataTransfer || !window.File || !HTMLCanvasElement.prototype.toBlob) { conferir(); return; }
+      if (botao) botao.disabled = true;
+      status.textContent = 'Preparando as fotos…';
+      Promise.all(arqs.map(reduzirFoto)).then(function (novos) {
+        try { var dt = new DataTransfer(); novos.forEach(function (f) { dt.items.add(f); }); inp.files = dt.files; } catch (e) {}
+      }).then(conferir, conferir).then(function () { if (botao) botao.disabled = false; });
+    });
+  });
+
   // QR Code do Pix, desenhado no próprio navegador (assets/qrcode.js).
   document.querySelectorAll('[data-qr]').forEach(function (el) {
     if (typeof qrcode !== 'function') return;

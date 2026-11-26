@@ -12,7 +12,7 @@ function cabecalho(string $titulo, bool $estreito = false): void
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($titulo === '' ? $site : "$titulo — $site") ?></title>
-<link rel="stylesheet" href="assets/estilo.css?v=8">
+<link rel="stylesheet" href="assets/estilo.css?v=9">
 <link rel="icon" href="assets/icone-32.png" sizes="32x32">
 <link rel="icon" href="assets/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/icone-180.png">
@@ -55,7 +55,7 @@ function rodape(): void
 {
     ?>
 </main>
-<script src="assets/app.js?v=4" defer></script>
+<script src="assets/app.js?v=5" defer></script>
 </body>
 </html>
 <?php
@@ -70,9 +70,9 @@ function botao_acao(string $acao, string $rotulo, array $campos = [], string $cl
     return $h . '<button class="' . e($classe) . '">' . e($rotulo) . '</button></form>';
 }
 
-function abrir_form(string $acao, string $classe = 'pilha cartao', array $campos = []): string
+function abrir_form(string $acao, string $classe = 'pilha cartao', array $campos = [], bool $comArquivos = false): string
 {
-    $h = '<form method="post" action="index.php" class="' . e($classe) . '">' . csrf_campo()
+    $h = '<form method="post" action="index.php" class="' . e($classe) . '"' . ($comArquivos ? ' enctype="multipart/form-data"' : '') . '>' . csrf_campo()
         . '<input type="hidden" name="acao" value="' . e($acao) . '">';
     foreach ($campos as $k => $v) $h .= '<input type="hidden" name="' . e($k) . '" value="' . e($v) . '">';
     return $h;

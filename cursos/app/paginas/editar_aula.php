@@ -53,7 +53,7 @@ cabecalho('Editar aula');
     <label>Critérios de avaliação (um por linha)<textarea name="rubrica" rows="5"><?= e(implode("\n", $ex ? (json_decode($ex['rubrica'], true) ?: []) : [])) ?></textarea></label>
     <div class="campos">
       <label>O aluno entrega<select name="tipo_entrega">
-        <?php foreach (['LINK_SIMULADOR' => 'Link do Tinkercad/Wokwi', 'CODIGO' => 'Código', 'LINK_VIDEO' => 'Link do projeto ou de vídeo (qualquer site)'] as $k => $v): ?>
+        <?php foreach (ROTULO_TIPO_ENTREGA as $k => $v): ?>
           <option value="<?= $k ?>" <?= ($ex['tipo_entrega'] ?? 'LINK_SIMULADOR') === $k ? 'selected' : '' ?>><?= e($v) ?></option><?php endforeach ?></select></label>
       <label>Limite de tentativas (opcional)<input name="max_tentativas" type="number" min="1" value="<?= e($ex['max_tentativas'] ?? '') ?>"></label>
     </div>

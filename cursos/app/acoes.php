@@ -279,8 +279,11 @@ function acao_enviar_entrega(): void
     $link = post('link');
     $codigo = trim((string) ($_POST['codigo'] ?? ''));
     $obs = post('observacao');
+    $arquivos = receber_arquivos('arquivos');
+    if (is_string($arquivos)) $falha($arquivos);
     if ($ex['tipo_entrega'] === 'LINK_SIMULADOR' && !plataforma_de($link)) $falha('Cole o link do seu projeto no Tinkercad ou no Wokwi (https://...).');
-    if ($ex['tipo_entrega'] === 'LINK_VIDEO' && !eh_https($link)) $falha('Cole o link do projeto ou do vídeo (https://...).');
+    if ($ex['tipo_entrega'] === 'LINK_VIDEO' && !eh_https($link) && !$arquivos) $falha('Cole o link do projeto ou do vídeo (https://...) ou envie fotos do projeto.');
+    if ($ex['tipo_entrega'] === 'ARQUIVO' && !$arquivos) $falha('Envie pelo menos uma foto ou arquivo do seu projeto.');
     if ($ex['tipo_entrega'] === 'CODIGO' && strlen($codigo) < 10) $falha('Cole o código do seu programa.');
     if ($link !== '' && !eh_https($link)) $falha('O link precisa começar com https://');
     if (strlen($link) > 500 || strlen($codigo) > 100000 || mb_strlen($obs) > 2000) $falha('Texto muito longo.');
@@ -291,11 +294,22 @@ function acao_enviar_entrega(): void
     if (in_array('ENVIADA', $status, true)) $falha('Sua entrega anterior ainda está aguardando correção.');
     if ($ex['max_tentativas'] && count($anteriores) >= (int) $ex['max_tentativas']) $falha('Você atingiu o limite de tentativas. Fale com seu professor.');
 
-    q(
-        'INSERT INTO entregas (id, exercicio_id, usuario_id, org_id, tentativa, link, codigo, observacao, enviado_em) VALUES (?,?,?,?,?,?,?,?,?)',
-        [novo_id(), $ex['id'], $u['id'], $acesso['org_id'], ((int) ($anteriores[0]['tentativa'] ?? 0)) + 1,
-            $link ?: null, $codigo ?: null, $obs ?: null, agora()]
-    );
+    $gravados = [];
+    try {
+        transacao(function () use ($ex, $u, $acesso, $anteriores, $link, $codigo, $obs, $arquivos, &$gravados) {
+            $id = novo_id();
+            q(
+                'INSERT INTO entregas (id, exercicio_id, usuario_id, org_id, tentativa, link, codigo, observacao, enviado_em) VALUES (?,?,?,?,?,?,?,?,?)',
+                [$id, $ex['id'], $u['id'], $acesso['org_id'], ((int) ($anteriores[0]['tentativa'] ?? 0)) + 1,
+                    $link ?: null, $codigo ?: null, $obs ?: null, agora()]
+            );
+            guardar_arquivos($id, $arquivos, $gravados);
+        });
+    } catch (Throwable $t) {
+        foreach ($gravados as $g) @unlink($g);
+        if ($t instanceof PDOException) throw $t;
+        $falha('Não foi possível guardar os arquivos. Tente de novo.');
+    }
     // Enviar já libera a próxima aula; o certificado continua exigindo aprovação.
     concluir_aula($u['id'], $aula['id'], $curso['id']);
     voltar('ok', 'Entrega enviada! Você será avisado aqui quando for corrigida.', 'aula', ['id' => $aula['id']]);

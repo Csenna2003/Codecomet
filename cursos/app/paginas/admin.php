@@ -68,7 +68,7 @@ if ($pacotes): ?>
 <h2>Escolas</h2>
 <?php foreach ($orgs as $o): $lics = todos('SELECT l.vagas_total, c.titulo FROM licencas l JOIN cursos c ON c.id = l.curso_id WHERE l.org_id = ?', [$o['id']]); ?>
   <div class="cartao">
-    <div class="linha"><strong><?= e($o['nome']) ?><?= $o['ativa'] ? '' : ' <span class="etiqueta">Inativa</span>' ?></strong><span class="acoes"><a href="<?= e(url('editar_escola', ['id' => $o['id']])) ?>">Editar cadastro</a> · <a href="<?= e(url('escola', ['org' => $o['id']])) ?>">Abrir painel da escola</a></span></div>
+    <div class="linha"><strong><?= e($o['nome']) ?><?= $o['ativa'] ? '' : ' <span class="etiqueta">Inativa</span>' ?></strong><span class="acoes"><a href="<?= e(url('editar_escola', ['id' => $o['id']])) ?>">Editar cadastro</a> · <a href="<?= e(url('escola', ['org' => $o['id']])) ?>">Abrir painel da escola</a> · <a href="<?= e(url('relatorio', ['org' => $o['id']])) ?>">Relatório</a></span></div>
     <p class="pequeno suave"><?= (int) $o['n'] ?> pessoas<?= $o['documento'] ? ' · ' . e($o['documento']) : '' ?></p>
     <?php foreach ($lics as $l): ?><p class="pequeno">Licença: <?= e($l['titulo']) ?> — <?= (int) $l['vagas_total'] ?> vagas</p><?php endforeach ?>
   </div>

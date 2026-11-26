@@ -24,6 +24,7 @@ cabecalho('Corrigir entrega');
 <h2>Entrega do aluno</h2>
 <?php if ($e['link']): ?><p><a href="<?= e($e['link']) ?>" target="_blank" rel="noopener noreferrer"><?= e($e['link']) ?> ↗</a></p><?php endif ?>
 <?php if ($sim): ?><iframe class="quadro simulador" src="<?= e($sim['embed']) ?>" title="Projeto do aluno" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe><?php endif ?>
+<?= mostrar_arquivos(arquivos_das_entregas([$e['id']])[$e['id']] ?? [], true) ?>
 <?php if ($e['codigo']): ?><pre><?= e($e['codigo']) ?></pre><?php endif ?>
 <?php if ($e['observacao']): ?><p class="cartao texto-aula">Recado do aluno: <?= e($e['observacao']) ?></p><?php endif ?>
 

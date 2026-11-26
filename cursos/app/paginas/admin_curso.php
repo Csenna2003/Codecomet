@@ -75,7 +75,7 @@ cabecalho('Editar curso');
           <label>Enunciado<textarea name="enunciado" rows="3"></textarea></label>
           <label>Critérios de avaliação (um por linha)<textarea name="rubrica" rows="3"></textarea></label>
           <div class="campos">
-            <label>O aluno entrega<select name="tipo_entrega"><option value="LINK_SIMULADOR">Link do Tinkercad/Wokwi</option><option value="CODIGO">Código</option><option value="LINK_VIDEO">Link do projeto ou de vídeo (qualquer site)</option></select></label>
+            <label>O aluno entrega<select name="tipo_entrega"><?php foreach (ROTULO_TIPO_ENTREGA as $k => $v): ?><option value="<?= $k ?>"><?= e($v) ?></option><?php endforeach ?></select></label>
             <label>Limite de tentativas (opcional)<input name="max_tentativas" type="number" min="1"></label>
           </div>
         </fieldset>

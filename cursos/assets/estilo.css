@@ -168,3 +168,23 @@ textarea.editor { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, mo
 @media (max-width: 560px) { .aulas li { flex-wrap: wrap; } }
 .app-convite { border-color: var(--primaria); }
 [hidden] { display: none !important; }
+.arquivos-entrega { display: flex; flex-wrap: wrap; gap: .5rem; margin: .5rem 0; align-items: center; }
+.arquivos-entrega img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid var(--borda, #dde3ea); display: block; }
+.arquivos-entrega.grande img { width: auto; height: auto; max-width: min(100%, 520px); max-height: 420px; object-fit: contain; }
+.arquivos-entrega a.arquivo { display: inline-block; padding: .35rem .6rem; border: 1px solid var(--borda, #dde3ea); border-radius: 8px; background: #fff; }
+input[type=file] { display: block; margin: .35rem 0; max-width: 100%; }
+.numeros-relatorio { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .75rem; margin: 1rem 0; }
+.numeros-relatorio .cartao { margin: 0; display: flex; flex-direction: column; gap: .2rem; }
+.numeros-relatorio strong { font-size: 1.8rem; line-height: 1.1; color: var(--primaria); }
+.numeros-relatorio span { font-size: .85rem; color: var(--suave, #5b6577); }
+.numeros-relatorio .atencao strong { color: var(--erro); }
+.tabela-relatorio td { vertical-align: middle; }
+.tabela-relatorio .barra { margin: 0 0 .2rem; }
+@media print {
+  .numeros-relatorio { grid-template-columns: repeat(3, 1fr); }
+  .tabela-rolagem { overflow: visible !important; }
+  .tabela-relatorio a { color: inherit; text-decoration: none; }
+  .relatorio-blocos { display: block; }
+  tr, .cartao { break-inside: avoid; }
+}
+.modulos-relatorio { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); column-gap: 1.5rem; }
