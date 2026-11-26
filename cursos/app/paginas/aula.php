@@ -19,6 +19,8 @@ $seguinteAberta = $seguinte && (!$aluno || !empty($est['por_aula'][$seguinte['id
 $video = $aula['video_url'] ? embed_video($aula['video_url']) : null;
 $sim = $aula['simulador_url'] ? embed_simulador($aula['simulador_url']) : null;
 $perguntas = json_decode((string) $aula['quiz'], true) ?: [];
+// Notas do professor: só para a equipe (admin, professores e coordenação), nunca para quem é só aluno.
+$notas = eh_equipe($u) ? (string) valor('SELECT texto FROM aula_notas WHERE aula_id = ?', [$aula['id']]) : '';
 
 $entregas = [];
 if ($aluno && $ex) {
@@ -29,7 +31,7 @@ if ($aluno && $ex) {
 $ultima = $entregas[0] ?? null;
 $esgotou = $ex && $ex['max_tentativas'] && count($entregas) >= (int) $ex['max_tentativas'];
 $podeEnviar = $aluno && $ex && (!$ultima || ($ultima['status'] === 'PRECISA_AJUSTE' && !$esgotou));
-$rotuloLink = ['LINK_SIMULADOR' => 'Link do seu projeto no Tinkercad ou no Wokwi', 'LINK_VIDEO' => 'Link do vídeo mostrando o projeto funcionando', 'CODIGO' => 'Link do projeto (opcional)'];
+$rotuloLink = ['LINK_SIMULADOR' => 'Link do seu projeto no Tinkercad ou no Wokwi', 'LINK_VIDEO' => 'Link do projeto ou de um vídeo mostrando funcionando (Scratch, Wokwi, Tinkercad, YouTube, Google Drive…)', 'CODIGO' => 'Link do projeto (opcional)'];
 
 cabecalho($aula['titulo']);
 ?>
@@ -44,7 +46,14 @@ cabecalho($aula['titulo']);
   <iframe class="quadro video" src="<?= e($video) ?>" title="<?= e($aula['titulo']) ?>" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
 <?php endif ?>
 
-<?php if ($aula['conteudo'] !== ''): ?><div class="cartao texto-aula"><?= e($aula['conteudo']) ?></div><?php endif ?>
+<?php if ($aula['conteudo'] !== ''): ?><div class="cartao conteudo-aula"><?= render_conteudo($aula['conteudo']) ?></div><?php endif ?>
+
+<?php if ($notas): ?>
+  <details class="cartao notas-professor">
+    <summary>Notas do professor (só a equipe vê)</summary>
+    <div class="conteudo-aula"><?= render_conteudo($notas) ?></div>
+  </details>
+<?php endif ?>
 
 <?php if ($sim): ?>
   <section>
@@ -74,7 +83,7 @@ cabecalho($aula['titulo']);
   <section>
     <h2>Seu desafio</h2>
     <div class="cartao">
-      <p class="texto-aula"><?= e($ex['enunciado']) ?></p>
+      <div class="conteudo-aula"><?= render_conteudo($ex['enunciado']) ?></div>
       <h3>Como você será avaliado</h3>
       <ul><?php foreach ($ex['rubrica'] as $r): ?><li><?= e($r) ?></li><?php endforeach ?></ul>
       <?php if ($ex['max_tentativas']): ?><p class="pequeno suave">Tentativas: <?= count($entregas) ?> de <?= (int) $ex['max_tentativas'] ?></p><?php endif ?>

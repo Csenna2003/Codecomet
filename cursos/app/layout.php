@@ -12,7 +12,7 @@ function cabecalho(string $titulo, bool $estreito = false): void
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($titulo === '' ? $site : "$titulo — $site") ?></title>
-<link rel="stylesheet" href="assets/estilo.css?v=3">
+<link rel="stylesheet" href="assets/estilo.css?v=5">
 <link rel="icon" href="assets/icone-32.png" sizes="32x32">
 <link rel="icon" href="assets/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/icone-180.png">

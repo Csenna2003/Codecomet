@@ -46,6 +46,7 @@ cabecalho('Editar curso');
           <label>Duração (min)<input name="duracao_min" type="number" min="0"></label>
         </div>
         <label>Texto da aula<textarea name="conteudo" rows="4"></textarea></label>
+        <p class="pequeno suave">Formatação: “## ” no início da linha faz um subtítulo, “- ” faz uma lista, “[[Dica]] texto” faz um quadro de destaque e **texto** fica em negrito. Deixe uma linha em branco entre os parágrafos.</p>
         <label>Link do vídeo (YouTube ou Vimeo)<input name="video_url" type="url"></label>
         <label>Link do projeto no simulador (tinkercad.com/things/… ou wokwi.com/projects/…)<input name="simulador_url" type="url"></label>
         <fieldset class="pilha"><legend>Só para quiz</legend>
@@ -56,7 +57,7 @@ cabecalho('Editar curso');
           <label>Enunciado<textarea name="enunciado" rows="3"></textarea></label>
           <label>Critérios de avaliação (um por linha)<textarea name="rubrica" rows="3"></textarea></label>
           <div class="campos">
-            <label>O aluno entrega<select name="tipo_entrega"><option value="LINK_SIMULADOR">Link do Tinkercad/Wokwi</option><option value="CODIGO">Código</option><option value="LINK_VIDEO">Link de vídeo (projeto físico)</option></select></label>
+            <label>O aluno entrega<select name="tipo_entrega"><option value="LINK_SIMULADOR">Link do Tinkercad/Wokwi</option><option value="CODIGO">Código</option><option value="LINK_VIDEO">Link do projeto ou de vídeo (qualquer site)</option></select></label>
             <label>Limite de tentativas (opcional)<input name="max_tentativas" type="number" min="1"></label>
           </div>
         </fieldset>

@@ -1,0 +1,518 @@
+{
+ "slug": "formacao-maker",
+ "titulo": "Formação Maker",
+ "descricao": "Currículo Maker de 70 horas em 6 módulos: eletrônica, programação em blocos, Arduino, kits educacionais, robótica e modelagem e impressão 3D. Encontros de 1h30 com desafios em três trilhas por idade (6 a 17 anos).",
+ "nivel": "INICIANTE",
+ "modulos": [
+  {
+   "titulo": "STEAM e fundamentos de eletrônica",
+   "aulas": [
+    {
+     "titulo": "Como funciona o curso",
+     "tipo": "TEXTO",
+     "conteudo": "Neste curso você vai montar circuitos, programar jogos e máquinas, construir um robô e imprimir uma peça criada por você. Em todo encontro você testa, erra, ajusta e tenta de novo. É assim que se aprende a criar.\n\n## A essência do movimento maker\n\n- Pensamento crítico Observar, questionar e testar antes de concluir.\n\n- Criatividade Imaginar soluções novas e dar forma a elas.\n\n- Resolução de problemas Errar, ajustar e tentar de novo até funcionar.\n\n- Colaboração Dividir papéis e construir junto com a equipe.\n\n## O Ciclo Maker\n\n- ETAPA 1 Ideação Entender o desafio e imaginar soluções.\n\n- ETAPA 2 Prototipagem Construir rápido com materiais maker.\n\n- ETAPA 3 Teste Experimentar com segurança e observar.\n\n- ETAPA 4 Iteração Corrigir, refinar e documentar.\n\n- O Ciclo Maker se repete em todos os módulos. Em cada projeto, os alunos passam pelas quatro etapas e registram no diário de bordo.\n\n## O ritmo de cada encontro (1h30)\n\n- 1Desafio · 10 min Um problema real apresentado pelo professor.\n\n- 2Conceito · 20 min A teoria mínima necessária, com demonstração.\n\n- 3Mão na massa · 45 min Montagem e programação em duplas ou trios.\n\n- 4Teste e ajuste · 10 min O grupo testa, encontra falhas e corrige.\n\n- 5Registro · 5 min O aluno anota o que aprendeu no diário de bordo.\n\n## Três trilhas na mesma turma\n\n- TRILHA A · 6 A 10 ANOS Explorar Passo a passo guiado, modelos prontos e apresentação com roteiro de apoio.\n\n- TRILHA B · 11 A 14 ANOS Construir Montar, programar e explicar as decisões, com registro de testes.\n\n- TRILHA C · 15 A 17 ANOS Projetar Otimizar, documentar e criticar soluções, com mais autonomia técnica.\n\n- Todo encontro traz o mesmo desafio em três níveis, o que permite turmas mistas sem dividir a sala.\n\n## Como você será avaliado\n\n- Processo (Ciclo Maker) 25% da nota\n\n- Conhecimento técnico 30% da nota\n\n- Colaboração 15% da nota\n\n- Documentação 15% da nota\n\n- Comunicação 15% da nota\n\n## Certificação do curso\n\n- Média dos 6 módulos (rubrica de 1 a 4) no nível Proficiente ou acima.\n\n- Presença mínima combinada com a escola.\n\n- Portfólio completo: diários, vídeos e os 6 projetos reunidos.\n\n- Mostra final (módulo 6) com a turma e as famílias.",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Boas-vindas ao Módulo 1",
+     "tipo": "TEXTO",
+     "conteudo": "Os alunos entram no laboratório maker, conhecem o Ciclo Maker (ideação, prototipagem, teste e iteração) e constroem a base física da jornada: eletricidade, circuitos, componentes e medições. Arte e engenharia andam juntas, e o módulo termina com um objeto luminoso interativo.\n\n## O que você vai aprender\n\n- Aplicar o Ciclo Maker em desafios curtos e em um projeto de módulo.\n\n- Explicar corrente, tensão e resistência com analogias e medições reais.\n\n- Montar, medir e depurar circuitos simples em série e em paralelo.\n\n- Usar protoboard, multímetro e o simulador Tinkercad Circuits com segurança.\n\n- Documentar o processo em diário de bordo com esboços, fotos e aprendizados.\n\n## Combinados de segurança\n\n- Usar apenas pilhas e baterias de baixa tensão; nunca ligar na tomada.\n\n- Nunca colocar pilhas ou baterias em curto-circuito.\n\n- Cola quente e tesoura somente com supervisão do professor.\n\n- Soldagem apenas na Trilha C, com óculos, ventilação e acompanhamento direto.\n\n- Cabelos presos e bancada organizada durante a prática.\n\n## Materiais\n\n- Protoboard 400 furos LEDs de várias cores\n\n- Resistores 220 Ω, 1 kΩ e 10 kΩ Porta-pilhas, pilhas AA e pilhas de botão\n\n- Chaves, buzzer e motor DC pequeno LDR e potenciômetro\n\n- Multímetro digital Fios, jumpers e fita de cobre\n\n- Papel, cartolina, tesoura e cola\n\n- Computador com acesso ao Tinkercad Circuits\n\n## Projeto do módulo\n\n**Objeto Luminoso Interativo:** Cada equipe cria um objeto (luminária, caixa-alarme, cartão ou escultura) que reage a uma ação, como apertar uma chave, aproximar a mão ou mudar a luz do ambiente, unindo circuito, design e uma história.\n\n**Entregáveis:**\n\n- Esboço e lista de materiais\n\n- Circuito funcionando\n\n- Diário de bordo completo\n\n- Pôster ou vídeo de 1 minuto\n\n- Apresentação de 3 minutos na mostra",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Encontro 1 · Bem-vindos ao Laboratório Maker",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Criar o contrato do laboratório e vencer o Desafio da Torre de Papel passando pelas quatro fases do Ciclo Maker.\n\n*Temas: Ciclo Maker Segurança Diário de bordo*\n\n## Roteiro do encontro\n\n- 15 min Ler e discutir as regras de segurança e convivência; assinar o contrato do laboratório.\n\n- 10 min Formar equipes e apresentar o desafio: a torre de papel mais alta que sustente uma bolinha.\n\n- 30 min Rodada 1: planejar em 5 minutos, construir em 15 e testar.\n\n- 25 min Rodada 2: melhorar o protótipo e registrar no diário o que mudou.\n\n- 10 min Fechamento: o que a primeira torre ensinou para a segunda?\n\n[[Pergunta para pensar]] O que a primeira torre ensinou para a segunda?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Construir com orientação do professor e desenhar a torre antes e depois.\n\n- **Trilha B (11 a 14 anos):** Anotar altura e peso suportado e comparar as duas rodadas.\n\n- **Trilha C (15 a 17 anos):** Propor uma regra de pontuação para o desafio e justificá-la com dados.\n\n[[Você entrega]] Contrato assinado e primeira página do diário de bordo.",
+     "notas": "**Erros comuns:**\n\n- Pular o planejamento e construir sem conversar. Esquecer de registrar a versão que não funcionou.\n\n**Pergunta de mediação:** O que a primeira torre ensinou para a segunda?\n\n**Evidência de aprendizagem:** Contrato assinado e primeira página do diário de bordo.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 2 · Eletricidade e meu primeiro circuito",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Entender de onde vem a energia dos aparelhos e montar um circuito com pilha, LED, resistor e chave.\n\n*Temas: Corrente, tensão e resistência Circuito fechado LED e chave*\n\n## Roteiro do encontro\n\n- 15 min Mapa mental: aparelhos da casa e o caminho da energia; analogia da água (bomba, mangueira, torneira).\n\n- 15 min Identificar anodo e catodo do LED e escolher o resistor de 220 Ω.\n\n- 35 min Montar o circuito no protoboard e acrescentar a chave; testar aberta e fechada.\n\n- 15 min Provocar um erro (LED invertido) e registrar o que acontece.\n\n- 10 min Desenhar o esquema com símbolos.\n\n[[Pergunta para pensar]] Se a pilha é a bomba d'água, o que faz o papel do resistor?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar passo a passo com o professor e colorir o esquema.\n\n- **Trilha B (11 a 14 anos):** Desenhar o esquema elétrico com símbolos.\n\n- **Trilha C (15 a 17 anos):** Calcular o resistor adequado e comparar com o valor usado.\n\n[[Você entrega]] Foto do circuito e esquema desenhado.",
+     "notas": "**Erros comuns:**\n\n- Ligar o LED sem resistor. Usar fileira errada do protoboard. Achar que a corrente some dentro do LED.\n\n**Pergunta de mediação:** Se a pilha é a bomba d'água, o que faz o papel do resistor?\n\n**Evidência de aprendizagem:** Foto do circuito e esquema desenhado.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 3 · Resistores, Lei de Ohm e multímetro",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Medir tensão e resistência e descobrir como tensão, corrente e resistência se relacionam.\n\n*Temas: Código de cores Medições Lei de Ohm*\n\n## Roteiro do encontro\n\n- 15 min Ler o código de cores e conferir com o multímetro.\n\n- 15 min Aprender a medir tensão (em paralelo) e continuidade.\n\n- 35 min Montar o circuito com três resistores diferentes e medir; observar o brilho do LED.\n\n- 25 min Preencher a tabela de medições e procurar o padrão.\n\n[[Pergunta para pensar]] O que muda quando o resistor é maior?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Medir continuidade e jogar o bingo das cores.\n\n- **Trilha B (11 a 14 anos):** Medir tensão e preencher a tabela.\n\n- **Trilha C (15 a 17 anos):** Verificar a Lei de Ohm com os dados e fazer um gráfico simples.\n\n[[Você entrega]] Tabela de medições preenchida.",
+     "notas": "**Erros comuns:**\n\n- Medir corrente com o multímetro em paralelo, causando curto. Ler o código de cores ao contrário.\n\n**Pergunta de mediação:** O que muda quando o resistor é maior?\n\n**Evidência de aprendizagem:** Tabela de medições preenchida.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 4 · Série, paralelo e simulação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Comparar LEDs em série e em paralelo, na montagem real e no simulador.\n\n*Temas: Ligação em série Ligação em paralelo Tinkercad Circuits*\n\n## Roteiro do encontro\n\n- 10 min Prever no diário o que acontecerá em cada ligação.\n\n- 30 min Montar e medir os dois circuitos; retirar um LED e observar o outro.\n\n- 35 min Reproduzir os circuitos no Tinkercad Circuits e comparar com a montagem real.\n\n- 15 min Registrar conclusões: por que as casas usam ligação em paralelo?\n\n[[Pergunta para pensar]] O que o simulador mostra que o circuito real não mostra, e o contrário?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar os dois circuitos e dizer qual acende melhor.\n\n- **Trilha B (11 a 14 anos):** Medir e explicar por que o brilho muda.\n\n- **Trilha C (15 a 17 anos):** Calcular a tensão em cada LED e propor o circuito mais eficiente.\n\n[[Você entrega]] Previsão, medição e link ou captura do Tinkercad.",
+     "notas": "**Erros comuns:**\n\n- Esquecer o resistor no ramo em paralelo. Confiar na simulação sem conferir a polaridade.\n\n**Pergunta de mediação:** O que o simulador mostra que o circuito real não mostra, e o contrário?\n\n**Evidência de aprendizagem:** Previsão, medição e link ou captura do Tinkercad.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 5 · Sensores sem código, buzzer e motor",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Construir uma luz noturna com LDR e um alarme com buzzer, classificando componentes em entradas e saídas.\n\n*Temas: LDR e potenciômetro Entradas e saídas Divisor de tensão*\n\n## Roteiro do encontro\n\n- 15 min Medir a resistência do LDR no claro e no escuro; regular o brilho com o potenciômetro.\n\n- 30 min Montar a luz noturna: LDR e LED em divisor de tensão.\n\n- 30 min Montar o alarme: chave aciona buzzer e LED; ligar um motor pequeno e inverter o sentido.\n\n- 15 min Montar o quadro de entradas e saídas.\n\n[[Pergunta para pensar]] Como o circuito 'sabe' que escureceu?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Cobrir o LDR e desenhar o que muda. Registrar resistência no escuro e na luz; montar o alarme.\n\n- **Trilha B (11 a 14 anos):** Explicar o divisor de tensão e ajustar o nível de luz.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Foto da luz noturna e quadro de entradas e saídas.",
+     "notas": "**Erros comuns:**\n\n- Posicionar o LED de modo que ilumine o próprio sensor. Deixar o buzzer ligado durante a conversa.\n\n**Pergunta de mediação:** Como o circuito 'sabe' que escureceu?\n\n**Evidência de aprendizagem:** Foto da luz noturna e quadro de entradas e saídas.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 6 · Arte e circuito e planejamento do projeto",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Criar um cartão que acende com fita de cobre e planejar o Objeto Luminoso Interativo.\n\n*Temas: STEAM Circuito em papel Planejamento*\n\n## Roteiro do encontro\n\n- 35 min Cartão ou cartaz com fita de cobre, pilha de botão e LED.\n\n- 25 min Escolher o tema do projeto a partir de uma necessidade real e esboçar três ideias.\n\n- 20 min Listar materiais, funções de cada integrante e cronograma.\n\n- 10 min Apresentar o plano em 1 minuto para outra equipe.\n\n[[Pergunta para pensar]] Para quem projetamos e como saberemos que funcionou?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Criar o cartão seguindo o molde. Criar cartaz com dois LEDs em paralelo.\n\n- **Trilha B (11 a 14 anos):** Criar cartaz com chave escondida e documentar o esquema.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Cartão funcionando e plano de uma página.",
+     "notas": "**Erros comuns:**\n\n- Cortar a fita de cobre nos cantos em vez de dobrá-la. Escolher um projeto grande demais para o tempo.\n\n**Pergunta de mediação:** Para quem projetamos e como saberemos que funcionou?\n\n**Evidência de aprendizagem:** Cartão funcionando e plano de uma página.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 7 · Projeto: construção, testes e iteração",
+     "tipo": "EXERCICIO",
+     "conteudo": "[[Meta]] Construir o objeto, testar com outras pessoas, corrigir e preparar o pôster ou vídeo.\n\n*Temas: Prototipagem rápida Teste com usuários Documentação*\n\n## Roteiro do encontro\n\n- 30 min Montar o circuito, testar fora da estrutura e construir o objeto.\n\n- 25 min Testar com um colega que não participou e listar os problemas.\n\n- 25 min Corrigir pelo menos dois problemas e registrar.\n\n- 10 min Começar o pôster ou o vídeo de 1 minuto.\n\n[[Pergunta para pensar]] O que um usuário percebeu que a equipe não percebeu?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Testar com um colega e anotar o que ele achou.\n\n- **Trilha B (11 a 14 anos):** Tabela de problemas e soluções.\n\n- **Trilha C (15 a 17 anos):** Medir a duração da bateria e propor melhoria.\n\n[[Você entrega]] Tabela de problemas e soluções; rascunho do pôster.",
+     "notas": "**Erros comuns:**\n\n- Colar tudo antes de testar. Corrigir tudo ao mesmo tempo e perder o controle.\n\n**Pergunta de mediação:** O que um usuário percebeu que a equipe não percebeu?\n\n**Evidência de aprendizagem:** Tabela de problemas e soluções; rascunho do pôster.",
+     "duracao_min": 90,
+     "exercicio": {
+      "enunciado": "Projeto do Módulo 1: Objeto Luminoso Interativo. Cada equipe cria um objeto (luminária, caixa-alarme, cartão ou escultura) que reage a uma ação, como apertar uma chave, aproximar a mão ou mudar a luz do ambiente, unindo circuito, design e uma história.\n\nEntregáveis: Esboço e lista de materiais; Circuito funcionando; Diário de bordo completo; Pôster ou vídeo de 1 minuto; Apresentação de 3 minutos na mostra.\n\nEnvie o link do vídeo ou das fotos do projeto (YouTube, Google Drive, Tinkercad…) e conte no recado o que cada integrante fez.",
+      "rubrica": [
+       "Processo: passou pelo Ciclo Maker (ideação, protótipo, teste e iteração)",
+       "Conhecimento técnico: o projeto funciona e usa o conteúdo do módulo",
+       "Colaboração: a equipe dividiu papéis e trabalhou junto",
+       "Documentação: diário de bordo com versões, fotos e aprendizados",
+       "Comunicação: apresentação clara do projeto e das decisões"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Encontro 8 · Mostra do Módulo 1 e avaliação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Apresentar o objeto, receber feedback e avaliar a própria jornada.\n\n*Temas: Apresentação Feedback Autoavaliação*\n\n## Roteiro do encontro\n\n- 15 min Montar as bancadas da mostra.\n\n- 45 min Apresentações em rodízio para outras turmas.\n\n- 20 min Rubrica da equipe e autoavaliação.\n\n- 10 min O que levar para o Módulo 2.\n\n[[Pergunta para pensar]] O que mudou na minha forma de resolver problemas?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Apresentar com cartão de desenhos. Apresentar e responder a duas perguntas.\n\n- **Trilha B (11 a 14 anos):** Apresentar e fazer uma pergunta crítica a outra equipe.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Rubrica e autoavaliação.",
+     "notas": "**Erros comuns:**\n\n- Ficar ao lado do projeto sem explicar o processo. Comparar equipes em vez de aprender com elas.\n\n**Pergunta de mediação:** O que mudou na minha forma de resolver problemas?\n\n**Evidência de aprendizagem:** Rubrica e autoavaliação.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Glossário do Módulo 1",
+     "tipo": "TEXTO",
+     "conteudo": "- **Circuito:** Caminho fechado por onde a corrente elétrica pode circular.\n\n- **Corrente:** Fluxo de cargas elétricas, medida em ampères (A).\n\n- **Tensão:** Diferença de potencial que empurra a corrente, medida em volts (V).\n\n- **Resistência:** Oposição à passagem da corrente, medida em ohms (Ω).\n\n- **LED:** Diodo emissor de luz; só funciona no sentido certo e precisa de resistor.\n\n- **Protoboard:** Placa com furos ligados por dentro, para montar circuitos sem solda.\n\n- **Curto-circuito:** Ligação direta entre os polos, sem carga, que pode esquentar e danificar.\n\n- **Prototipagem:** Construir rapidamente uma versão simples da ideia para testar.",
+     "duracao_min": 5,
+     "obrigatoria": false
+    }
+   ]
+  },
+  {
+   "titulo": "Programação: lógica e blocos visuais",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 2",
+     "tipo": "TEXTO",
+     "conteudo": "O aluno aprende a pensar como programador sem depender de sintaxe: primeiro com atividades desplugadas, depois com Scratch, Ozoblockly e Hora do Código. O módulo constrói a base lógica usada em Arduino, kits e robótica e termina com um jogo ou história interativa autoral.\n\n## O que você vai aprender\n\n- Descrever algoritmos em linguagem natural, fluxogramas e blocos.\n\n- Usar sequências, repetições, condicionais e variáveis.\n\n- Decompor problemas grandes em partes menores e reutilizar soluções.\n\n- Depurar programas encontrando e corrigindo erros de lógica.\n\n- Criar e apresentar um jogo ou história interativa.\n\n## Combinados de segurança\n\n- Fazer pausa de tela a cada 40 minutos.\n\n- Não compartilhar dados pessoais nas plataformas online.\n\n- Usar somente imagens e sons autorais ou de bibliotecas liberadas.\n\n- Cuidar da postura e da distância da tela.\n\n## Materiais\n\n- Computadores ou tablets com internet\n\n- Cartas e tabuleiro para atividades desplugadas Fita crepe e giz\n\n- Robô Ozobot (ou simulador Ozoblockly) Papel quadriculado\n\n- Cartolina e canetas Fones de ouvido",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Encontro 1 · Pensar como programador",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Escrever e executar algoritmos sem computador e resolver os primeiros desafios em blocos.\n\n*Temas: Algoritmo Decomposição Hora do Código*\n\n## Roteiro do encontro\n\n- 25 min Atividade do robô de sanduíche: a turma instrui um colega a montar um lanche.\n\n- 20 min Escrever o algoritmo de uma tarefa do dia a dia e trocar com outra equipe.\n\n- 35 min Desafios da Hora do Código; anotar os blocos usados.\n\n- 10 min Depurar uma fase com erro de propósito.\n\n[[Pergunta para pensar]] Qual instrução faltou para o colega acertar?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Executar instruções em um tabuleiro com setas.\n\n- **Trilha B (11 a 14 anos):** Escrever o algoritmo e achar passos que faltam.\n\n- **Trilha C (15 a 17 anos):** Escrever em pseudocódigo e prever o resultado.\n\n[[Você entrega]] Algoritmo do dia a dia e print da fase concluída.",
+     "notas": "**Erros comuns:**\n\n- Usar instruções vagas como 'vá até lá'. Mexer em muitos blocos ao mesmo tempo ao depurar.\n\n**Pergunta de mediação:** Qual instrução faltou para o colega acertar?\n\n**Evidência de aprendizagem:** Algoritmo do dia a dia e print da fase concluída.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 2 · Scratch: atores, cenários e eventos",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Criar uma animação com personagens que se movem, falam e reagem a eventos.\n\n*Temas: Ator e palco Movimento Eventos*\n\n## Roteiro do encontro\n\n- 15 min Conhecer a interface do Scratch.\n\n- 35 min Criar atores e cenário; programar movimento e falas.\n\n- 25 min Usar eventos: bandeira verde, tecla e clique.\n\n- 15 min Compartilhar o projeto com outra equipe e receber um comentário.\n\n[[Pergunta para pensar]] Como o ator sabe o que fazer e quando?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Animar um personagem com blocos de movimento.\n\n- **Trilha B (11 a 14 anos):** Criar dois atores que conversam.\n\n- **Trilha C (15 a 17 anos):** Usar coordenadas para um ator seguir uma trajetória.\n\n[[Você entrega]] Animação de 20 segundos.",
+     "notas": "**Erros comuns:**\n\n- Misturar scripts de vários atores. Esquecer de iniciar o programa com a bandeira verde.\n\n**Pergunta de mediação:** Como o ator sabe o que fazer e quando?\n\n**Evidência de aprendizagem:** Animação de 20 segundos.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 3 · Repetições e robôs de linha",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Usar repetições para simplificar programas, criar desenhos e programar um robô que segue linhas.\n\n*Temas: Loops Padrões Ozoblockly*\n\n## Roteiro do encontro\n\n- 30 min Desenhar formas com a extensão Caneta usando 'repetir'.\n\n- 15 min Comparar programas com e sem repetição.\n\n- 35 min Ozoblockly: desenhar caminhos com cores e programar o robô (ou o simulador).\n\n- 10 min Comparar o caminho previsto com o real.\n\n[[Pergunta para pensar]] Quantos blocos você economizou com o loop?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Desenhar um quadrado com repetições. Desenhar polígonos variando o ângulo.\n\n- **Trilha B (11 a 14 anos):** Criar uma mandala parametrizada.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Desenho final e vídeo do percurso.",
+     "notas": "**Erros comuns:**\n\n- Usar 'repetir' quando 'para sempre' seria melhor. Desenhar traços irregulares que o sensor do robô não lê.\n\n**Pergunta de mediação:** Quantos blocos você economizou com o loop?\n\n**Evidência de aprendizagem:** Desenho final e vídeo do percurso.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 4 · Condicionais: se, então, senão",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Programar decisões em um personagem e em um quiz.\n\n*Temas: Decisão Operadores lógicos Quiz*\n\n## Roteiro do encontro\n\n- 20 min Atividade desplugada com cartões de decisão.\n\n- 30 min Programar um ator que reage ao tocar a borda e a cores.\n\n- 30 min Criar um quiz de três perguntas.\n\n- 10 min Combinar condições com 'e' e 'ou'.\n\n[[Pergunta para pensar]] O que acontece se nenhuma condição for verdadeira?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Criar um quiz com múltipla escolha. Criar um quiz com contagem de acertos.\n\n- **Trilha B (11 a 14 anos):** Criar um jogo com mais de uma condição.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Quiz funcionando.",
+     "notas": "**Erros comuns:**\n\n- Confundir 'e' com 'ou'. Esquecer o caso do 'senão'.\n\n**Pergunta de mediação:** O que acontece se nenhuma condição for verdadeira?\n\n**Evidência de aprendizagem:** Quiz funcionando.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 5 · Variáveis, mensagens e blocos próprios",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Criar placar, vidas e temporizador, organizando o código com mensagens e blocos personalizados.\n\n*Temas: Variável Mensagem Reuso*\n\n## Roteiro do encontro\n\n- 30 min Criar variáveis 'pontos' e 'vidas' e o fim de jogo.\n\n- 20 min Sincronizar atores com 'enviar mensagem'.\n\n- 30 min Criar um bloco personalizado para uma ação repetida.\n\n- 10 min Comentar o código para outras pessoas.\n\n[[Pergunta para pensar]] Que valores o jogo precisa guardar para funcionar?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Contar cliques em um jogo simples. Criar jogo com pontos e fim de jogo.\n\n- **Trilha B (11 a 14 anos):** Refatorar um projeto usando blocos próprios.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Jogo com placar.",
+     "notas": "**Erros comuns:**\n\n- Não reiniciar a variável quando o jogo começa. Criar blocos grandes demais.\n\n**Pergunta de mediação:** Que valores o jogo precisa guardar para funcionar?\n\n**Evidência de aprendizagem:** Jogo com placar.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 6 · Projeto: roteiro e construção",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Escolher o tema, planejar e construir o núcleo do jogo ou da história.\n\n*Temas: Empatia Roteiro Prototipagem*\n\n## Roteiro do encontro\n\n- 20 min Escolher um desafio da comunidade escolar como tema.\n\n- 20 min Escrever o roteiro e o fluxograma; desenhar o storyboard.\n\n- 40 min Criar atores, cenários e sons; programar o fluxo principal.\n\n- 10 min Apresentar o plano a outra equipe.\n\n[[Pergunta para pensar]] Quem vai jogar e o que ele deve sentir ou aprender?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Escolher o tema e desenhar as cenas. Escrever o roteiro com início, meio e fim.\n\n- **Trilha B (11 a 14 anos):** Definir requisitos e métricas de teste.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Roteiro, fluxograma e versão 1.",
+     "notas": "**Erros comuns:**\n\n- Escolher um projeto complexo demais. Importar imagens com direitos autorais.\n\n**Pergunta de mediação:** Quem vai jogar e o que ele deve sentir ou aprender?\n\n**Evidência de aprendizagem:** Roteiro, fluxograma e versão 1.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 7 · Projeto: testes, iteração e documentação",
+     "tipo": "EXERCICIO",
+     "conteudo": "[[Meta]] Testar com colegas, corrigir bugs e preparar a apresentação.\n\n*Temas: Teste com usuários Depuração Portfólio*\n\n## Roteiro do encontro\n\n- 30 min Outra equipe joga sem instruções; anotar o que causou confusão.\n\n- 30 min Corrigir pelo menos três problemas.\n\n- 20 min Gravar o vídeo de demonstração.\n\n- 10 min Escrever o 'como jogar' e os créditos.\n\n[[Pergunta para pensar]] O que o usuário fez que você não imaginava?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Observar um colega jogando e anotar. Tabela de bugs e correções.\n\n- **Trilha B (11 a 14 anos):** Ajustar a dificuldade com base em medições.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Tabela de problemas, vídeo e créditos.",
+     "notas": "**Erros comuns:**\n\n- Defender o jogo em vez de ouvir o usuário. Esquecer os créditos de imagens e sons.\n\n**Pergunta de mediação:** O que o usuário fez que você não imaginava?\n\n**Evidência de aprendizagem:** Tabela de problemas, vídeo e créditos.",
+     "duracao_min": 90,
+     "exercicio": {
+      "enunciado": "Projeto do Módulo 2: . \n\nEntregáveis: .\n\nEnvie o link do vídeo ou das fotos do projeto (YouTube, Google Drive, Tinkercad…) e conte no recado o que cada integrante fez.",
+      "rubrica": [
+       "Processo: passou pelo Ciclo Maker (ideação, protótipo, teste e iteração)",
+       "Conhecimento técnico: o projeto funciona e usa o conteúdo do módulo",
+       "Colaboração: a equipe dividiu papéis e trabalhou junto",
+       "Documentação: diário de bordo com versões, fotos e aprendizados",
+       "Comunicação: apresentação clara do projeto e das decisões"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Encontro 8 · Mostra do Módulo 2 e avaliação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Apresentar os jogos e histórias e avaliar a jornada.\n\n*Temas: Apresentação Feedback Autoavaliação*\n\n## Roteiro do encontro\n\n- 15 min Montar a feira de jogos.\n\n- 45 min Apresentar e receber perguntas.\n\n- 20 min Rubrica e autoavaliação.\n\n- 10 min O que levar para o Módulo 3.\n\n[[Pergunta para pensar]] O que aprendi sobre lógica que vou usar em hardware?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Apresentar com roteiro de apoio. Apresentar e responder perguntas.\n\n- **Trilha B (11 a 14 anos):** Apresentar e comentar criticamente outro projeto.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Rubrica e autoavaliação.",
+     "notas": "**Erros comuns:**\n\n- Deixar o público jogar sem contexto. Comparar notas em vez de aprender.\n\n**Pergunta de mediação:** O que aprendi sobre lógica que vou usar em hardware?\n\n**Evidência de aprendizagem:** Rubrica e autoavaliação.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Glossário do Módulo 2",
+     "tipo": "TEXTO",
+     "conteudo": "- **Algoritmo:** Sequência finita de passos para resolver um problema.\n\n- **Loop:** Estrutura que repete uma ação.\n\n- **Condicional:** Decisão do tipo se/então/senão.\n\n- **Variável:** Espaço nomeado que guarda um valor que pode mudar.\n\n- **Bug:** Erro que faz o programa se comportar de forma inesperada.\n\n- **Depurar:** Procurar e corrigir bugs.\n\n- **Evento:** Algo que dispara um programa, como um clique.\n\n- **Fluxograma:** Diagrama dos passos e decisões de um algoritmo.",
+     "duracao_min": 5,
+     "obrigatoria": false
+    }
+   ]
+  },
+  {
+   "titulo": "Arduino básico: hardware programável",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 3",
+     "tipo": "TEXTO",
+     "conteudo": "O código ganha o poder de interagir com o ambiente. Os alunos conhecem o Arduino como cérebro (processamento), entradas (sensores) e saídas (atuadores), começam em blocos e no simulador e passam ao código C/C++ na Arduino IDE. O módulo termina com um sistema que lê o ambiente e reage a ele.\n\n## O que você vai aprender\n\n- Explicar a função de entrada, processamento e saída em um sistema com Arduino.\n\n- Escrever programas com setup(), loop(), variáveis e condicionais.\n\n- Ler sensores digitais e analógicos e acionar LEDs, buzzer e servomotor.\n\n- Usar o monitor serial para observar valores e depurar.\n\n- Montar, testar e documentar um projeto com sensor e atuador.\n\n## Combinados de segurança\n\n- Montar e alterar circuitos sempre com a placa desconectada do USB.\n\n- Nunca ligar motores diretamente aos pinos da placa; usar driver ou módulo apropriado.\n\n- Respeitar a polaridade e o limite de corrente dos pinos.\n\n- Soldagem apenas na Trilha C, com supervisão.\n\n## Materiais\n\n- Placa Arduino Uno (ou compatível) com cabo USB\n\n- Protoboard, jumpers, LEDs e resistores\n\n- Botões, LDR, potenciômetro e buzzer Sensor ultrassônico HC-SR04\n\n- Servomotor SG90\n\n- Computador com Arduino IDE e acesso ao Tinkercad Circuits\n\n## Projeto do módulo\n\n**Estação Inteligente:** Cada equipe cria um sistema com pelo menos um sensor e um atuador que resolve um problema do cotidiano escolar: um alarme de porta, um medidor de distância para o estacionamento de bicicletas, uma luz que acende ao anoitecer ou um comedouro automático.\n\n**Entregáveis:**\n\n- Esquema elétrico e lista de componentes\n\n- Código comentado\n\n- Vídeo de demonstração de 1 minuto\n\n- Registro de testes no diário\n\n- Apresentação de 3 minutos na mostra",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Encontro 1 · Conhecendo o Arduino",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Conhecer a placa, a IDE e o simulador e fazer o LED da placa piscar.\n\n*Temas: Entrada, processamento e saída setup() e loop() Arduino IDE*\n\n## Roteiro do encontro\n\n- 20 min Explorar a placa: pinos, USB, microcontrolador e alimentação.\n\n- 20 min Instalar ou abrir a IDE, escolher a placa e a porta.\n\n- 30 min Carregar o exemplo Blink e alterar o tempo de espera.\n\n- 20 min Reproduzir no Tinkercad Circuits e comparar.\n\n[[Pergunta para pensar]] O que a placa faz quando não há código?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Identificar as partes da placa e rodar o Blink com ajuda.\n\n- **Trilha B (11 a 14 anos):** Alterar o tempo e explicar o que cada linha faz.\n\n- **Trilha C (15 a 17 anos):** Piscar um padrão (SOS) com variáveis.\n\n[[Você entrega]] Foto da placa com as partes nomeadas e Blink funcionando.",
+     "notas": "**Erros comuns:**\n\n- Selecionar a placa ou a porta errada. Esquecer o ponto e vírgula.\n\n**Pergunta de mediação:** O que a placa faz quando não há código?\n\n**Evidência de aprendizagem:** Foto da placa com as partes nomeadas e Blink funcionando.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 2 · Saídas digitais: LEDs e semáforo",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Montar um circuito externo com LEDs e programar um semáforo. pinMode e digitalWrite Variáveis Sequências\n\n## Roteiro do encontro\n\n- 20 min Montar um LED com resistor no pino 9.\n\n- 30 min Programar a sequência de um semáforo com três LEDs.\n\n- 25 min Usar variáveis para o tempo de cada cor.\n\n- 15 min Depurar um erro proposto pelo professor.\n\n[[Pergunta para pensar]] Qual linha define quanto tempo cada cor fica acesa?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar o semáforo seguindo o esquema. Programar o semáforo com variáveis.\n\n- **Trilha B (11 a 14 anos):** Acrescentar um semáforo de pedestres sincronizado.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Código e foto do semáforo.",
+     "notas": "**Erros comuns:**\n\n- Ligar o LED invertido. Esquecer de declarar o pino como saída.\n\n**Pergunta de mediação:** Qual linha define quanto tempo cada cor fica acesa?\n\n**Evidência de aprendizagem:** Código e foto do semáforo.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 3 · Entradas digitais: botões e decisões",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Ler um botão e programar decisões. digitalRead if e else Pull-up e pull-down\n\n## Roteiro do encontro\n\n- 20 min Montar o botão com resistor ou INPUT_PULLUP.\n\n- 30 min Acender o LED enquanto o botão está pressionado.\n\n- 25 min Fazer o botão alternar o estado do LED.\n\n- 15 min Discutir o efeito de 'bounce' do botão.\n\n[[Pergunta para pensar]] Por que o LED às vezes pisca sozinho?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar o botão com ajuda. Programar a alternância do LED.\n\n- **Trilha B (11 a 14 anos):** Criar um cadeado eletrônico com sequência de botões.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Código e vídeo do botão funcionando.",
+     "notas": "**Erros comuns:**\n\n- Deixar a entrada 'flutuando' sem resistor. Confundir o valor lido com botão pressionado.\n\n**Pergunta de mediação:** Por que o LED às vezes pisca sozinho?\n\n**Evidência de aprendizagem:** Código e vídeo do botão funcionando.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 4 · Entradas analógicas e monitor serial",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Ler LDR e potenciômetro e observar valores no monitor serial. analogRead Serial.print Mapeamento de valores\n\n## Roteiro do encontro\n\n- 20 min Ligar o potenciômetro e ler no monitor serial.\n\n- 25 min Ligar o LDR em divisor de tensão e observar a variação.\n\n- 30 min Usar o valor lido para decidir: acender o LED abaixo de um limite.\n\n- 15 min Registrar os valores em tabela.\n\n[[Pergunta para pensar]] Como a placa transforma luz em número?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Observar os valores e descrever o que muda.\n\n- **Trilha B (11 a 14 anos):** Definir o limite do LDR e testar.\n\n- **Trilha C (15 a 17 anos):** Usar map() para converter a leitura em outra faixa.\n\n[[Você entrega]] Tabela de leituras e código.",
+     "notas": "**Erros comuns:**\n\n- Misturar o pino analógico com o digital. Usar um limite que não considera a luz da sala.\n\n**Pergunta de mediação:** Como a placa transforma luz em número?\n\n**Evidência de aprendizagem:** Tabela de leituras e código.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 5 · Saídas analógicas: PWM e buzzer",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Controlar o brilho de um LED e tocar notas com o buzzer. analogWrite PWM tone()\n\n## Roteiro do encontro\n\n- 25 min Controlar o brilho do LED com o potenciômetro.\n\n- 25 min Fazer o LED 'respirar' com um laço for.\n\n- 30 min Tocar uma melodia curta com tone().\n\n- 10 min Combinar sensor de luz e brilho automático.\n\n[[Pergunta para pensar]] Qual é a diferença entre ligar um LED pela metade e reduzir a tensão?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Fazer o LED 'respirar' com o código base. Controlar brilho e som com o potenciômetro.\n\n- **Trilha B (11 a 14 anos):** Criar um instrumento musical com botões.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Código e vídeo.",
+     "notas": "**Erros comuns:**\n\n- Usar pino sem PWM com analogWrite. Deixar o buzzer sem pausa entre as notas.\n\n**Pergunta de mediação:** Qual é a diferença entre ligar um LED pela metade e reduzir a tensão?\n\n**Evidência de aprendizagem:** Código e vídeo.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 6 · Ultrassônico, servo e planejamento do projeto",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Medir distância, mover um servomotor e planejar a Estação Inteligente.\n\n*Temas: Sensor de distância Servomotor Planejamento*\n\n## Roteiro do encontro\n\n- 25 min Medir distância com o HC-SR04 e mostrar no monitor serial.\n\n- 20 min Mover o servomotor para ângulos definidos.\n\n- 20 min Combinar: o servo se move quando alguém se aproxima.\n\n- 25 min Escolher o problema do projeto, listar sensor e atuador e esboçar o esquema.\n\n[[Pergunta para pensar]] Que problema real a nossa estação resolve?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Observar a distância e mover o servo com código pronto.\n\n- **Trilha B (11 a 14 anos):** Criar um 'portão automático'.\n\n- **Trilha C (15 a 17 anos):** Planejar o projeto com requisitos e critérios de teste.\n\n[[Você entrega]] Plano do projeto e esquema.",
+     "notas": "**Erros comuns:**\n\n- Alimentar o servo pelo pino de 5 V sem cuidado com a corrente. Escolher um projeto com muitos componentes.\n\n**Pergunta de mediação:** Que problema real a nossa estação resolve?\n\n**Evidência de aprendizagem:** Plano do projeto e esquema.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 7 · Projeto: construção, testes e documentação",
+     "tipo": "EXERCICIO",
+     "conteudo": "[[Meta]] Montar a Estação Inteligente, testar, corrigir e gravar o vídeo.\n\n*Temas: Integração Depuração Documentação*\n\n## Roteiro do encontro\n\n- 35 min Montar o circuito e programar o comportamento principal.\n\n- 25 min Testar com outra equipe e listar problemas.\n\n- 20 min Corrigir e comentar o código.\n\n- 10 min Gravar o vídeo de demonstração.\n\n[[Pergunta para pensar]] O que o sistema faz quando o sensor falha?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar com roteiro e testar com o professor.\n\n- **Trilha B (11 a 14 anos):** Testar, anotar problemas e corrigir.\n\n- **Trilha C (15 a 17 anos):** Otimizar o código e documentar a lógica em fluxograma.\n\n[[Você entrega]] Código comentado e vídeo.",
+     "notas": "**Erros comuns:**\n\n- Alterar vários pontos de uma vez e perder o controle. Esquecer de salvar versões do código.\n\n**Pergunta de mediação:** O que o sistema faz quando o sensor falha?\n\n**Evidência de aprendizagem:** Código comentado e vídeo.",
+     "duracao_min": 90,
+     "exercicio": {
+      "enunciado": "Projeto do Módulo 3: Estação Inteligente. Cada equipe cria um sistema com pelo menos um sensor e um atuador que resolve um problema do cotidiano escolar: um alarme de porta, um medidor de distância para o estacionamento de bicicletas, uma luz que acende ao anoitecer ou um comedouro automático.\n\nEntregáveis: Esquema elétrico e lista de componentes; Código comentado; Vídeo de demonstração de 1 minuto; Registro de testes no diário; Apresentação de 3 minutos na mostra.\n\nEnvie o link do vídeo ou das fotos do projeto (YouTube, Google Drive, Tinkercad…) e conte no recado o que cada integrante fez.",
+      "rubrica": [
+       "Processo: passou pelo Ciclo Maker (ideação, protótipo, teste e iteração)",
+       "Conhecimento técnico: o projeto funciona e usa o conteúdo do módulo",
+       "Colaboração: a equipe dividiu papéis e trabalhou junto",
+       "Documentação: diário de bordo com versões, fotos e aprendizados",
+       "Comunicação: apresentação clara do projeto e das decisões"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Encontro 8 · Mostra do Módulo 3 e avaliação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Apresentar a Estação Inteligente e avaliar a jornada.\n\n*Temas: Apresentação Feedback Autoavaliação*\n\n## Roteiro do encontro\n\n- 15 min Montar a feira de projetos.\n\n- 45 min Apresentações em rodízio.\n\n- 20 min Rubrica e autoavaliação.\n\n- 10 min O que levar para o Módulo 4.\n\n[[Pergunta para pensar]] Que projeto eu faria agora que antes eu não saberia fazer?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Apresentar com cartão de apoio. Apresentar e responder perguntas.\n\n- **Trilha B (11 a 14 anos):** Apresentar e fazer uma pergunta crítica a outra equipe.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Rubrica e autoavaliação.",
+     "notas": "**Erros comuns:**\n\n- Mostrar apenas o resultado sem explicar o código. Comparar equipes em vez de aprender.\n\n**Pergunta de mediação:** Que projeto eu faria agora que antes eu não saberia fazer?\n\n**Evidência de aprendizagem:** Rubrica e autoavaliação.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Glossário do Módulo 3",
+     "tipo": "TEXTO",
+     "conteudo": "- **Microcontrolador:** Pequeno computador em um chip que roda o programa.\n\n- **Pino digital:** Porta que lê ou envia apenas HIGH (ligado) ou LOW (desligado).\n\n- **Pino analógico:** Porta que lê uma faixa de valores, de 0 a 1023.\n\n- **PWM:** Modulação por largura de pulso; simula uma saída analógica. setup()\n\n- **Função executada uma vez ao ligar a placa. loop():** Função executada repetidamente.\n\n- **Monitor serial:** Janela que mostra os dados enviados pela placa ao computador.\n\n- **Servomotor:** Motor que gira até um ângulo definido.",
+     "duracao_min": 5,
+     "obrigatoria": false
+    }
+   ]
+  },
+  {
+   "titulo": "Kits educacionais: RoboLat e micro:bit",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 4",
+     "tipo": "TEXTO",
+     "conteudo": "Os kits educacionais aceleram a passagem da ideia ao protótipo. Os alunos operam a plataforma RoboLat e a micro:bit, trabalhando em equipe para dominar, adaptar e inovar na criação de atividades práticas. O módulo termina com uma atividade prática criada pelos alunos para outra turma.\n\n## O que você vai aprender\n\n- Operar o hardware e o software dos kits RoboLat e micro:bit.\n\n- Programar a micro:bit em blocos (MakeCode) e em Python.\n\n- Usar sensores embutidos e comunicação por rádio.\n\n- Adaptar um projeto a diferentes materiais, incluindo papelão e reciclados.\n\n- Criar e conduzir uma atividade prática para outra turma.\n\n## Combinados de segurança\n\n- Seguir o manual do kit para montagem e alimentação.\n\n- Evitar curto-circuito nos pinos e nos conectores das placas.\n\n- Guardar peças pequenas em caixas identificadas.\n\n- Supervisão do professor em ferramentas de corte.\n\n## Materiais\n\n- Kits RoboLat (conforme manual do fabricante)\n\n- Placas micro:bit v2 com cabo USB Pilhas e porta-pilhas\n\n- Papelão, cartolina, tesoura e cola Fita adesiva, elásticos e clipes\n\n- Computador com navegador\n\n## Projeto do módulo\n\n**Minha Atividade Prática:** Cada equipe cria uma atividade prática curta (um jogo, um desafio ou uma demonstração) com um dos kits e a conduz com outra turma, usando papelão e materiais diversos para adaptar o projeto.\n\n**Entregáveis:**\n\n- Roteiro da atividade\n\n- Protótipo funcionando\n\n- Guia de uma página para o professor da outra turma\n\n- Registro da aplicação com feedback\n\n- Apresentação de 3 minutos na mostra",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Encontro 1 · Conhecendo os kits",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Conhecer o conteúdo e a plataforma de cada kit e rodar o primeiro programa.\n\n*Temas: RoboLat micro:bit MakeCode*\n\n## Roteiro do encontro\n\n- 20 min Explorar o kit RoboLat e conferir as peças pela lista.\n\n- 25 min Conhecer a micro:bit e abrir o MakeCode.\n\n- 30 min Fazer 'coração pulsante' e 'nome no display' na micro:bit.\n\n- 15 min Registrar o que cada kit faz de melhor.\n\n[[Pergunta para pensar]] Em que cada kit é mais indicado?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Conferir peças e rodar o primeiro programa em blocos.\n\n- **Trilha B (11 a 14 anos):** Alterar o desenho do display.\n\n- **Trilha C (15 a 17 anos):** Escrever o mesmo programa em Python.\n\n[[Você entrega]] Lista conferida e primeiro programa.",
+     "notas": "**Erros comuns:**\n\n- Perder peças pequenas. Não ler o manual antes de montar.\n\n**Pergunta de mediação:** Em que cada kit é mais indicado?\n\n**Evidência de aprendizagem:** Lista conferida e primeiro programa.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 2 · micro:bit: display, botões e jogos",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Criar um jogo de reação e um dado eletrônico.\n\n*Temas: Eventos Variáveis Loops*\n\n## Roteiro do encontro\n\n- 25 min Programar os botões A e B para mudar o que aparece.\n\n- 30 min Criar o dado eletrônico que sorteia números ao agitar.\n\n- 25 min Criar um jogo de reação com pontuação.\n\n- 10 min Testar com outra equipe.\n\n[[Pergunta para pensar]] O que faz o programa esperar o momento certo?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Dado eletrônico com blocos prontos. Jogo de reação com pontos.\n\n- **Trilha B (11 a 14 anos):** Jogo com níveis e tempo.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Jogo ou dado funcionando.",
+     "notas": "**Erros comuns:**\n\n- Esquecer de reiniciar a pontuação. Usar blocos fora do evento correto.\n\n**Pergunta de mediação:** O que faz o programa esperar o momento certo?\n\n**Evidência de aprendizagem:** Jogo ou dado funcionando.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 3 · micro:bit: sensores e rádio",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Usar os sensores da placa e comunicar duas micro:bits por rádio.\n\n*Temas: Acelerômetro Temperatura e luz Rádio*\n\n## Roteiro do encontro\n\n- 25 min Medir temperatura e luz e mostrar no display.\n\n- 25 min Usar o acelerômetro para um nível de bolha.\n\n- 30 min Enviar mensagens entre duas placas.\n\n- 10 min Registrar o alcance do rádio.\n\n[[Pergunta para pensar]] Que informações o ambiente nos dá sem precisar de um sensor externo?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Ler a temperatura e mostrar. Criar o nível de bolha.\n\n- **Trilha B (11 a 14 anos):** Criar um 'quente ou frio' por rádio.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Código e vídeo.",
+     "notas": "**Erros comuns:**\n\n- Usar o mesmo grupo de rádio em equipes diferentes. Misturar mensagens de texto e número.\n\n**Pergunta de mediação:** Que informações o ambiente nos dá sem precisar de um sensor externo?\n\n**Evidência de aprendizagem:** Código e vídeo.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 4 · RoboLat: operação e desafios",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Operar o RoboLat e cumprir um desafio em equipe.\n\n*Temas: Hardware proprietário Atuadores Desafios práticos*\n\n## Roteiro do encontro\n\n- 15 min Revisar o manual e a montagem do módulo escolhido.\n\n- 35 min Programar o movimento básico no software do kit.\n\n- 30 min Desafio: cumprir uma tarefa em um mapa (professor define).\n\n- 10 min Registrar ajustes.\n\n[[Pergunta para pensar]] Qual ajuste mais mudou o resultado?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar o módulo e executar o desafio com ajuda.\n\n- **Trilha B (11 a 14 anos):** Programar o desafio e ajustar os parâmetros.\n\n- **Trilha C (15 a 17 anos):** Otimizar o tempo e documentar a estratégia.\n\n[[Você entrega]] Registro do desafio.",
+     "notas": "**Erros comuns:**\n\n- Pular etapas da calibração. Mudar o programa sem testar.\n\n**Pergunta de mediação:** Qual ajuste mais mudou o resultado?\n\n**Evidência de aprendizagem:** Registro do desafio.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 5 · Desafio de adaptação com papelão",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Adaptar um projeto da micro:bit usando papelão e materiais reciclados.\n\n*Temas: Prototipagem rápida Materiais diversos Design*\n\n## Roteiro do encontro\n\n- 15 min Escolher um projeto (porta-retrato animado, termômetro, jogo de tabuleiro).\n\n- 40 min Construir a estrutura e integrar a placa.\n\n- 25 min Testar e ajustar.\n\n- 10 min Documentar com fotos.\n\n[[Pergunta para pensar]] O que mudou no projeto quando mudamos o material?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Seguir o modelo e personalizar. Criar a estrutura e integrar o sensor.\n\n- **Trilha B (11 a 14 anos):** Documentar o processo em tutorial.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Protótipo e fotos.",
+     "notas": "**Erros comuns:**\n\n- Cobrir sensores com a estrutura. Não prever acesso às pilhas.\n\n**Pergunta de mediação:** O que mudou no projeto quando mudamos o material?\n\n**Evidência de aprendizagem:** Protótipo e fotos.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 6 · Projeto: planejamento e construção",
+     "tipo": "EXERCICIO",
+     "conteudo": "[[Meta]] Criar a atividade prática que será aplicada a outra turma.\n\n*Temas: Roteiro de atividade Construção Teste*\n\n## Roteiro do encontro\n\n- 15 min Definir o público e a meta da atividade.\n\n- 40 min Construir o protótipo e o material de apoio.\n\n- 25 min Testar com colega e ajustar.\n\n- 10 min Escrever o guia de uma página.\n\n[[Pergunta para pensar]] Como uma pessoa que nunca viu o projeto vai usá-lo?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Criar uma atividade simples com roteiro pronto.\n\n- **Trilha B (11 a 14 anos):** Criar a atividade com protótipo e guia.\n\n- **Trilha C (15 a 17 anos):** Criar variações para diferentes idades.\n\n[[Você entrega]] Protótipo e guia.",
+     "notas": "**Erros comuns:**\n\n- Planejar uma atividade longa demais para o tempo. Escrever um guia que não explica o material.\n\n**Pergunta de mediação:** Como uma pessoa que nunca viu o projeto vai usá-lo?\n\n**Evidência de aprendizagem:** Protótipo e guia.",
+     "duracao_min": 90,
+     "exercicio": {
+      "enunciado": "Projeto do Módulo 4: Minha Atividade Prática. Cada equipe cria uma atividade prática curta (um jogo, um desafio ou uma demonstração) com um dos kits e a conduz com outra turma, usando papelão e materiais diversos para adaptar o projeto.\n\nEntregáveis: Roteiro da atividade; Protótipo funcionando; Guia de uma página para o professor da outra turma; Registro da aplicação com feedback; Apresentação de 3 minutos na mostra.\n\nEnvie o link do vídeo ou das fotos do projeto (YouTube, Google Drive, Tinkercad…) e conte no recado o que cada integrante fez.",
+      "rubrica": [
+       "Processo: passou pelo Ciclo Maker (ideação, protótipo, teste e iteração)",
+       "Conhecimento técnico: o projeto funciona e usa o conteúdo do módulo",
+       "Colaboração: a equipe dividiu papéis e trabalhou junto",
+       "Documentação: diário de bordo com versões, fotos e aprendizados",
+       "Comunicação: apresentação clara do projeto e das decisões"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Encontro 7 · Mostra do Módulo 4: aplicação e avaliação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Aplicar a atividade a outra turma, coletar feedback e avaliar a jornada.\n\n*Temas: Aplicação Feedback Autoavaliação*\n\n## Roteiro do encontro\n\n- 10 min Preparar as bancadas.\n\n- 45 min Aplicar a atividade a outra turma em rodízio.\n\n- 20 min Coletar feedback e preencher a rubrica.\n\n- 15 min Autoavaliação e o que levar para o Módulo 5.\n\n[[Pergunta para pensar]] O que faríamos diferente se aplicássemos a atividade novamente?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Conduzir a atividade com apoio. Conduzir e coletar feedback escrito.\n\n- **Trilha B (11 a 14 anos):** Conduzir e propor melhorias baseadas em dados.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Rubrica e autoavaliação.",
+     "notas": "**Erros comuns:**\n\n- Explicar demais e deixar pouco tempo para a prática. Ignorar o feedback.\n\n**Pergunta de mediação:** O que faríamos diferente se aplicássemos a atividade novamente?\n\n**Evidência de aprendizagem:** Rubrica e autoavaliação.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Glossário do Módulo 4",
+     "tipo": "TEXTO",
+     "conteudo": "- **Kit educacional:** Conjunto de peças, sensores e software preparado para o ensino.\n\n- **MakeCode:** Editor online de blocos e Python da micro:bit.\n\n- **Acelerômetro:** Sensor que mede inclinação e movimento.\n\n- **Rádio:** Comunicação sem fio entre duas ou mais placas.\n\n- **Atuador:** Componente que age no ambiente, como motor ou alto-falante.\n\n- **Adaptar:** Mudar um projeto para funcionar com outros materiais.\n\n- **Desafio prático:** Atividade curta com meta clara e critérios de sucesso.\n\n- **Guia do professor:** Documento que explica como aplicar uma atividade.",
+     "duracao_min": 5,
+     "obrigatoria": false
+    }
+   ]
+  },
+  {
+   "titulo": "Robótica: complexidade e autonomia",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 5",
+     "tipo": "TEXTO",
+     "conteudo": "O módulo integra engenharia, programação e inteligência. Os alunos estudam o chassi (cinemática básica), o sistema nervoso (sensores, navegação e interação com o ambiente) e o cérebro avançado (controladores e IA), passando por SPIKE Prime, ESP32 e aprofundamento da micro:bit. O módulo termina com um robô que cumpre uma missão.\n\n## O que você vai aprender\n\n- Descrever as partes de um robô: chassi, sensores, atuadores e controlador.\n\n- Montar e programar robôs com SPIKE Prime para tarefas de navegação.\n\n- Usar ESP32 para comunicação sem fio e leitura de sensores.\n\n- Aprofundar a micro:bit com rádio e controle remoto.\n\n- Entender, de forma básica, como um sistema aprende com dados.\n\n## Combinados de segurança\n\n- Manter o robô longe das bordas da mesa durante os testes.\n\n- Cuidar de cabos e baterias; desligar antes de mexer na eletrônica.\n\n- Respeitar o limite de corrente das placas e dos motores.\n\n- Evitar câmera e microfone sem autorização; respeitar a privacidade.\n\n## Materiais\n\n- Kits LEGO Education SPIKE Prime Placas ESP32 com cabo USB\n\n- Placas micro:bit e driver de motor Sensores de distância, cor e linha\n\n- Pista de testes com fita e tapete\n\n- Computador com Arduino IDE e software SPIKE\n\n- Webcam ou câmera do computador\n\n## Projeto do módulo\n\n**Robô de Missão:** Cada equipe constrói e programa um robô que cumpre uma missão em uma pista: seguir linha, evitar obstáculos, transportar um objeto ou reagir a comandos remotos. Uma equipe de apoio explica o que o robô decide sozinho e o que depende do controle humano.\n\n**Entregáveis:**\n\n- Projeto mecânico e de eletrônica documentado\n\n- Programa comentado\n\n- Vídeo da missão\n\n- Registro de testes e melhorias\n\n- Apresentação de 3 minutos na mostra",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Encontro 1 · O que é um robô",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Identificar as partes de um robô e planejar uma estrutura de movimento.\n\n*Temas: Chassi Sensores e atuadores Controlador*\n\n## Roteiro do encontro\n\n- 20 min Analisar imagens e vídeos de robôs e listar as funções.\n\n- 25 min Quadro: chassi, sistema nervoso e cérebro.\n\n- 35 min Primeira montagem do chassi com rodas.\n\n- 10 min Registrar dúvidas.\n\n[[Pergunta para pensar]] O que o robô precisa saber do mundo para agir?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Montar o chassi com ajuda e nomear as partes.\n\n- **Trilha B (11 a 14 anos):** Montar e explicar como o robô se move.\n\n- **Trilha C (15 a 17 anos):** Comparar tração diferencial e outras possibilidades.\n\n[[Você entrega]] Quadro preenchido e foto do chassi.",
+     "notas": "**Erros comuns:**\n\n- Montar eixos mal alinhados. Confundir sensor com atuador.\n\n**Pergunta de mediação:** O que o robô precisa saber do mundo para agir?\n\n**Evidência de aprendizagem:** Quadro preenchido e foto do chassi.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 2 · SPIKE Prime: montagem e motores",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Programar o robô para andar distâncias medidas e fazer curvas.\n\n*Temas: Motores Rotação e distância Blocos*\n\n## Roteiro do encontro\n\n- 15 min Conhecer o app SPIKE e a conexão do hub.\n\n- 30 min Andar uma distância e girar um ângulo.\n\n- 30 min Calibrar o robô para percorrer um quadrado de 50 cm.\n\n- 15 min Registrar o erro e propor ajustes.\n\n[[Pergunta para pensar]] O que faz o robô errar o quadrado?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Seguir o programa guiado para andar em linha reta.\n\n- **Trilha B (11 a 14 anos):** Calibrar o quadrado.\n\n- **Trilha C (15 a 17 anos):** Calcular a distância pela circunferência da roda.\n\n[[Você entrega]] Tabela de calibrações.",
+     "notas": "**Erros comuns:**\n\n- Medir a distância com a roda no ar. Mudar vários parâmetros ao mesmo tempo.\n\n**Pergunta de mediação:** O que faz o robô errar o quadrado?\n\n**Evidência de aprendizagem:** Tabela de calibrações.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 3 · SPIKE Prime: sensores e navegação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Usar sensores para seguir uma linha e evitar obstáculos.\n\n*Temas: Sensor de cor Sensor de distância Seguir linha*\n\n## Roteiro do encontro\n\n- 20 min Ler o sensor de cor e o de distância e observar valores.\n\n- 35 min Programar o robô para seguir linha com decisão simples.\n\n- 25 min Parar ou desviar de um obstáculo.\n\n- 10 min Comparar estratégias.\n\n[[Pergunta para pensar]] Qual regra faz o robô decidir para onde ir?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Seguir linha com programa-base. Seguir linha e parar diante de obstáculos.\n\n- **Trilha B (11 a 14 anos):** Implementar controle proporcional simples.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Vídeo do percurso.",
+     "notas": "**Erros comuns:**\n\n- Usar uma pista com reflexos. Usar velocidade alta demais.\n\n**Pergunta de mediação:** Qual regra faz o robô decidir para onde ir?\n\n**Evidência de aprendizagem:** Vídeo do percurso.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 4 · ESP32: comunicação e sensores",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Conhecer o ESP32, programá-lo na Arduino IDE e enviar dados por rede.\n\n*Temas: ESP32 Wi-Fi e Bluetooth Leitura de sensores*\n\n## Roteiro do encontro\n\n- 15 min Comparar ESP32 e Arduino Uno.\n\n- 30 min Instalar a placa na IDE e rodar um Blink.\n\n- 30 min Ler um sensor e mostrar os valores.\n\n- 15 min Enviar os dados para um celular por Bluetooth ou página local.\n\n[[Pergunta para pensar]] O que muda quando o robô consegue conversar com outro dispositivo?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Rodar o Blink e ler o sensor com código pronto.\n\n- **Trilha B (11 a 14 anos):** Mostrar valores em página local.\n\n- **Trilha C (15 a 17 anos):** Controlar um LED pelo celular.\n\n[[Você entrega]] Código e print da leitura.",
+     "notas": "**Erros comuns:**\n\n- Usar pinos que não existem em todas as placas. Conectar a uma rede sem permissão da escola.\n\n**Pergunta de mediação:** O que muda quando o robô consegue conversar com outro dispositivo?\n\n**Evidência de aprendizagem:** Código e print da leitura.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 5 · micro:bit aprofundado: controle remoto",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Controlar um robô com outra micro:bit.\n\n*Temas: Rádio Controle remoto Driver de motor*\n\n## Roteiro do encontro\n\n- 15 min Rever o rádio com mensagens.\n\n- 35 min Programar o controle com acelerômetro e botões.\n\n- 30 min Conectar ao driver de motor e testar.\n\n- 10 min Ajustar sensibilidade e segurança.\n\n[[Pergunta para pensar]] O que o robô faz se o controle desligar?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Usar o controle com programa pronto. Programar o controle e a recepção.\n\n- **Trilha B (11 a 14 anos):** Adicionar proteção contra perda de sinal.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Vídeo do controle remoto.",
+     "notas": "**Erros comuns:**\n\n- Usar grupos de rádio diferentes entre as placas. Alimentar motores pelo pino 3V.\n\n**Pergunta de mediação:** O que o robô faz se o controle desligar?\n\n**Evidência de aprendizagem:** Vídeo do controle remoto.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 6 · Inteligência artificial: conceitos básicos",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Treinar um classificador simples e discutir seus limites.\n\n*Temas: Dados e exemplos Treinar um modelo Ética e viés*\n\n## Roteiro do encontro\n\n- 20 min O que é aprender com exemplos; discutir onde vemos IA no cotidiano.\n\n- 35 min Treinar um modelo com imagens ou poses no Teachable Machine.\n\n- 25 min Testar com colegas e observar erros.\n\n- 10 min Discutir viés, privacidade e uso responsável.\n\n[[Pergunta para pensar]] Por que o modelo errou com quem não estava nos exemplos?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Treinar o modelo com duas categorias. Treinar com três categorias e medir acertos.\n\n- **Trilha B (11 a 14 anos):** Propor como integrar o modelo a um robô.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Tabela de acertos e reflexão.",
+     "notas": "**Erros comuns:**\n\n- Treinar com poucos exemplos. Usar dados de pessoas sem autorização.\n\n**Pergunta de mediação:** Por que o modelo errou com quem não estava nos exemplos?\n\n**Evidência de aprendizagem:** Tabela de acertos e reflexão.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 7 · Projeto: Robô de Missão",
+     "tipo": "EXERCICIO",
+     "conteudo": "[[Meta]] Construir, programar, testar e documentar o robô de missão.\n\n*Temas: Integração Testes Documentação*\n\n## Roteiro do encontro\n\n- 15 min Definir a missão, a plataforma e o plano.\n\n- 40 min Construir e programar.\n\n- 25 min Testar na pista e registrar ajustes.\n\n- 10 min Gravar o vídeo da missão.\n\n[[Pergunta para pensar]] O que o robô decide sozinho e o que depende de nós?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Cumprir uma missão simples com apoio. Cumprir uma missão com um sensor.\n\n- **Trilha B (11 a 14 anos):** Cumprir uma missão com dois sensores e comunicação.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Vídeo e registro.",
+     "notas": "**Erros comuns:**\n\n- Escolher uma missão longa demais. Não deixar tempo para os testes.\n\n**Pergunta de mediação:** O que o robô decide sozinho e o que depende de nós?\n\n**Evidência de aprendizagem:** Vídeo e registro.",
+     "duracao_min": 90,
+     "exercicio": {
+      "enunciado": "Projeto do Módulo 5: Robô de Missão. Cada equipe constrói e programa um robô que cumpre uma missão em uma pista: seguir linha, evitar obstáculos, transportar um objeto ou reagir a comandos remotos. Uma equipe de apoio explica o que o robô decide sozinho e o que depende do controle humano.\n\nEntregáveis: Projeto mecânico e de eletrônica documentado; Programa comentado; Vídeo da missão; Registro de testes e melhorias; Apresentação de 3 minutos na mostra.\n\nEnvie o link do vídeo ou das fotos do projeto (YouTube, Google Drive, Tinkercad…) e conte no recado o que cada integrante fez.",
+      "rubrica": [
+       "Processo: passou pelo Ciclo Maker (ideação, protótipo, teste e iteração)",
+       "Conhecimento técnico: o projeto funciona e usa o conteúdo do módulo",
+       "Colaboração: a equipe dividiu papéis e trabalhou junto",
+       "Documentação: diário de bordo com versões, fotos e aprendizados",
+       "Comunicação: apresentação clara do projeto e das decisões"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Encontro 8 · Mostra do Módulo 5 e avaliação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Demonstrar as missões e avaliar a jornada.\n\n*Temas: Apresentação Competição amistosa Autoavaliação*\n\n## Roteiro do encontro\n\n- 15 min Preparar a pista.\n\n- 45 min Missões e apresentações.\n\n- 20 min Rubrica e autoavaliação.\n\n- 10 min O que levar para o Módulo 6.\n\n[[Pergunta para pensar]] Que parte do robô dá mais trabalho: mecânica, eletrônica ou código?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Demonstrar com apoio. Demonstrar e explicar as decisões do robô.\n\n- **Trilha B (11 a 14 anos):** Comparar o desempenho com dados.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Rubrica e autoavaliação.",
+     "notas": "**Erros comuns:**\n\n- Competir mais que aprender. Ignorar falhas que ensinam.\n\n**Pergunta de mediação:** Que parte do robô dá mais trabalho: mecânica, eletrônica ou código?\n\n**Evidência de aprendizagem:** Rubrica e autoavaliação.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Glossário do Módulo 5",
+     "tipo": "TEXTO",
+     "conteudo": "- **Robô:** Máquina que percebe o ambiente, decide e age.\n\n- **Chassi:** Estrutura mecânica do robô.\n\n- **Cinemática:** Estudo do movimento sem considerar suas causas.\n\n- **Sensor:** Componente que mede algo do ambiente.\n\n- **Atuador:** Componente que age no ambiente, como motor.\n\n- **Controlador:** O 'cérebro' que executa o programa.\n\n- **Navegação:** Conjunto de estratégias para o robô se deslocar.\n\n- **Aprendizado de máquina:** Técnica em que um modelo aprende padrões a partir de exemplos.",
+     "duracao_min": 5,
+     "obrigatoria": false
+    }
+   ]
+  },
+  {
+   "titulo": "Impressão 3D: modelagem e materialização de ideias",
+   "aulas": [
+    {
+     "titulo": "Boas-vindas ao Módulo 6",
+     "tipo": "TEXTO",
+     "conteudo": "O módulo apresenta o pipeline que transforma um arquivo digital em um objeto tátil. Os alunos modelam no Tinkercad, preparam a impressão no Bambu Studio, operam a impressora e resolvem anomalias práticas. O módulo fecha a jornada integrando uma peça impressa a um projeto com eletrônica.\n\n## O que você vai aprender\n\n- Explicar as etapas: concepção, modelagem, fatiamento e impressão.\n\n- Modelar objetos tridimensionais no Tinkercad com medidas precisas.\n\n- Preparar peças no Bambu Studio: orientação, suportes e filamento.\n\n- Operar a impressora 3D com segurança e identificar falhas comuns.\n\n- Projetar uma peça que se integre a um circuito ou a um robô.\n\n## Combinados de segurança\n\n- A mesa e o bico ficam quentes: nunca tocar durante a impressão.\n\n- Não deixar a impressora funcionando sem supervisão.\n\n- Usar ambiente ventilado e preferir PLA.\n\n- Remover peças com espátula, afastando as mãos da lâmina.\n\n## Materiais\n\n- Impressora 3D (Bambu Lab ou equivalente)\n\n- Filamento PLA em várias cores Paquímetro e régua\n\n- Espátula de remoção Computadores com Tinkercad e Bambu Studio\n\n- Componentes dos módulos anteriores para integração",
+     "duracao_min": 10
+    },
+    {
+     "titulo": "Encontro 1 · Do digital ao físico",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Conhecer as etapas da impressão 3D, a segurança e exemplos reais.\n\n*Temas: Pipeline Segurança Aplicações*\n\n## Roteiro do encontro\n\n- 20 min Mostrar peças impressas e discutir para que servem.\n\n- 25 min Pipeline: concepção, modelagem, fatiamento e impressão.\n\n- 30 min Conhecer a impressora e as regras de segurança.\n\n- 15 min Escolher objetos do cotidiano para modelar.\n\n[[Pergunta para pensar]] Por que existe a etapa de fatiamento?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Identificar as etapas em imagens e nomear partes da impressora.\n\n- **Trilha B (11 a 14 anos):** Descrever o pipeline com as próprias palavras.\n\n- **Trilha C (15 a 17 anos):** Analisar um objeto e propor como imprimi-lo.\n\n[[Você entrega]] Mapa do pipeline.",
+     "notas": "**Erros comuns:**\n\n- Tocar no bico ou na mesa quentes. Achar que a impressora faz tudo sozinha.\n\n**Pergunta de mediação:** Por que existe a etapa de fatiamento?\n\n**Evidência de aprendizagem:** Mapa do pipeline.",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 2 · Tinkercad: formas e combinações",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Modelar objetos combinando formas básicas.\n\n*Temas: Primitivas Agrupar e furar Medidas*\n\n## Roteiro do encontro\n\n- 15 min Conhecer a interface e a navegação 3D.\n\n- 30 min Modelar um chaveiro com nome.\n\n- 30 min Usar 'furo' para subtrair formas.\n\n- 15 min Exportar o modelo em STL.\n\n[[Pergunta para pensar]] Que formas básicas formam um objeto complexo?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Modelar o chaveiro seguindo o passo a passo.\n\n- **Trilha B (11 a 14 anos):** Modelar com medidas e furos.\n\n- **Trilha C (15 a 17 anos):** Criar uma peça paramétrica reutilizável.\n\n[[Você entrega]] Modelo do chaveiro.",
+     "notas": "",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 3 · Medidas, encaixes e tolerâncias",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Projetar peças que se encaixam e testar tolerâncias.\n\n*Temas: Paquímetro Encaixes Tolerância*\n\n## Roteiro do encontro\n\n- 20 min Medir objetos com paquímetro.\n\n- 30 min Modelar uma peça e sua tampa.\n\n- 30 min Testar tolerâncias de 0,1, 0,2 e 0,3 mm.\n\n- 10 min Registrar qual funcionou melhor.\n\n[[Pergunta para pensar]] Por que uma peça de 10 mm não encaixa em um furo de 10 mm?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Medir com régua e comparar com o modelo.\n\n- **Trilha B (11 a 14 anos):** Modelar a tampa com tolerância.\n\n- **Trilha C (15 a 17 anos):** Projetar uma dobradiça simples.\n\n[[Você entrega]] Tabela de tolerâncias.",
+     "notas": "",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 4 · Bambu Studio: fatiamento e filamento",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Preparar o modelo para impressão e entender o efeito de cada configuração.\n\n*Temas: Orientação Suportes Infill*\n\n## Roteiro do encontro\n\n- 15 min Importar o STL e posicionar na mesa virtual.\n\n- 30 min Testar orientação e suportes; observar o tempo e o material.\n\n- 25 min Alterar infill e altura de camada e comparar.\n\n- 20 min Escolher filamento e configurar o perfil.\n\n[[Pergunta para pensar]] O que muda no resultado quando mudo a orientação?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Preparar o modelo com perfil pronto. Comparar o tempo e o material em duas orientações.\n\n- **Trilha B (11 a 14 anos):** Otimizar a configuração por resistência e tempo.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Print do fatiamento e comparativo.",
+     "notas": "",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 5 · Operando a impressora e resolvendo anomalias",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Operar a impressora e diagnosticar problemas práticos.\n\n*Temas: Primeira camada Falhas comuns Manutenção*\n\n## Roteiro do encontro\n\n- 15 min Nivelamento, filamento e limpeza da mesa.\n\n- 30 min Imprimir a peça e acompanhar a primeira camada.\n\n- 25 min Estudar falhas: warping, fios, camada solta.\n\n- 20 min Remover a peça e avaliar.\n\n[[Pergunta para pensar]] Qual pista mostra que a impressão vai falhar?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Acompanhar a impressão e descrever o que vê.\n\n- **Trilha B (11 a 14 anos):** Identificar uma falha e propor a causa.\n\n- **Trilha C (15 a 17 anos):** Corrigir a falha e reimprimir.\n\n[[Você entrega]] Registro de falhas e soluções.",
+     "notas": "",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 6 · Projeto: planejamento e modelagem",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Escolher o problema e modelar a primeira versão da peça.\n\n*Temas: Problema real Requisitos Modelagem*\n\n## Roteiro do encontro\n\n- 15 min Escolher o problema e definir quem usa a peça.\n\n- 15 min Esboçar com medidas e definir requisitos.\n\n- 50 min Modelar a versão 1.\n\n- 10 min Revisar com outra equipe.\n\n[[Pergunta para pensar]] O que a peça precisa suportar e conectar?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Escolher um modelo e personalizá-lo. Modelar a peça com medidas.\n\n- **Trilha B (11 a 14 anos):** Modelar com tolerâncias e integração com eletrônica.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Esboço e modelo v1.",
+     "notas": "",
+     "duracao_min": 90
+    },
+    {
+     "titulo": "Encontro 7 · Projeto: impressão, teste e iteração",
+     "tipo": "EXERCICIO",
+     "conteudo": "[[Meta]] Imprimir, testar a peça, melhorar e preparar a apresentação final.\n\n*Temas: Impressão Teste Iteração*\n\n## Roteiro do encontro\n\n- 15 min Fatiar e iniciar a impressão.\n\n- 30 min Testar a peça ou a versão anterior no projeto.\n\n- 30 min Corrigir o modelo e preparar a segunda versão.\n\n- 15 min Gravar o vídeo e montar o pôster.\n\n[[Pergunta para pensar]] O que a segunda versão resolveu?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Testar a peça e anotar o que melhorar. Registrar versões e ajustes.\n\n- **Trilha B (11 a 14 anos):** Documentar o processo e comparar versões.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Peça, versões e registro.",
+     "notas": "",
+     "duracao_min": 90,
+     "exercicio": {
+      "enunciado": "Projeto do Módulo 6: . \n\nEntregáveis: .\n\nEnvie o link do vídeo ou das fotos do projeto (YouTube, Google Drive, Tinkercad…) e conte no recado o que cada integrante fez.",
+      "rubrica": [
+       "Processo: passou pelo Ciclo Maker (ideação, protótipo, teste e iteração)",
+       "Conhecimento técnico: o projeto funciona e usa o conteúdo do módulo",
+       "Colaboração: a equipe dividiu papéis e trabalhou junto",
+       "Documentação: diário de bordo com versões, fotos e aprendizados",
+       "Comunicação: apresentação clara do projeto e das decisões"
+      ],
+      "tipo_entrega": "LINK_VIDEO"
+     }
+    },
+    {
+     "titulo": "Encontro 8 · Mostra final, avaliação e certificação",
+     "tipo": "TEXTO",
+     "conteudo": "[[Meta]] Apresentar a Peça que Resolve, fechar o portfólio e comemorar a jornada.\n\n*Temas: Apresentação Portfólio Certificação*\n\n## Roteiro do encontro\n\n- 35 min Mostra final com as peças e projetos dos seis módulos.\n\n- 15 min Rubrica final e autoavaliação.\n\n- 10 min Entrega de certificados e próximos passos.\n\n[[Pergunta para pensar]] Como eu me vejo como criador depois dos seis módulos?\n\n## Seu desafio por trilha\n\n- **Trilha A (6 a 10 anos):** Apresentar com roteiro de apoio. Apresentar e responder perguntas.\n\n- **Trilha B (11 a 14 anos):** Apresentar a trajetória completa e o portfólio.\n\n- **Trilha C (15 a 17 anos):** \n\n[[Você entrega]] Portfólio, rubrica final e certificado.",
+     "notas": "",
+     "duracao_min": 60
+    },
+    {
+     "titulo": "Glossário do Módulo 6",
+     "tipo": "TEXTO",
+     "conteudo": "- **Modelagem 3D:** Criação de um objeto digital tridimensional.\n\n- **Fatiamento (slicing):** Divisão do modelo em camadas para a impressora.",
+     "duracao_min": 5,
+     "obrigatoria": false
+    }
+   ]
+  }
+ ],
+ "carga_horaria": 70
+}

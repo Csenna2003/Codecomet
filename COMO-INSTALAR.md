@@ -91,6 +91,25 @@ Clique no nome do aluno no painel da escola, nas correções ou nas aulas partic
 e-mail em **Administração**. Mostra cada curso aula por aula (com a data de conclusão), as entregas e notas,
 os certificados e todas as aulas particulares. O aluno vê o próprio em **Meu painel → Meu acompanhamento**.
 
+## Seus cursos prontos (Robótica, Programação e Formação Maker)
+
+Em **Administração → Cursos prontos da Adoro Robótica** aparecem os 3 cursos montados a partir das suas
+apostilas do Google Drive:
+
+| Curso | Módulos | Aulas | Carga |
+|---|---|---|---|
+| Robótica e Programação (versão remota) | 6 | 102 | 96h |
+| Curso de Programação | 6 | 78 | 72h |
+| Formação Maker (Currículo de 70 horas) | 6 | 60 | 70h |
+
+Clique em **Importar curso**. Ele entra como **rascunho**, com preço zero: revise, defina o preço e o
+status **Publicado** em **Editar conteúdo**. Cada módulo termina com um projeto que o aluno entrega e o
+professor corrige pela rubrica da apostila. O "Guia do professor" de cada aula aparece em
+**Notas do professor**, só para a equipe.
+
+Ao criar ou editar aulas, o texto aceita formatação simples: `## ` faz subtítulo, `- ` faz lista,
+`[[Dica]] texto` faz um quadro de destaque e `**texto**` fica em negrito.
+
 ## Matricular alunos
 
 Há quatro jeitos de um aluno entrar num curso:

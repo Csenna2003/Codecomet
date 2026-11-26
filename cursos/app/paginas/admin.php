@@ -29,6 +29,24 @@ cabecalho('Administração');
   </div>
 </div>
 
+<?php
+$pacotes = pacotes_de_cursos();
+$slugs = array_column(todos('SELECT slug FROM cursos'), 'slug');
+if ($pacotes): ?>
+<h2>Cursos prontos da Adoro Robótica</h2>
+<p class="suave pequeno">Cursos montados a partir das suas apostilas, com aulas, projetos com correção e notas do professor. Entram como rascunho para você revisar, definir o preço e publicar.</p>
+<div class="grade">
+<?php foreach ($pacotes as $arq => $pk): $ja = in_array($pk['slug'], $slugs, true); ?>
+  <article class="cartao">
+    <h3><?= e($pk['titulo']) ?></h3>
+    <p class="suave pequeno"><?= e($pk['descricao']) ?></p>
+    <p class="pequeno"><?= (int) $pk['modulos'] ?> módulos · <?= (int) $pk['aulas'] ?> aulas · <?= (int) $pk['carga'] ?>h</p>
+    <div class="fim"><?= $ja ? '<span class="etiqueta ok">Já importado</span>' : botao_acao('importar_curso', 'Importar curso', ['arquivo' => $arq], 'btn mini') ?></div>
+  </article>
+<?php endforeach ?>
+</div>
+<?php endif ?>
+
 <h2>Cursos</h2>
 <?php if ($cursos): ?>
 <div class="cartao tabela-rolagem"><table>

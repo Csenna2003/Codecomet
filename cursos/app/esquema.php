@@ -361,6 +361,11 @@ function esquema_sql(): array
             atualizado_em DATETIME NOT NULL,
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
         ) $t",
+        "CREATE TABLE IF NOT EXISTS aula_notas (
+            aula_id CHAR(20) PRIMARY KEY,
+            texto MEDIUMTEXT NOT NULL,
+            FOREIGN KEY (aula_id) REFERENCES aulas(id) ON DELETE CASCADE
+        ) $t",
         "CREATE TABLE IF NOT EXISTS auditoria (
             id BIGINT AUTO_INCREMENT PRIMARY KEY,
             ator_id CHAR(20) NULL,

@@ -278,7 +278,7 @@ function acao_enviar_entrega(): void
     $codigo = trim((string) ($_POST['codigo'] ?? ''));
     $obs = post('observacao');
     if ($ex['tipo_entrega'] === 'LINK_SIMULADOR' && !plataforma_de($link)) $falha('Cole o link do seu projeto no Tinkercad ou no Wokwi (https://...).');
-    if ($ex['tipo_entrega'] === 'LINK_VIDEO' && !eh_https($link)) $falha('Cole o link do vídeo (https://...).');
+    if ($ex['tipo_entrega'] === 'LINK_VIDEO' && !eh_https($link)) $falha('Cole o link do projeto ou do vídeo (https://...).');
     if ($ex['tipo_entrega'] === 'CODIGO' && strlen($codigo) < 10) $falha('Cole o código do seu programa.');
     if ($link !== '' && !eh_https($link)) $falha('O link precisa começar com https://');
     if (strlen($link) > 500 || strlen($codigo) > 100000 || mb_strlen($obs) > 2000) $falha('Texto muito longo.');

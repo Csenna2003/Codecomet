@@ -139,3 +139,18 @@ dl.dados dd { margin: 0; }
 table.disponibilidade { width: auto; }
 table.disponibilidade td { text-align: center; }
 table.disponibilidade th, table.disponibilidade td { padding: .35rem .8rem; }
+
+/* Conteúdo das aulas */
+.conteudo-aula > :first-child { margin-top: 0; }
+.conteudo-aula h3.sub-aula { font-size: 1.05rem; margin: 1.4rem 0 .5rem; color: var(--primaria); }
+.conteudo-aula ul, .conteudo-aula ol { margin: 0 0 .9rem; padding-left: 1.3rem; }
+.conteudo-aula li { margin-bottom: .35rem; }
+.destaque-aula { border-left: 4px solid var(--primaria); background: #eef6fc; padding: .6rem .9rem; border-radius: 0 8px 8px 0; margin: 0 0 .9rem; }
+.destaque-aula.desafio { border-color: #e0a100; background: #fff7e0; }
+.destaque-aula.alerta { border-color: var(--erro); background: var(--erro-fundo); }
+.destaque-aula strong:first-child { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; margin-bottom: .15rem; }
+pre.codigo-aula { margin: 0 0 1rem; line-height: 1.45; }
+.notas-professor { border-style: dashed; }
+.notas-professor summary { color: var(--alerta); }
+code { background: #eef1f6; padding: .05rem .3rem; border-radius: 4px; }
+pre code { background: none; padding: 0; }
